@@ -1,0 +1,53 @@
+{
+  "_comment": "Fuentes fijadas para un build reproducible (DIC-1). Si una fuente cambia, el checksum falla; vuelve a ejecutar con --accept-new para aceptar la versión nueva y actualizar este archivo.",
+  "sources": [
+    {
+      "id": "wiktextract-el",
+      "name": "Wiktextract / kaikki.org — Greek",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/dictionary/Greek/",
+      "url": "https://kaikki.org/dictionary/Greek/kaikki.org-dictionary-Greek.jsonl",
+      "file": "kaikki.org-dictionary-Greek.jsonl",
+      "version": "2026-10-30",
+      "algo": "sha256",
+      "checksum": "6a6a930ef6fd2a011ccebda89c82ca73bb62456cd026cea583358c216aa173d7"
+    },
+    {
+      "id": "freedict-ell-spa",
+      "name": "FreeDict griego→español",
+      "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
+      "homepage": "https://freedict.org/downloads/",
+      "url": "https://download.freedict.org/dictionaries/ell-spa/2023.05.29/freedict-ell-spa-2023.05.29.src.tar.xz",
+      "file": "freedict-ell-spa-2023.05.29.src.tar.xz",
+      "extract": "ell-spa/ell-spa.tei",
+      "version": "2023.05.29",
+      "algo": "sha512",
+      "checksum": "88610dd03136015bec9e6089cb29c739879df6aa991c5e06af01142e056efd5450d300d21e1469939d9d1ccbd8adc54472a3a133ae090d3e8aa91355bc51d896"
+    },
+    {
+      "id": "freedict-ell-eng",
+      "name": "FreeDict griego→inglés",
+      "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
+      "homepage": "https://freedict.org/downloads/",
+      "url": "https://download.freedict.org/dictionaries/ell-eng/2025.11.23/freedict-ell-eng-2025.11.23.src.tar.xz",
+      "file": "freedict-ell-eng-2025.11.23.src.tar.xz",
+      "extract": "ell-eng/ell-eng.tei",
+      "version": "2025.11.23",
+      "algo": "sha512",
+      "checksum": "61b64a5a89cc32f42ae99d9de14c38b6683fcdacc645aa1693d2f37c5944e49ab1a221138442c7fda0369f05c586f45567560dc606786a66dc0be15ab2c70300"
+    },
+    {
+      "id": "freq-el",
+      "name": "FrequencyWords (OpenSubtitles 2018), griego, 50k",
+      "license": "CC BY-SA 4.0",
+      "homepage": "https://github.com/hermitdave/FrequencyWords",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/el/el_50k.txt",
+      "fallbackUrl": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/master/content/2018/el/el_50k.txt",
+      "file": "el_50k.txt",
+      "version": "2018",
+      "algo": "sha256",
+      "checksum": "7ec8f6de52c38f36a04add5d1613b116aed576e10c5e3b40d0001e8572de978c",
+      "note": "Sólo se usa para ordenar lemas ambiguos y descartar los raros; no viaja en la app."
+    }
+  ]
+}

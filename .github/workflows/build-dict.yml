@@ -1,0 +1,49 @@
+name: Regenerar diccionario (DIC-1)
+
+# Manual: descarga las fuentes fijadas en scripts/build-dict/sources.json, regenera
+# public/dict/dict.json.gz, pasa los tests y abre un PR con el resultado.
+on:
+  workflow_dispatch:
+    inputs:
+      accept_new:
+        description: 'Aceptar fuentes nuevas (actualiza checksums en sources.json)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-dict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: dict-sources-${{ hashFiles('scripts/build-dict/sources.json') }}
+      - run: npm run build:dict -- ${{ inputs.accept_new && '--accept-new' || '' }}
+      - run: npm test
+      - run: npm run sample:dict
+      - name: Abrir PR si el diccionario ha cambiado
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- public/dict scripts/build-dict/sources.json; then
+            echo "El diccionario no ha cambiado."; exit 0
+          fi
+          BRANCH="dict-update-$(date +%Y%m%d-%H%M)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add public/dict scripts/build-dict/sources.json
+          git commit -m "Regenera el diccionario ($(jq -r .version public/dict/manifest.json))"
+          git push origin "$BRANCH"
+          gh pr create --title "Diccionario $(jq -r .version public/dict/manifest.json)" \
+            --body "$(jq -r '.counts | to_entries | map("- \(.key): \(.value)") | join("\n")' public/dict/manifest.json)"

@@ -1,0 +1,43 @@
+{
+  "version": "2026.10.30",
+  "builtFrom": [
+    {
+      "id": "wiktextract-el",
+      "name": "Wiktextract / kaikki.org — Greek",
+      "version": "2026-10-30",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/dictionary/Greek/"
+    },
+    {
+      "id": "freedict-ell-spa",
+      "name": "FreeDict griego→español",
+      "version": "2023.05.29",
+      "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
+      "homepage": "https://freedict.org/downloads/"
+    },
+    {
+      "id": "freedict-ell-eng",
+      "name": "FreeDict griego→inglés",
+      "version": "2025.11.23",
+      "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
+      "homepage": "https://freedict.org/downloads/"
+    },
+    {
+      "id": "freq-el",
+      "name": "FrequencyWords (OpenSubtitles 2018), griego, 50k",
+      "version": "2018",
+      "license": "CC BY-SA 4.0",
+      "homepage": "https://github.com/hermitdave/FrequencyWords"
+    }
+  ],
+  "bytes": 5047844,
+  "rawBytes": 33080008,
+  "sha256": "053e0fb9c839504200b5b1eb89dddd225c658dc69f747ada55685f2c596e03f5",
+  "counts": {
+    "lemmas": 49678,
+    "forms": 281657,
+    "noAccent": 272312,
+    "tags": 912,
+    "withSpanish": 10310
+  }
+}
