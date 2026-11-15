@@ -68,3 +68,29 @@ test('flujo completo del lector', async ({ page, context }) => {
   await context.setOffline(false);
   expect(errors).toEqual([]);
 });
+
+test('catálogo por niveles (IMP-5, IMP-6)', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./');
+  await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
+
+  await page.getByRole('link', { name: /catálogo por niveles/ }).click();
+  await expect(page.getByRole('heading', { name: 'Catálogo' })).toBeVisible();
+  for (const l of ['A2', 'B1', 'B2', 'C1']) await expect(page.getByRole('tab', { name: new RegExp(`^${l}`) })).toBeVisible();
+
+  // A2 por defecto; el primero es el más corto y fácil
+  await expect(page.locator('.level-title')).toHaveText(/A2/);
+  await expect(page.locator('.cat-book')).toHaveCount(13);
+  const first = page.locator('.cat-book').first();
+  const title = (await first.locator('.title').textContent())!;
+  await first.getByRole('button', { name: /Añadir/ }).click();
+
+  // Se descarga, se importa y se abre en el lector
+  await expect(page.locator('.reader .w').first()).toBeVisible({ timeout: 30_000 });
+  await page.goto('./#/catalogo');
+  await expect(page.locator('.cat-book', { hasText: title }).getByRole('link', { name: 'Leer' })).toBeVisible();
+  await page.goto('./#/');
+  await expect(page.locator('.book .title', { hasText: title })).toBeVisible();
+  expect(errors).toEqual([]);
+});

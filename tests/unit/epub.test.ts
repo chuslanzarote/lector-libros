@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import JSZip from 'jszip';
-import { parseEpub } from '../../src/lib/epub.ts';
+import { extractParagraphs, parseEpub } from '../../src/lib/epub.ts';
 import { buildKindleEpub, chapterXhtml } from '../../src/lib/kindle.ts';
 import { vocabToCsv } from '../../src/lib/anki.ts';
 import { textToSentences } from '../../src/lib/text.ts';
@@ -77,5 +77,15 @@ describe('VOC-3 CSV para Anki', () => {
     expect(lines[4]).toContain('"escribir, redactar"');
     expect(lines[4]).toContain('<b>Έγραψα</b>');
     expect(lines[4]).toContain('""ένα""');
+  });
+});
+
+describe('IMP-1 párrafos de XHTML', () => {
+  it('los saltos de línea del código fuente no parten el párrafo; <br> sí', () => {
+    const doc = new DOMParser().parseFromString(
+      '<html xmlns="http://www.w3.org/1999/xhtml"><body><p>Ήταν μια\n   φορά ένας\nβασιλιάς.</p><p>Στίχος πρώτος<br/>στίχος δεύτερος</p></body></html>',
+      'application/xhtml+xml',
+    );
+    expect(extractParagraphs(doc).paragraphs).toEqual(['Ήταν μια φορά ένας βασιλιάς.', 'Στίχος πρώτος', 'στίχος δεύτερος']);
   });
 });

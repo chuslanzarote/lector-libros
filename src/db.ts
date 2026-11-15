@@ -24,7 +24,9 @@ export interface Book {
   vocab: Record<string, [string, number]>;
   /** cobertura al importar (PRO-2) */
   initialCoverage?: number;
-  source?: 'epub' | 'txt' | 'paste';
+  source?: 'epub' | 'txt' | 'paste' | 'catalog';
+  /** id en public/catalog/catalog.json si viene del catálogo (IMP-5) */
+  catalogId?: string;
 }
 
 export interface Chapter {

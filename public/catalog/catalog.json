@@ -1,0 +1,1103 @@
+{
+ "version": 1,
+ "levels": [
+  "A2",
+  "B1",
+  "B2",
+  "C1"
+ ],
+ "books": [
+  {
+   "id": "foros-doxas",
+   "title": "Ο φόρος της δόξας",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "cuentos",
+   "level": "A2",
+   "score": 11,
+   "words": 1041,
+   "chapters": 1,
+   "top3k": 89,
+   "katharevousa": false,
+   "file": "books/foros-doxas.json.gz",
+   "bytes": 3599,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%9F_%CF%86%CF%8C%CF%81%CE%BF%CF%82_%CF%84%CE%B7%CF%82_%CE%B4%CF%8C%CE%BE%CE%B1%CF%82"
+   }
+  },
+  {
+   "id": "kardia-vasilopoulas",
+   "title": "Η καρδιά της βασιλοπούλας",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "level": "A2",
+   "score": 13.1,
+   "words": 9622,
+   "chapters": 4,
+   "top3k": 88.2,
+   "katharevousa": false,
+   "file": "books/kardia-vasilopoulas.json.gz",
+   "bytes": 25484,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%97_%CE%BA%CE%B1%CF%81%CE%B4%CE%B9%CE%AC_%CF%84%CE%B7%CF%82_%CE%B2%CE%B1%CF%83%CE%B9%CE%BB%CE%BF%CF%80%CE%BF%CF%8D%CE%BB%CE%B1%CF%82"
+   }
+  },
+  {
+   "id": "gia-tin-patrida",
+   "title": "Για την πατρίδα",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "novela",
+   "year": 1909,
+   "level": "A2",
+   "score": 13.5,
+   "words": 27566,
+   "chapters": 17,
+   "top3k": 86.8,
+   "katharevousa": false,
+   "file": "books/gia-tin-patrida.json.gz",
+   "bytes": 73805,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%93%CE%B9%CE%B1_%CF%84%CE%B7%CE%BD_%CF%80%CE%B1%CF%84%CF%81%CE%AF%CE%B4%CE%B1"
+   }
+  },
+  {
+   "id": "protoxroniatiko-paramythi",
+   "title": "Πρωτοχρονιάτικο παραμύθι",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "level": "A2",
+   "score": 14,
+   "words": 2171,
+   "chapters": 1,
+   "top3k": 86.9,
+   "katharevousa": false,
+   "file": "books/protoxroniatiko-paramythi.json.gz",
+   "bytes": 6630,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A0%CF%81%CF%89%CF%84%CE%BF%CF%87%CF%81%CE%BF%CE%BD%CE%B9%CE%AC%CF%84%CE%B9%CE%BA%CE%BF_%CF%80%CE%B1%CF%81%CE%B1%CE%BC%CF%8D%CE%B8%CE%B9"
+   }
+  },
+  {
+   "id": "chatzopoulos-fthinoporo",
+   "title": "Φθινόπωρο",
+   "author": "Κωνσταντίνος Χατζόπουλος",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1917,
+   "level": "A2",
+   "score": 14.1,
+   "words": 39186,
+   "chapters": 21,
+   "top3k": 86.2,
+   "katharevousa": false,
+   "file": "books/chatzopoulos-fthinoporo.json.gz",
+   "bytes": 93282,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/20175"
+   }
+  },
+  {
+   "id": "psila-vouna",
+   "title": "Τα ψηλά βουνά",
+   "author": "Ζαχαρίας Παπαντωνίου",
+   "authorDied": 1940,
+   "kind": "infantil",
+   "year": 1918,
+   "level": "A2",
+   "score": 14.2,
+   "words": 28981,
+   "chapters": 81,
+   "top3k": 85.8,
+   "katharevousa": false,
+   "file": "books/psila-vouna.json.gz",
+   "bytes": 86455,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A4%CE%B1_%CF%88%CE%B7%CE%BB%CE%AC_%CE%B2%CE%BF%CF%85%CE%BD%CE%AC"
+   }
+  },
+  {
+   "id": "magkas",
+   "title": "Μάγκας",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "year": 1935,
+   "level": "A2",
+   "score": 14.3,
+   "words": 64611,
+   "chapters": 28,
+   "top3k": 85.7,
+   "katharevousa": false,
+   "file": "books/magkas.json.gz",
+   "bytes": 177352,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%9C%CE%AC%CE%B3%CE%BA%CE%B1%CF%82"
+   }
+  },
+  {
+   "id": "geijerstam-mikros-aderfos",
+   "title": "Το βιβλίο του μικρού αδερφού",
+   "author": "Γκούσταφ αφ Γκέιγιερσταμ",
+   "authorDied": 1909,
+   "translator": "Κωνσταντίνος Χατζόπουλος",
+   "original": "Boken om lille-bror (G. af Geijerstam)",
+   "kind": "novela",
+   "level": "A2",
+   "score": 14.5,
+   "words": 45510,
+   "chapters": 16,
+   "top3k": 87.3,
+   "katharevousa": false,
+   "file": "books/geijerstam-mikros-aderfos.json.gz",
+   "bytes": 116296,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/33561"
+   }
+  },
+  {
+   "id": "paramythi-xoris-onoma",
+   "title": "Παραμύθι χωρίς όνομα",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "year": 1910,
+   "level": "A2",
+   "score": 14.7,
+   "words": 38163,
+   "chapters": 20,
+   "top3k": 85.5,
+   "katharevousa": false,
+   "file": "books/paramythi-xoris-onoma.json.gz",
+   "bytes": 103256,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A0%CE%B1%CF%81%CE%B1%CE%BC%CF%8D%CE%B8%CE%B9_%CF%87%CF%89%CF%81%CE%AF%CF%82_%CF%8C%CE%BD%CE%BF%CE%BC%CE%B1"
+   }
+  },
+  {
+   "id": "voulgaroktonou",
+   "title": "Τον καιρό του Βουλγαροκτόνου",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "novela",
+   "year": 1911,
+   "level": "A2",
+   "score": 14.8,
+   "words": 90910,
+   "chapters": 31,
+   "top3k": 85.4,
+   "katharevousa": false,
+   "file": "books/voulgaroktonou.json.gz",
+   "bytes": 243927,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A4%CE%BF%CE%BD_%CE%BA%CE%B1%CE%B9%CF%81%CF%8C_%CF%84%CE%BF%CF%85_%CE%92%CE%BF%CF%85%CE%BB%CE%B3%CE%B1%CF%81%CE%BF%CE%BA%CF%84%CF%8C%CE%BD%CE%BF%CF%85"
+   }
+  },
+  {
+   "id": "nirvanas-diigimata",
+   "title": "Διηγήματα",
+   "author": "Παύλος Νιρβάνας",
+   "authorDied": 1937,
+   "kind": "cuentos",
+   "level": "A2",
+   "score": 15,
+   "words": 5578,
+   "chapters": 7,
+   "top3k": 85.8,
+   "katharevousa": false,
+   "file": "books/nirvanas-diigimata.json.gz",
+   "bytes": 17942,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "chatzopoulos-yperanthropos",
+   "title": "Υπεράνθρωπος",
+   "author": "Κωνσταντίνος Χατζόπουλος",
+   "authorDied": 1920,
+   "kind": "novela",
+   "level": "A2",
+   "score": 15.8,
+   "words": 35324,
+   "chapters": 12,
+   "top3k": 84.2,
+   "katharevousa": false,
+   "file": "books/chatzopoulos-yperanthropos.json.gz",
+   "bytes": 96787,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31437"
+   }
+  },
+  {
+   "id": "treis-vasilopoules",
+   "title": "Τρεις βασιλοπούλες",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "level": "A2",
+   "score": 15.9,
+   "words": 3311,
+   "chapters": 1,
+   "top3k": 85.8,
+   "katharevousa": false,
+   "file": "books/treis-vasilopoules.json.gz",
+   "bytes": 9497,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A4%CF%81%CE%B5%CE%B9%CF%82_%CE%B2%CE%B1%CF%83%CE%B9%CE%BB%CE%BF%CF%80%CE%BF%CF%8D%CE%BB%CE%B5%CF%82"
+   }
+  },
+  {
+   "id": "mystika-valtou",
+   "title": "Στα μυστικά του βάλτου",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "novela",
+   "year": 1937,
+   "level": "B1",
+   "score": 16,
+   "words": 132657,
+   "chapters": 37,
+   "top3k": 84,
+   "katharevousa": false,
+   "file": "books/mystika-valtou.json.gz",
+   "bytes": 369414,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A3%CF%84%CE%B1_%CE%BC%CF%85%CF%83%CF%84%CE%B9%CE%BA%CE%AC_%CF%84%CE%BF%CF%85_%CE%B2%CE%AC%CE%BB%CF%84%CE%BF%CF%85"
+   }
+  },
+  {
+   "id": "trelantonis",
+   "title": "Τρελαντώνης",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "year": 1932,
+   "level": "B1",
+   "score": 16.8,
+   "words": 49235,
+   "chapters": 17,
+   "top3k": 83.4,
+   "katharevousa": false,
+   "file": "books/trelantonis.json.gz",
+   "bytes": 129402,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A4%CF%81%CE%B5%CE%BB%CE%B1%CE%BD%CF%84%CF%8E%CE%BD%CE%B7%CF%82"
+   }
+  },
+  {
+   "id": "anthizoun-dafnes",
+   "title": "Εκεί π' ανθίζουν οι δάφνες",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 17.2,
+   "words": 1957,
+   "chapters": 1,
+   "top3k": 84.2,
+   "katharevousa": false,
+   "file": "books/anthizoun-dafnes.json.gz",
+   "bytes": 6522,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%95%CE%BA%CE%B5%CE%AF_%CF%80'_%CE%B1%CE%BD%CE%B8%CE%AF%CE%B6%CE%BF%CF%85%CE%BD_%CE%BF%CE%B9_%CE%B4%CE%AC%CF%86%CE%BD%CE%B5%CF%82"
+   }
+  },
+  {
+   "id": "ta-tria-kerakia",
+   "title": "Τα τρία κεράκια",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "infantil",
+   "level": "B1",
+   "score": 17.8,
+   "words": 1239,
+   "chapters": 1,
+   "top3k": 83.8,
+   "katharevousa": false,
+   "file": "books/ta-tria-kerakia.json.gz",
+   "bytes": 4367,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%A4%CE%B1_%CF%84%CF%81%CE%AF%CE%B1_%CE%BA%CE%B5%CF%81%CE%AC%CE%BA%CE%B9%CE%B1"
+   }
+  },
+  {
+   "id": "mesologgitika-xristougenna",
+   "title": "Μεσολογγίτικα Χριστούγεννα",
+   "author": "Πηνελόπη Δέλτα",
+   "authorDied": 1941,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 18.7,
+   "words": 3280,
+   "chapters": 1,
+   "top3k": 83,
+   "katharevousa": false,
+   "file": "books/mesologgitika-xristougenna.json.gz",
+   "bytes": 10731,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%9C%CE%B5%CF%83%CE%BF%CE%BB%CE%BF%CE%B3%CE%B3%CE%AF%CF%84%CE%B9%CE%BA%CE%B1_%CE%A7%CF%81%CE%B9%CF%83%CF%84%CE%BF%CF%8D%CE%B3%CE%B5%CE%BD%CE%BD%CE%B1"
+   }
+  },
+  {
+   "id": "goethe-ifigeneia",
+   "title": "Ιφιγένεια εν Ταύροις",
+   "author": "Γιόχαν Βόλφγκανγκ φον Γκαίτε",
+   "authorDied": 1832,
+   "translator": "Κωνσταντίνος Χατζόπουλος",
+   "original": "Ifigenia en Táuride (Goethe)",
+   "kind": "teatro",
+   "level": "B1",
+   "score": 18.9,
+   "words": 15151,
+   "chapters": 13,
+   "top3k": 81.2,
+   "katharevousa": false,
+   "file": "books/goethe-ifigeneia.json.gz",
+   "bytes": 44072,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31435"
+   }
+  },
+  {
+   "id": "nirvanas-synaxari",
+   "title": "Το συναξάρι του Παπά-Παρθένη",
+   "author": "Παύλος Νιρβάνας",
+   "authorDied": 1937,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 19.1,
+   "words": 40649,
+   "chapters": 15,
+   "top3k": 80.9,
+   "katharevousa": false,
+   "file": "books/nirvanas-synaxari.json.gz",
+   "bytes": 113057,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32386"
+   }
+  },
+  {
+   "id": "theotokis-timi",
+   "title": "Η τιμή και το χρήμα",
+   "author": "Κωνσταντίνος Θεοτόκης",
+   "authorDied": 1923,
+   "kind": "novela",
+   "year": 1914,
+   "level": "B1",
+   "score": 19.3,
+   "words": 20945,
+   "chapters": 13,
+   "top3k": 81.5,
+   "katharevousa": false,
+   "file": "books/theotokis-timi.json.gz",
+   "bytes": 58568,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%97_%CF%84%CE%B9%CE%BC%CE%AE_%CE%BA%CE%B1%CE%B9_%CF%84%CE%BF_%CF%87%CF%81%CE%AE%CE%BC%CE%B1"
+   }
+  },
+  {
+   "id": "psycharis-taxidi",
+   "title": "Το ταξίδι μου",
+   "author": "Γιάννης Ψυχάρης",
+   "authorDied": 1929,
+   "kind": "novela",
+   "year": 1888,
+   "level": "B1",
+   "score": 19.4,
+   "words": 61890,
+   "chapters": 26,
+   "top3k": 81.9,
+   "katharevousa": false,
+   "file": "books/psycharis-taxidi.json.gz",
+   "bytes": 169698,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31562"
+   }
+  },
+  {
+   "id": "nirvanas-voskopoula",
+   "title": "Η βοσκοπούλα με τα μαργαριτάρια",
+   "author": "Παύλος Νιρβάνας",
+   "authorDied": 1937,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 19.6,
+   "words": 23262,
+   "chapters": 19,
+   "top3k": 81.2,
+   "katharevousa": false,
+   "file": "books/nirvanas-voskopoula.json.gz",
+   "bytes": 60893,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32179"
+   }
+  },
+  {
+   "id": "eftaliotis-fyllades",
+   "title": "Φυλλάδες του Γεροδήμου",
+   "author": "Αργύρης Εφταλιώτης",
+   "authorDied": 1923,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 20.1,
+   "words": 47692,
+   "chapters": 47,
+   "top3k": 80.6,
+   "katharevousa": false,
+   "file": "books/eftaliotis-fyllades.json.gz",
+   "bytes": 137625,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/34118"
+   }
+  },
+  {
+   "id": "karkavitsas-archaiologos",
+   "title": "Ο αρχαιολόγος",
+   "author": "Ανδρέας Καρκαβίτσας",
+   "authorDied": 1922,
+   "kind": "novela",
+   "year": 1904,
+   "level": "B1",
+   "score": 20.1,
+   "words": 45804,
+   "chapters": 20,
+   "top3k": 80.1,
+   "katharevousa": false,
+   "file": "books/karkavitsas-archaiologos.json.gz",
+   "bytes": 134834,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31631"
+   }
+  },
+  {
+   "id": "eftaliotis-istories",
+   "title": "Νησιώτικες ιστορίες",
+   "author": "Αργύρης Εφταλιώτης",
+   "authorDied": 1923,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 20.4,
+   "words": 19109,
+   "chapters": 11,
+   "top3k": 81,
+   "katharevousa": false,
+   "file": "books/eftaliotis-istories.json.gz",
+   "bytes": 56326,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "moliere-asthenis",
+   "title": "Ο κατά φαντασίαν ασθενής",
+   "author": "Μολιέρος",
+   "authorDied": 1673,
+   "translator": "Ιωάννης Πολέμης",
+   "original": "El enfermo imaginario (Molière)",
+   "kind": "teatro",
+   "level": "B2",
+   "score": 21.1,
+   "words": 17117,
+   "chapters": 24,
+   "top3k": 79.5,
+   "katharevousa": false,
+   "file": "books/moliere-asthenis.json.gz",
+   "bytes": 48953,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/36944"
+   }
+  },
+  {
+   "id": "karkavitsas-palies-agapes",
+   "title": "Παλιές αγάπες",
+   "author": "Ανδρέας Καρκαβίτσας",
+   "authorDied": 1922,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 21.7,
+   "words": 30776,
+   "chapters": 15,
+   "top3k": 78.8,
+   "katharevousa": false,
+   "file": "books/karkavitsas-palies-agapes.json.gz",
+   "bytes": 91722,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31444"
+   }
+  },
+  {
+   "id": "cavafy-poiimata",
+   "title": "Ποιήματα",
+   "author": "Κωνσταντίνος Καβάφης",
+   "authorDied": 1933,
+   "kind": "poesía",
+   "level": "B2",
+   "score": 22.2,
+   "words": 2345,
+   "chapters": 22,
+   "top3k": 78.3,
+   "katharevousa": false,
+   "file": "books/cavafy-poiimata.json.gz",
+   "bytes": 9270,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "christovasilis-xeniteia",
+   "title": "Διηγήματα της ξενιτειάς",
+   "author": "Χρήστος Χρηστοβασίλης",
+   "authorDied": 1937,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 22.4,
+   "words": 27502,
+   "chapters": 11,
+   "top3k": 79.4,
+   "katharevousa": false,
+   "file": "books/christovasilis-xeniteia.json.gz",
+   "bytes": 74385,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32799"
+   }
+  },
+  {
+   "id": "longus-dafnis",
+   "title": "Δάφνις και Χλόη",
+   "author": "Λόγγος",
+   "authorDied": 300,
+   "translator": "Ηλίας Βουτιερίδης",
+   "original": "Dafnis y Cloe (Longo)",
+   "kind": "novela",
+   "level": "B2",
+   "score": 22.8,
+   "words": 27361,
+   "chapters": 10,
+   "top3k": 81.3,
+   "katharevousa": false,
+   "file": "books/longus-dafnis.json.gz",
+   "bytes": 74732,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/37352"
+   }
+  },
+  {
+   "id": "papantoniou-pezografimata",
+   "title": "Μικρά πεζά και ποιήματα",
+   "author": "Ζαχαρίας Παπαντωνίου",
+   "authorDied": 1940,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 23,
+   "words": 6495,
+   "chapters": 18,
+   "top3k": 77,
+   "katharevousa": false,
+   "file": "books/papantoniou-pezografimata.json.gz",
+   "bytes": 23405,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "kondylakis-proti-agapi",
+   "title": "Πρώτη αγάπη",
+   "author": "Ιωάννης Κονδυλάκης",
+   "authorDied": 1920,
+   "kind": "novela",
+   "level": "B2",
+   "score": 23.1,
+   "words": 27133,
+   "chapters": 11,
+   "top3k": 77.5,
+   "katharevousa": false,
+   "file": "books/kondylakis-proti-agapi.json.gz",
+   "bytes": 78694,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/34972"
+   }
+  },
+  {
+   "id": "palamas-poiimata",
+   "title": "Ο θάνατος του παλληκαριού",
+   "author": "Κωστής Παλαμάς",
+   "authorDied": 1943,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 23.2,
+   "words": 9832,
+   "chapters": 4,
+   "top3k": 78.3,
+   "katharevousa": false,
+   "file": "books/palamas-poiimata.json.gz",
+   "bytes": 29665,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/42512"
+   }
+  },
+  {
+   "id": "chatzopoulos-aploi-tropoi",
+   "title": "Απλοί τρόποι",
+   "author": "Κωνσταντίνος Χατζόπουλος",
+   "authorDied": 1920,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 24.6,
+   "words": 7549,
+   "chapters": 4,
+   "top3k": 77.9,
+   "katharevousa": false,
+   "file": "books/chatzopoulos-aploi-tropoi.json.gz",
+   "bytes": 22690,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31403"
+   }
+  },
+  {
+   "id": "shakespeare-tempest",
+   "title": "Η τρικυμία",
+   "author": "Ουίλιαμ Σαίξπηρ",
+   "authorDied": 1616,
+   "translator": "Ιάκωβος Πολυλάς",
+   "original": "La tempestad (W. Shakespeare)",
+   "kind": "teatro",
+   "level": "B2",
+   "score": 25,
+   "words": 19871,
+   "chapters": 9,
+   "top3k": 76.5,
+   "katharevousa": false,
+   "file": "books/shakespeare-tempest.json.gz",
+   "bytes": 60538,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31405"
+   }
+  },
+  {
+   "id": "karkavitsas-plori",
+   "title": "Λόγια της πλώρης",
+   "author": "Ανδρέας Καρκαβίτσας",
+   "authorDied": 1922,
+   "kind": "cuentos",
+   "year": 1899,
+   "level": "B2",
+   "score": 25.6,
+   "words": 58706,
+   "chapters": 22,
+   "top3k": 75.1,
+   "katharevousa": false,
+   "file": "books/karkavitsas-plori.json.gz",
+   "bytes": 183155,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31865"
+   }
+  },
+  {
+   "id": "karkavitsas-zitianos",
+   "title": "Ο ζητιάνος",
+   "author": "Ανδρέας Καρκαβίτσας",
+   "authorDied": 1922,
+   "kind": "novela",
+   "year": 1897,
+   "level": "B2",
+   "score": 26.1,
+   "words": 46023,
+   "chapters": 19,
+   "top3k": 75.6,
+   "katharevousa": false,
+   "file": "books/karkavitsas-zitianos.json.gz",
+   "bytes": 141302,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%9F_%CE%B6%CE%B7%CF%84%CE%B9%CE%AC%CE%BD%CE%BF%CF%82"
+   }
+  },
+  {
+   "id": "homer-iliada",
+   "title": "Ιλιάδα",
+   "author": "Όμηρος",
+   "authorDied": -700,
+   "translator": "Αλέξανδρος Πάλλης",
+   "original": "Ilíada (Homero)",
+   "kind": "épica",
+   "level": "B2",
+   "score": 27.5,
+   "words": 111760,
+   "chapters": 36,
+   "top3k": 72.5,
+   "katharevousa": false,
+   "file": "books/homer-iliada.json.gz",
+   "bytes": 308258,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/36248"
+   }
+  },
+  {
+   "id": "d-chatzopoulos-zografies",
+   "title": "Ντόπιες ζωγραφιές",
+   "author": "Δημήτριος Χατζόπουλος",
+   "authorDied": 1936,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 27.8,
+   "words": 24819,
+   "chapters": 16,
+   "top3k": 73.9,
+   "katharevousa": false,
+   "file": "books/d-chatzopoulos-zografies.json.gz",
+   "bytes": 75739,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32729"
+   }
+  },
+  {
+   "id": "shakespeare-othello",
+   "title": "Οθέλλος",
+   "author": "Ουίλιαμ Σαίξπηρ",
+   "authorDied": 1616,
+   "translator": "Δημήτριος Βικέλας",
+   "original": "Otelo (W. Shakespeare)",
+   "kind": "teatro",
+   "level": "B2",
+   "score": 29.9,
+   "words": 32557,
+   "chapters": 19,
+   "top3k": 72.2,
+   "katharevousa": false,
+   "file": "books/shakespeare-othello.json.gz",
+   "bytes": 97855,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32797"
+   }
+  },
+  {
+   "id": "shakespeare-romeo",
+   "title": "Ρωμαίος και Ιουλιέτα",
+   "author": "Ουίλιαμ Σαίξπηρ",
+   "authorDied": 1616,
+   "translator": "Δημήτριος Βικέλας",
+   "original": "Romeo y Julieta (W. Shakespeare)",
+   "kind": "teatro",
+   "level": "C1",
+   "score": 30.2,
+   "words": 29898,
+   "chapters": 27,
+   "top3k": 71.9,
+   "katharevousa": false,
+   "file": "books/shakespeare-romeo.json.gz",
+   "bytes": 90532,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31808"
+   }
+  },
+  {
+   "id": "homer-odysseia",
+   "title": "Οδύσσεια",
+   "author": "Όμηρος",
+   "authorDied": -700,
+   "translator": "Ιάκωβος Πολυλάς",
+   "original": "Odisea (Homero)",
+   "kind": "épica",
+   "level": "C1",
+   "score": 30.3,
+   "words": 103425,
+   "chapters": 27,
+   "top3k": 71.5,
+   "katharevousa": false,
+   "file": "books/homer-odysseia.json.gz",
+   "bytes": 286049,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/30613"
+   }
+  },
+  {
+   "id": "andersen-paramythia",
+   "title": "Παραμύθια δανικά",
+   "author": "Χανς Κρίστιαν Άντερσεν",
+   "authorDied": 1875,
+   "translator": "Δημήτριος Βικέλας",
+   "original": "Cuentos de H. C. Andersen",
+   "kind": "infantil",
+   "level": "C1",
+   "score": 30.7,
+   "words": 13609,
+   "chapters": 5,
+   "top3k": 74.4,
+   "katharevousa": true,
+   "file": "books/andersen-paramythia.json.gz",
+   "bytes": 36158,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31450"
+   }
+  },
+  {
+   "id": "shakespeare-hamlet",
+   "title": "Άμλετ",
+   "author": "Ουίλιαμ Σαίξπηρ",
+   "authorDied": 1616,
+   "translator": "Ιάκωβος Πολυλάς",
+   "original": "Hamlet (W. Shakespeare)",
+   "kind": "teatro",
+   "level": "C1",
+   "score": 31.9,
+   "words": 50704,
+   "chapters": 34,
+   "top3k": 71.4,
+   "katharevousa": true,
+   "file": "books/shakespeare-hamlet.json.gz",
+   "bytes": 153347,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31797"
+   }
+  },
+  {
+   "id": "kondylakis-daskalos",
+   "title": "Όταν ήμουν δάσκαλος",
+   "author": "Ιωάννης Κονδυλάκης",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1916,
+   "level": "C1",
+   "score": 33.1,
+   "words": 11066,
+   "chapters": 7,
+   "top3k": 71.5,
+   "katharevousa": true,
+   "file": "books/kondylakis-daskalos.json.gz",
+   "bytes": 37820,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org/wiki/%CE%8C%CF%84%CE%B1%CE%BD_%CE%AE%CE%BC%CE%BF%CF%85%CE%BD_%CE%B4%CE%AC%CF%83%CE%BA%CE%B1%CE%BB%CE%BF%CF%82"
+   }
+  },
+  {
+   "id": "shakespeare-macbeth",
+   "title": "Μάκβεθ",
+   "author": "Ουίλιαμ Σαίξπηρ",
+   "authorDied": 1616,
+   "translator": "Δημήτριος Βικέλας",
+   "original": "Macbeth (W. Shakespeare)",
+   "kind": "teatro",
+   "level": "C1",
+   "score": 33.6,
+   "words": 30675,
+   "chapters": 37,
+   "top3k": 69.7,
+   "katharevousa": true,
+   "file": "books/shakespeare-macbeth.json.gz",
+   "bytes": 96883,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/34434"
+   }
+  },
+  {
+   "id": "tolstoy-karenina",
+   "title": "Άννα Καρένιν",
+   "author": "Λέων Τολστόι",
+   "authorDied": 1910,
+   "translator": "Ηλίας Οικονομόπουλος",
+   "original": "Ana Karénina (L. Tolstói)",
+   "kind": "novela",
+   "level": "C1",
+   "score": 35.5,
+   "words": 73987,
+   "chapters": 31,
+   "top3k": 69,
+   "katharevousa": true,
+   "file": "books/tolstoy-karenina.json.gz",
+   "bytes": 217815,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/38915"
+   }
+  },
+  {
+   "id": "rostand-cyrano",
+   "title": "Συρανό ντε Μπερζεράκ",
+   "author": "Εντμόν Ροστάν",
+   "authorDied": 1918,
+   "translator": "Γεώργιος Στρατήγης",
+   "original": "Cyrano de Bergerac (E. Rostand)",
+   "kind": "teatro",
+   "level": "C1",
+   "score": 35.7,
+   "words": 32541,
+   "chapters": 59,
+   "top3k": 67,
+   "katharevousa": true,
+   "file": "books/rostand-cyrano.json.gz",
+   "bytes": 109024,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/37131"
+   }
+  },
+  {
+   "id": "vizyinos-diigimata",
+   "title": "Διηγήματα",
+   "author": "Γεώργιος Βιζυηνός",
+   "authorDied": 1896,
+   "kind": "cuentos",
+   "level": "C1",
+   "score": 36.1,
+   "words": 75015,
+   "chapters": 26,
+   "top3k": 69.7,
+   "katharevousa": true,
+   "file": "books/vizyinos-diigimata.json.gz",
+   "bytes": 242039,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "poe-istories",
+   "title": "Ιστορίες αλλόκοτες",
+   "author": "Έντγκαρ Άλαν Πόε",
+   "authorDied": 1849,
+   "translator": "Νικόλαος Σπανδωνής",
+   "original": "Cuentos de E. A. Poe",
+   "kind": "cuentos",
+   "level": "C1",
+   "score": 36.3,
+   "words": 34540,
+   "chapters": 14,
+   "top3k": 69.9,
+   "katharevousa": true,
+   "file": "books/poe-istories.json.gz",
+   "bytes": 108232,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/37397"
+   }
+  },
+  {
+   "id": "papadiamantis-fonissa",
+   "title": "Η Φόνισσα",
+   "author": "Αλέξανδρος Παπαδιαμάντης",
+   "authorDied": 1911,
+   "kind": "novela",
+   "year": 1903,
+   "level": "C1",
+   "score": 39.1,
+   "words": 51011,
+   "chapters": 24,
+   "top3k": 66.4,
+   "katharevousa": true,
+   "file": "books/papadiamantis-fonissa.json.gz",
+   "bytes": 156000,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/36205"
+   }
+  },
+  {
+   "id": "vikelas-loukis-laras",
+   "title": "Λουκής Λάρας",
+   "author": "Δημήτριος Βικέλας",
+   "authorDied": 1908,
+   "kind": "novela",
+   "year": 1879,
+   "level": "C1",
+   "score": 42,
+   "words": 33814,
+   "chapters": 11,
+   "top3k": 64.6,
+   "katharevousa": true,
+   "file": "books/vikelas-loukis-laras.json.gz",
+   "bytes": 104922,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/29062"
+   }
+  },
+  {
+   "id": "papadiamantis-diigimata",
+   "title": "Διηγήματα",
+   "author": "Αλέξανδρος Παπαδιαμάντης",
+   "authorDied": 1911,
+   "kind": "cuentos",
+   "level": "C1",
+   "score": 42.8,
+   "words": 33700,
+   "chapters": 17,
+   "top3k": 65.2,
+   "katharevousa": true,
+   "file": "books/papadiamantis-diigimata.json.gz",
+   "bytes": 114747,
+   "source": {
+    "name": "Βικιθήκη (Wikisource)",
+    "url": "https://el.wikisource.org"
+   }
+  },
+  {
+   "id": "roidis-papissa",
+   "title": "Η Πάπισσα Ιωάννα",
+   "author": "Εμμανουήλ Ροΐδης",
+   "authorDied": 1904,
+   "kind": "novela",
+   "year": 1866,
+   "level": "C1",
+   "score": 45.6,
+   "words": 77707,
+   "chapters": 27,
+   "top3k": 66.3,
+   "katharevousa": true,
+   "file": "books/roidis-papissa.json.gz",
+   "bytes": 234769,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/27760"
+   }
+  }
+ ]
+}

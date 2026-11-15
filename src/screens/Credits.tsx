@@ -40,6 +40,12 @@ export function Credits() {
           Texto de ejemplo: <em>Τα ψηλά βουνά</em>, Zacharias Papantoniou (1918), dominio público; transcripción de{' '}
           <a href="https://el.wikisource.org/wiki/Τα_ψηλά_βουνά" target="_blank" rel="noopener">el.wikisource.org</a>.
         </p>
+        <p>
+          Catálogo: obras de dominio público (autores y traductores fallecidos hace más de 80 años) transcritas por los
+          voluntarios de <a href="https://el.wikisource.org" target="_blank" rel="noopener">Βικιθήκη</a> y de{' '}
+          <a href="https://www.gutenberg.org" target="_blank" rel="noopener">Project Gutenberg</a>. Cada libro enlaza a su
+          fuente. Los textos se han limpiado (sin cabeceras ni licencias de Gutenberg); el nivel es una estimación propia.
+        </p>
         <p class="muted small">
           Software: Preact, Dexie, JSZip, ts-fsrs, Vite y vite-plugin-pwa (licencias MIT/Apache-2.0). Ellinikó no envía
           ningún dato a ningún servidor; la única conexión externa es abrir una frase en el traductor que elijas.

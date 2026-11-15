@@ -9,6 +9,7 @@ import { Review } from './screens/Review.tsx';
 import { Progress } from './screens/Progress.tsx';
 import { SettingsScreen } from './screens/Settings.tsx';
 import { Credits } from './screens/Credits.tsx';
+import { Catalog } from './screens/Catalog.tsx';
 import { IconBook, IconChart, IconList, IconRepeat, IconSettings } from './components/icons.tsx';
 
 type DictState =
@@ -60,6 +61,7 @@ export function App() {
     case 'progreso': screen = <Progress />; break;
     case 'ajustes': screen = <SettingsScreen dictVersion={dict.version} onReinstall={install} />; break;
     case 'creditos': screen = <Credits />; break;
+    case 'catalogo': screen = <Catalog />; break;
     default: screen = <Library update={dict.update} onUpdate={install} />;
   }
 
@@ -84,7 +86,7 @@ function TabBar({ current }: { current: string }) {
   return (
     <nav class="tabbar" aria-label="Secciones">
       {tabs.map((t) => (
-        <a key={t.name} href={t.href} class={current === t.name || (t.name === 'ajustes' && current === 'creditos') ? 'on' : ''}>
+        <a key={t.name} href={t.href} class={current === t.name || (t.name === 'ajustes' && current === 'creditos') || (t.name === '' && current === 'catalogo') ? 'on' : ''}>
           <t.Icon />
           <span>
             {t.label}

@@ -8,7 +8,7 @@ import { decodeText, rawBookToRecords, saveImport, textToRawBook } from '../lib/
 import { bookCoverage, coverageLabel } from '../lib/progress.ts';
 import { pickFile } from '../lib/platform.ts';
 import { sampleBook } from '../samples/psilaVouna.ts';
-import { IconTrash, IconUpload, IconEdit } from '../components/icons.tsx';
+import { IconTrash, IconUpload, IconEdit, IconBook } from '../components/icons.tsx';
 import type { RawBook } from '../lib/epub.ts';
 
 export function useLexemeStates(): Map<string, WordState> | undefined {
@@ -19,13 +19,14 @@ export function useLexemeStates(): Map<string, WordState> | undefined {
   }, []);
 }
 
-async function importRaw(raw: RawBook, kind: Book['source']) {
+export async function importRaw(raw: RawBook, kind: Book['source'], catalogId?: string) {
   const choices = new Map((await db.formChoices.toArray()).map((c) => [c.form, c.lemma]));
   const rec = await rawBookToRecords(raw, kind, source(), choices);
   // PRO-2: cobertura previa con lo que ya conoces
   const states = new Map<string, WordState>();
   await db.lexemes.each((l) => states.set(l.lemma, l.state));
   rec.book.initialCoverage = bookCoverage(rec.book.vocab, (k) => states.get(k)).known;
+  if (catalogId) rec.book.catalogId = catalogId;
   await saveImport(db, rec);
   return rec.book;
 }
@@ -73,7 +74,8 @@ export function Library({ update, onUpdate }: { update?: string; onUpdate: () =>
     <>
       <header class="topbar">
         <h1 class="brand">Ελληνικό</h1>
-        <button class="btn small" onClick={() => setPaste(true)} disabled={!!busy}><IconEdit width={18} /> Pegar texto</button>
+        <a class="btn small" href="#/catalogo"><IconBook width={18} /> Catálogo</a>
+        <button class="btn small" onClick={() => setPaste(true)} disabled={!!busy} aria-label="Pegar texto"><IconEdit width={18} /> <span class="wide-only">Pegar</span></button>
         <button class="btn small primary" onClick={importFile} disabled={!!busy}><IconUpload width={18} /> EPUB / TXT</button>
       </header>
       <main>
@@ -88,9 +90,10 @@ export function Library({ update, onUpdate }: { update?: string; onUpdate: () =>
         {books && books.length === 0 && (
           <div class="empty">
             <div class="big">Καλώς ήρθες</div>
-            <p>Importa un libro en griego (EPUB o TXT) o pega un texto. Toca cualquier palabra para ver su lema, su análisis y su traducción.</p>
+            <p>Elige un libro del catálogo por nivel, importa el tuyo (EPUB o TXT) o pega un texto. Toca cualquier palabra para ver su lema, su análisis y su traducción.</p>
             <div class="row" style={{ justifyContent: 'center' }}>
-              <button class="btn primary" onClick={importFile}><IconUpload width={18} /> Importar EPUB / TXT</button>
+              <a class="btn primary" href="#/catalogo"><IconBook width={18} /> Ver el catálogo por niveles</a>
+              <button class="btn" onClick={importFile}><IconUpload width={18} /> Importar EPUB / TXT</button>
               <button class="btn" onClick={() => run('Importando ejemplo…', () => importRaw(sampleBook(), 'txt'))}>Probar con «Τα ψηλά βουνά»</button>
             </div>
             <p class="muted small" style={{ marginTop: 24 }}>

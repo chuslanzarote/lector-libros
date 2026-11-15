@@ -7,7 +7,7 @@ Especificación completa: [`docs/PRD.md`](docs/PRD.md).
 ## Uso
 
 1. Abre la app (la primera vez descarga el diccionario de 5 MB y lo guarda para uso offline).
-2. Importa un EPUB o TXT, pega un texto o prueba con *Τα ψηλά βουνά*.
+2. Elige un libro del **Catálogo** por nivel (A2–C1, todos de dominio público), importa un EPUB o TXT, pega un texto o prueba con *Τα ψηλά βουνά*.
 3. Toca palabras: pasan a «aprendiendo» y se convierten en tarjetas de repaso. Mantén pulsada una frase para abrirla en Google Translate o DeepL.
 4. Repasa a diario (FSRS), exporta a Anki (CSV) o envía un capítulo glosado a tu Kindle (EPUB).
 5. Para cambiar de dispositivo: Ajustes → Exportar backup, y en el otro dispositivo Importar backup (se fusiona por fecha de cambio).
@@ -23,6 +23,16 @@ npm test                 # Vitest: normalización, búsqueda, backup, FSRS, EPUB
 npm run test:e2e         # Playwright: prueba de humo (incluye modo avión)
 npm run build            # dist/ listo para GitHub Pages
 ```
+
+### Catálogo
+
+```bash
+npm run build:catalog                 # descarga (Wikisource/Gutenberg), mide el nivel y escribe public/catalog/
+npm run build:catalog -- --survey     # sólo mide y muestra la tabla de dificultad
+npm run build:catalog -- --only=trelantonis
+```
+
+La lista curada está en `scripts/catalog/books.json`; las versiones de las fuentes, en `scripts/catalog/lock.json`. Necesita haber ejecutado antes `npm run build:dict` (usa la lista de frecuencias de `.cache/`).
 
 ### Diccionario
 

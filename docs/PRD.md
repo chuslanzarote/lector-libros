@@ -62,6 +62,8 @@ Prioridad: **M** = MVP, **S** = v1, **C** = más adelante.
 | PRO-2 | Cobertura previa: al importar, % de palabras del libro que ya conoces | C |
 | DIC-6 | Variantes ortográficas de textos antiguos como respaldo de búsqueda (subjuntivo en -η, aumento, aféresis, repeticiones expresivas) | S |
 | IMP-4 | Libro de ejemplo integrado (*Τα ψηλά βουνά*, cap. 1–3) para probar la app sin importar nada | S |
+| IMP-5 | Catálogo de libros de dominio público incluidos en el repo (Wikisource y Gutenberg), descargables bajo demanda desde la app | S |
+| IMP-6 | Nivel estimado (A2, B1, B2, C1) de cada libro del catálogo, calculado sin IA a partir del vocabulario; filtro por nivel | S |
 
 ## Arquitectura y stack
 
@@ -170,6 +172,21 @@ Se usan textos libres de derechos en la UE (autor fallecido hace más de 70 año
 3. *Τα μυστικά του Βάλτου*, Penelope Delta (1937): novela histórica más larga, un salto a B2.
 4. Poemas de Cavafis (fallecido en 1933): breves, ideales para trabajar frase a frase; mezclan registros.
 5. Cuentos de Papadiamantis o Vizyinos: solo como reto C1, porque narran en katharevousa.
+
+### Catálogo incluido (IMP-5, IMP-6)
+
+`npm run build:catalog` genera `public/catalog/catalog.json` y un `books/<id>.json.gz` por libro (un `RawBook` como el de `epub.ts`: título, autor y capítulos con párrafos, en la ortografía original; la app lo pasa a monotónico al importarlo).
+
+- **Selección:** la lista curada está en `scripts/catalog/books.json`. Sólo entran obras con autor **y** traductor fallecidos hace más de 80 años, lo más estricto entre la UE (vida + 70) y España (vida + 80 para autores fallecidos antes de 1987). El script lo comprueba y falla si no se cumple.
+- **Fuentes fijadas:** el revid de cada página de Wikisource y el sha256 de cada EPUB de Gutenberg quedan en `scripts/catalog/lock.json`. `--update` acepta versiones nuevas. De los EPUB de Gutenberg se quitan la cabecera y la licencia.
+- **Nivel:** sin IA, con tres medidas:
+  - el porcentaje de palabras del texto fuera de los 3000 lemas más frecuentes (FrequencyWords agrupado por lema; los nombres propios no cuentan);
+  - la longitud media de frase;
+  - el peso de marcadores de katharévousa (εις, ήτο, ουχί…).
+
+  Con ellas se calcula una puntuación, y unos cortes fijos en `scripts/catalog/level.ts` la convierten en A2, B1, B2 o C1. Los cortes no son cuantiles, para que el nivel de un libro no cambie al añadir otros. Es una estimación orientativa.
+- **App:** la pantalla «Catálogo» (`#/catalogo`) filtra por nivel. «Añadir» descarga el libro y lo importa como cualquier otro, guardando `book.catalogId`. Los libros no se precachean, así que la instalación sigue ligera, pero una vez añadidos funcionan offline.
+- **Limitación conocida:** en dominio público casi no hay lecturas graduadas modernas. El nivel A2 se apoya en literatura infantil y cuentos, y lo traducido de clásicos extranjeros suele estar en katharévousa o en verso.
 
 La app debe mostrar en la biblioteca la **cobertura** de cada libro: un libro es cómodo a partir de \~95 % de palabras conocidas y aprovechable desde \~85 % con ayuda de la app.
 

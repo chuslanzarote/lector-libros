@@ -9,6 +9,7 @@
 ## Comandos
 - `npm run dev` — servidor de desarrollo
 - `npm run build:dict` — regenera el diccionario (descarga fuentes fijadas en `scripts/build-dict/sources.json` a `.cache/`)
+- `npm run build:catalog` — regenera el catálogo de libros por nivel (`scripts/catalog/books.json` → `public/catalog/`); `-- --survey` sólo mide
 - `npm run sample:dict -- έγραψα δω` — muestra búsquedas
 - `npm run coverage:text -- archivo.txt --missing` — cobertura del diccionario sobre un texto
 - `npm test` (Vitest) · `npm run test:e2e` (Playwright, prueba de humo) · `npm run build`

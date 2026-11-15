@@ -7,6 +7,7 @@ export interface RawBook { title: string; author?: string; chapters: RawChapter[
 const BLOCK = new Set([
   'p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'blockquote', 'pre', 'section', 'article',
   'td', 'th', 'dd', 'dt', 'figcaption', 'header', 'footer', 'aside', 'main', 'tr', 'ul', 'ol', 'table', 'body',
+  'tbody', 'thead', 'tfoot', // poesía maquetada en tablas (un verso por fila)
 ]);
 const SKIP = new Set(['script', 'style', 'head', 'nav', 'sup', 'rt', 'rp', 'svg', 'math', 'img']);
 
@@ -48,7 +49,8 @@ export function extractParagraphs(doc: Document): { paragraphs: string[]; headin
   const textOf = (el: Element): string => {
     let s = '';
     el.childNodes.forEach((n) => {
-      if (n.nodeType === 3) s += n.nodeValue ?? '';
+      // Los saltos de línea del código fuente son espacios; sólo <br> separa líneas
+      if (n.nodeType === 3) s += (n.nodeValue ?? '').replace(/\s+/g, ' ');
       else if (n.nodeType === 1) {
         const e = n as Element;
         const name = local(e);
@@ -81,7 +83,7 @@ export function extractParagraphs(doc: Document): { paragraphs: string[]; headin
       loose = '';
     };
     el.childNodes.forEach((n) => {
-      if (n.nodeType === 3) loose += n.nodeValue ?? '';
+      if (n.nodeType === 3) loose += (n.nodeValue ?? '').replace(/\s+/g, ' ');
       else if (n.nodeType === 1) {
         const e = n as Element;
         if (BLOCK.has(local(e))) {

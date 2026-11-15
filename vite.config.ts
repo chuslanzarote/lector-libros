@@ -30,6 +30,8 @@ export default defineConfig({
         // El diccionario (5 MB) se guarda en IndexedDB al primer arranque; además lo
         // precacheamos para poder reinstalarlo sin red tras borrar datos.
         globPatterns: ['**/*.{js,css,html,png,svg,webmanifest,json,gz}'],
+        // Los libros del catálogo (IMP-5) se descargan al añadirlos y pasan a IndexedDB
+        globIgnores: ['**/catalog/books/**'],
         maximumFileSizeToCacheInBytes: 25 * 1024 * 1024,
         navigateFallback: 'index.html',
       },

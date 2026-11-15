@@ -273,3 +273,15 @@ label.field > span { display: block; font-size: 14px; color: var(--ink-2); margi
 .legend span { display: inline-flex; gap: 6px; align-items: center; }
 .prose p { line-height: 1.55; }
 .prose li { margin: 4px 0; line-height: 1.5; }
+
+/* ------------------------------------------------------------- catálogo (IMP-5) */
+@media (max-width: 420px) { .wide-only { display: none; } }
+.seg.levels { display: flex; margin: 12px 0 4px; }
+.seg.levels button { flex: 1; font-weight: 600; }
+.seg.levels .count { font-weight: 400; font-size: 12px; opacity: .75; }
+.level-title { font-size: 17px; margin: 14px 0 2px; }
+.cat-book { display: flex; gap: 12px; align-items: center; }
+.cat-book .info { flex: 1; min-width: 0; }
+.cat-book .title { font-family: var(--font-text); font-size: 18px; font-weight: 600; }
+.cat-book .author { color: var(--ink-2); font-size: 14px; }
+.cat-book .btn { flex-shrink: 0; }

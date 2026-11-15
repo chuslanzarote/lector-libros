@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:catalog": "node scripts/catalog/index.ts"
   },
   "dependencies": {
     "dexie": "^4.4.7",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@playwright/test": "^1.65.1",
     "@preact/preset-vite": "^2.10.6",
+    "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.6",
     "fake-indexeddb": "^6.2.8",
     "jsdom": "^27.0.0",
