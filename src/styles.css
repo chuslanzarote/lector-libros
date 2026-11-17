@@ -298,3 +298,6 @@ label.field > span { display: block; font-size: 14px; color: var(--ink-2); margi
 .choice.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
 .seg button:disabled { opacity: .35; cursor: not-allowed; }
 .lang-chip { font-size: 12px; letter-spacing: .04em; color: var(--ink-2); margin-right: auto; }
+/* La marca nunca encoge: la etiqueta de idioma y los botones se ajustan a su lado */
+.topbar h1.brand { flex: none; }
+.lang-chip { padding-left: 4px; padding-right: 4px; }
