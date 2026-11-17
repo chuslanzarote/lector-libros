@@ -2,6 +2,7 @@
 // para que IndexedDB y el backup JSON tengan exactamente el mismo formato.
 import { DefaultScheduler, Rating } from 'ts-fsrs';
 import type { CardRow } from '../db.ts';
+import { LOCALE, type Lang } from './langs.ts';
 
 export { Rating };
 export type Grade = 1 | 2 | 3 | 4;
@@ -53,24 +54,34 @@ export async function reviewCard(row: CardRow, grade: Grade, now = new Date()): 
 }
 
 /** Intervalo previsto por cada nota, para mostrarlo en los botones */
-export async function previewIntervals(row: CardRow, now = new Date()): Promise<Record<Grade, string>> {
+export async function previewIntervals(row: CardRow, now = new Date(), lang: Lang = 'es'): Promise<Record<Grade, string>> {
   const s = await getScheduler();
   const out = {} as Record<Grade, string>;
   for (const p of s.preview({ card: reviveCard(row.fsrs), now })) {
     const due = (p.card as { dueAt: Date }).dueAt.getTime();
-    out[p.grade as Grade] = humanInterval(due - now.getTime());
+    out[p.grade as Grade] = humanInterval(due - now.getTime(), lang);
   }
   return out;
 }
 
-export function humanInterval(ms: number): string {
+/** Unidades de intervalo por idioma de interfaz (IDI-2) */
+const UNITS: Record<Lang, { min: string; h: string; d: string; month: (n: number) => string; year: string }> = {
+  es: { min: 'min', h: 'h', d: 'd', month: (n) => `mes${n > 1 ? 'es' : ''}`, year: 'años' },
+  en: { min: 'min', h: 'h', d: 'd', month: (n) => `month${n > 1 ? 's' : ''}`, year: 'years' },
+  el: { min: 'λεπ.', h: 'ώρ.', d: 'ημ.', month: (n) => (n > 1 ? 'μήνες' : 'μήνας'), year: 'χρόνια' },
+};
+
+export function humanInterval(ms: number, lang: Lang = 'es'): string {
+  const u = UNITS[lang];
   const m = Math.round(ms / 60000);
-  if (m < 60) return `${Math.max(1, m)} min`;
+  if (m < 60) return `${Math.max(1, m)} ${u.min}`;
   const h = Math.round(m / 60);
-  if (h < 24) return `${h} h`;
+  if (h < 24) return `${h} ${u.h}`;
   const d = Math.round(h / 24);
-  if (d < 31) return `${d} d`;
+  if (d < 31) return `${d} ${u.d}`;
   const mo = Math.round(d / 30);
-  if (mo < 12) return `${mo} mes${mo > 1 ? 'es' : ''}`;
-  return `${(d / 365).toFixed(1)} años`;
+  if (mo < 12) return `${mo} ${u.month(mo)}`;
+  const y = d / 365;
+  const ys = lang === 'es' ? y.toFixed(1) : y.toLocaleString(LOCALE[lang], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  return `${ys} ${u.year}`;
 }

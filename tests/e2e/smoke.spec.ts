@@ -2,11 +2,20 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 
+/** IDI-1: perfil ya elegido, sin pasar por la pantalla de inicio */
+const setProfile = (p: { target: string; ui: string }) =>
+  localStorage.setItem('elliniko.profile', JSON.stringify(p));
+
 test('flujo completo del lector', async ({ page, context }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('dialog', (d) => d.accept());
   await page.goto('./');
+
+  // IDI-1: pantalla de inicio → aprender griego, interfaz en español
+  await page.locator('.choice', { hasText: 'Ελληνικά' }).click();
+  await page.getByRole('radio', { name: 'Español', exact: true }).click();
+  await page.getByRole('button', { name: 'Empezar' }).click();
 
   // SYS-1: el diccionario se instala la primera vez
   await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
@@ -72,6 +81,7 @@ test('flujo completo del lector', async ({ page, context }) => {
 test('catálogo por niveles (IMP-5, IMP-6)', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
+  await page.addInitScript(setProfile, { target: 'el', ui: 'es' });
   await page.goto('./');
   await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
 
@@ -92,5 +102,45 @@ test('catálogo por niveles (IMP-5, IMP-6)', async ({ page }) => {
   await expect(page.locator('.cat-book', { hasText: title }).getByRole('link', { name: 'Leer' })).toBeVisible();
   await page.goto('./#/');
   await expect(page.locator('.book .title', { hasText: title })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('aprender español con la interfaz en griego (IDI-1…IDI-4, DIC-7)', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./');
+  await page.locator('.choice', { hasText: 'Español' }).click();
+  await page.getByRole('radio', { name: 'Ελληνικά', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Ξεκίνα' })).toBeVisible(); // la pantalla cambia de idioma al vuelo
+  await page.getByRole('button', { name: 'Ξεκίνα' }).click();
+
+  await expect(page.getByRole('heading', { name: 'Español' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('link', { name: /Βιβλιοθήκη/ })).toBeVisible();
+
+  // IMP-2: pegar un texto en español
+  await page.getByRole('button', { name: 'Επικόλληση κειμένου' }).click();
+  await page.locator('textarea').fill('—Dámelo ahora —dijo la niña. Las casas del pueblo eran blancas; el perro dormía.');
+  await page.getByRole('button', { name: 'Αποθήκευση' }).click();
+  await page.locator('.book .title').first().click();
+
+  // DIC-7: enclíticos y análisis en griego
+  await page.locator('.reader .w', { hasText: /^Dámelo$/ }).first().click();
+  const sheet = page.getByRole('dialog', { name: /Λέξη Dámelo/ });
+  await expect(sheet.locator('.wc-lemma')).toHaveText('dar');
+  await expect(sheet.locator('.wc-analysis')).toContainText('προστακτική');
+  await expect(sheet.locator('.wc-analysis')).toContainText('+ me, lo');
+  await sheet.getByRole('button', { name: 'Κλείσιμο' }).click();
+
+  // DIC-8: traducción al griego primero
+  await page.locator('.reader .w', { hasText: /^perro$/ }).first().click();
+  await expect(page.locator('.senses li').first()).toContainText(/σκύλος/);
+  await page.getByRole('button', { name: 'Κλείσιμο' }).click();
+
+  // IDI-3: la biblioteca del griego no se mezcla con la del español
+  await page.evaluate(() => localStorage.setItem('elliniko.profile', JSON.stringify({ target: 'el', ui: 'es' })));
+  await page.goto('./#/');
+  await page.reload();
+  await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.locator('.book')).toHaveCount(0);
   expect(errors).toEqual([]);
 });

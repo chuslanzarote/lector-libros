@@ -1,4 +1,4 @@
-// IMP-5 — Descarga de textos de dominio público (Wikisource griega y Project Gutenberg) a RawBook.
+// IMP-5 / IMP-7 — Descarga de textos de dominio público (Wikisource y Project Gutenberg) a RawBook.
 // Todo se cachea en .cache/catalog/ y las versiones quedan fijadas en scripts/catalog/lock.json
 // (revid de Wikisource, sha256 de Gutenberg), igual que las fuentes del diccionario.
 import { createHash } from 'node:crypto';
@@ -11,8 +11,8 @@ import { extractParagraphs, parseEpub, type RawBook, type RawChapter } from '../
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const CACHE = join(ROOT, '.cache', 'catalog');
 const LOCK_FILE = join(ROOT, 'scripts', 'catalog', 'lock.json');
-const UA = 'elliniko-catalog/0.1 (proyecto personal sin ánimo de lucro; lector de griego)';
-const WS_API = 'https://el.wikisource.org/w/api.php';
+const UA = 'elliniko-catalog/0.1 (proyecto personal sin ánimo de lucro; lector de libros)';
+export const WS_DEFAULT_HOST = 'el.wikisource.org';
 
 // parseEpub/extractParagraphs usan DOMParser del navegador
 const win = new JSDOM('').window;
@@ -27,14 +27,14 @@ export function saveLock() {
 }
 
 let last = 0;
-async function politeFetch(url: string): Promise<Response> {
+async function politeFetch(url: string, retries = 5): Promise<Response> {
   for (let attempt = 0; ; attempt++) {
     const wait = last + 1200 - Date.now();
     if (wait > 0) await new Promise((r) => setTimeout(r, wait));
     last = Date.now();
     const res = await fetch(url, { headers: { 'User-Agent': UA } });
     if (res.status === 429 || res.status >= 500) {
-      if (attempt > 4) throw new Error(`${res.status} en ${url}`);
+      if (attempt >= retries - 1) throw new Error(`${res.status} en ${url}`);
       await new Promise((r) => setTimeout(r, 5000 * (attempt + 1)));
       continue;
     }
@@ -48,24 +48,26 @@ const safe = (s: string) => s.replace(/[\\/:*?"<>|' ]/g, '_');
 
 interface WsPage { revid: number; html: string }
 
-async function wsParse(title: string): Promise<WsPage> {
-  mkdirSync(join(CACHE, 'ws'), { recursive: true });
-  const key = `ws:${title}`;
+async function wsParse(title: string, host = WS_DEFAULT_HOST): Promise<WsPage> {
+  // La Wikisource griega conserva las claves y la carpeta de siempre; las demás llevan el host
+  const dir = host === WS_DEFAULT_HOST ? join(CACHE, 'ws') : join(CACHE, 'ws', host);
+  mkdirSync(dir, { recursive: true });
+  const key = host === WS_DEFAULT_HOST ? `ws:${title}` : `ws:${host}:${title}`;
   const pinned = !options.update && typeof lock[key] === 'number' ? (lock[key] as number) : undefined;
   if (pinned) {
-    const f = join(CACHE, 'ws', `${pinned}.html`);
+    const f = join(dir, `${pinned}.html`);
     if (existsSync(f)) return { revid: pinned, html: readFileSync(f, 'utf8') };
   }
   const params = new URLSearchParams({ action: 'parse', prop: 'text|revid', format: 'json', formatversion: '2', redirects: '1', maxlag: '5' });
   if (pinned) params.set('oldid', String(pinned));
   else params.set('page', title);
-  const res = await politeFetch(`${WS_API}?${params}`);
+  const res = await politeFetch(`https://${host}/w/api.php?${params}`);
   const text = await res.text();
   let j: { parse?: { revid: number; text: string }; error?: { info: string } };
   try { j = JSON.parse(text); } catch { throw new Error(`Wikisource devolvió algo raro para «${title}»: ${text.slice(0, 100)}`); }
   if (!j.parse) throw new Error(`Wikisource: «${title}»: ${j.error?.info ?? 'sin texto'}`);
   lock[key] = j.parse.revid;
-  writeFileSync(join(CACHE, 'ws', `${j.parse.revid}.html`), j.parse.text);
+  writeFileSync(join(dir, `${j.parse.revid}.html`), j.parse.text);
   return { revid: j.parse.revid, html: j.parse.text };
 }
 
@@ -89,7 +91,7 @@ function subpageLinks(html: string, title: string): { page: string; label: strin
   doc.querySelectorAll('a[title]').forEach((a) => {
     const t = a.getAttribute('title')!;
     // Sin distinguir mayúsculas: las redirecciones cambian a veces la caja («Η Τιμή και το Χρήμα»)
-    if (!t.toLocaleLowerCase('el').startsWith(title.toLocaleLowerCase('el') + '/') || seen.has(t) || a.closest('.headertemplate')) return;
+    if (!t.toLocaleLowerCase().startsWith(title.toLocaleLowerCase() + '/') || seen.has(t) || a.closest('.headertemplate')) return;
     seen.add(t);
     out.push({ page: t, label: (a.textContent ?? '').replace(/\s+/g, ' ').trim() || t.slice(title.length + 1) });
   });
@@ -109,8 +111,8 @@ function cleanParagraphs(ps: string[]): string[] {
     .filter(
       (p) =>
         p &&
-        !/^(Περιεχόμενα|Επεξεργασία|←|→|Δείτε επίσης)/.test(p) &&
-        !/^\[?\s*Επεξεργασία\s*\]?$/.test(p) &&
+        !/^(Περιεχόμενα|Επεξεργασία|←|→|Δείτε επίσης|Véase también)/.test(p) &&
+        !/^\[?\s*(Επεξεργασία|editar)\s*\]?$/.test(p) &&
         // cuerpo de una nota al pie: «1) …», «[2] …», «* …»
         !/^(\d{1,3}\)|\*+)\s/.test(p) &&
         // números de página o de verso, separadores de estrofa («.», «* * *»)
@@ -124,12 +126,14 @@ export interface WsSpec {
   page?: string;
   /** antología: varias páginas, cada una un capítulo (títulos = nombre de la página) */
   pages?: string[];
+  /** Wikisource de otro idioma (por defecto, la griega) */
+  host?: string;
 }
 
 export async function fromWikisource(spec: WsSpec, title: string, author: string): Promise<RawBook> {
   const chapters: RawChapter[] = [];
   const addPage = async (page: string, label: string, recurse: boolean) => {
-    const { html } = await wsParse(page);
+    const { html } = await wsParse(page, spec.host);
     const subs = recurse ? subpageLinks(html, page) : [];
     if (subs.length) {
       for (const s of subs) await addPage(s.page, s.label, false);
@@ -157,15 +161,24 @@ const END = /\*\*\*\s*END OF (THE|THIS) PROJECT GUTENBERG/i;
 /** Notas del transcriptor («The tonic system has been changed…», «Produced by…») */
 const TRANSCRIBER = /^(Note:|Notes?:|Σημείωση:|Produced by|E-text prepared|Transcriber)|tonic system|τονικό σύστημα/i;
 /** Capítulos que no son texto de lectura */
-export const NON_TEXT_CHAPTER = /^(ΣΗΜΕΙΩΣΕΙΣ|Σημειώσεις|Υποσημειώσεις|ΥΠΟΣΗΜΕΙΩΣΕΙΣ|Footnotes|Endnotes|Notes|ΠΕΡΙΕΧΟΜΕΝΑ|Περιεχόμενα|ΠΙΝΑΞ|Πίναξ|Contents|Table of contents)(?=[\s.:]|$)/u;
+export const NON_TEXT_CHAPTER = /^(ΣΗΜΕΙΩΣΕΙΣ|Σημειώσεις|Υποσημειώσεις|ΥΠΟΣΗΜΕΙΩΣΕΙΣ|Footnotes|Endnotes|Notes|ΠΕΡΙΕΧΟΜΕΝΑ|Περιεχόμενα|ΠΙΝΑΞ|Πίναξ|Contents|Table of contents|ÍNDICE|Índice|INDICE|Indice|NOTAS|Notas)(?=[\s.:]|$)/u;
 
 export async function fromGutenberg(id: number, title: string, author: string): Promise<RawBook> {
   mkdirSync(join(CACHE, 'pg'), { recursive: true });
   const file = join(CACHE, 'pg', `${id}.epub`);
   const key = `pg:${id}`;
   if (!existsSync(file) || options.update) {
-    const res = await politeFetch(`https://www.gutenberg.org/cache/epub/${id}/pg${id}-images-3.epub`);
-    if (!res.ok) throw new Error(`Gutenberg ${id}: HTTP ${res.status}`);
+    // gutenberg.org cierra a veces por mantenimiento: entonces se usa su mirror oficial (mismos archivos)
+    let res: Response | null = null;
+    for (const host of ['www.gutenberg.org', 'gutenberg.pglaf.org']) {
+      try {
+        res = await politeFetch(`https://${host}/cache/epub/${id}/pg${id}-images-3.epub`, 2);
+        if (res.ok) break;
+      } catch (e) {
+        console.warn(`  ⚠ ${host}: ${(e as Error).message}`);
+      }
+    }
+    if (!res?.ok) throw new Error(`Gutenberg ${id}: HTTP ${res?.status ?? 'sin respuesta'}`);
     writeFileSync(file, new Uint8Array(await res.arrayBuffer()));
   }
   const data = readFileSync(file);

@@ -1,5 +1,6 @@
 // IMP-1 / IMP-3 — Troceado de texto en párrafos, frases y palabras.
 import { toMonotonic, isGreek, isPolytonic } from './normalize.ts';
+import type { TargetLang } from './langs.ts';
 
 export interface Sentence {
   /** id estable dentro del capítulo: `${chapterIndex}.${n}` lo compone quien llama */
@@ -48,25 +49,31 @@ export function words(sentence: string): string[] {
 }
 
 // Fin de frase: . ; ! ? … · seguidos de comillas/paréntesis de cierre y espacio.
-// El «;» es el signo de interrogación griego.
-const SENTENCE_END = /([.;!?…·»”"')\]]*[.;!?…·][»”"')\]]*)(\s+)/gu;
+// El «;» es el signo de interrogación griego; en español no cierra frase.
+const SENTENCE_END: Record<TargetLang, RegExp> = {
+  el: /([.;!?…·»”"')\]]*[.;!?…·][»”"')\]]*)(\s+)/gu,
+  es: /([.!?…»”"')\]]*[.!?…][»”"')\]]*)(\s+)/gu,
+};
 
 // Abreviaturas comunes que no cierran frase
-const ABBREV = /(?:^|\s)(?:κ|κα|δρ|π\.χ|δηλ|βλ|σελ|αρ|τ\.μ|χλμ|μ\.Χ|π\.Χ|κτλ|κλπ|Αγ|Ι\.Χ)\.$/u;
+const ABBREV: Record<TargetLang, RegExp> = {
+  el: /(?:^|\s)(?:κ|κα|δρ|π\.χ|δηλ|βλ|σελ|αρ|τ\.μ|χλμ|μ\.Χ|π\.Χ|κτλ|κλπ|Αγ|Ι\.Χ)\.$/u,
+  es: /(?:^|[\s(])(?:Sr|Sra|Srta|Sres|Dr|Dra|Dña|Ud|Uds|Vd|Vds|Excmo|Excma|Ilmo|Ilma|Sto|Sta|pág|págs|cap|núm|art|fig|vol|etc|p\.\s?ej|a\.\s?C|d\.\s?C|aprox|tel)\.$/iu,
+};
 
 /** Divide un párrafo en frases. */
-export function splitSentences(paragraph: string): string[] {
+export function splitSentences(paragraph: string, lang: TargetLang = 'el'): string[] {
   const p = paragraph.replace(/\s+/g, ' ').trim();
   if (!p) return [];
   const out: string[] = [];
   let start = 0;
-  for (const m of p.matchAll(SENTENCE_END)) {
+  for (const m of p.matchAll(SENTENCE_END[lang])) {
     const end = m.index! + m[1].length;
     const candidate = p.slice(start, end);
-    // Inicial de nombre propio («Ζ. Παπαντωνίου») o abreviatura: no corta
-    if (ABBREV.test(candidate) || /(?:^|\s)\p{Lu}\.$/u.test(candidate)) continue;
-    // Si lo que sigue empieza en minúscula («Ναι!» είπε), la frase continúa
-    if (/^\p{Ll}/u.test(p.slice(end + m[2].length))) continue;
+    // Inicial de nombre propio («Ζ. Παπαντωνίου», «D. Quijote») o abreviatura: no corta
+    if (ABBREV[lang].test(candidate) || /(?:^|\s)\p{Lu}\.$/u.test(candidate)) continue;
+    // Si lo que sigue empieza en minúscula («Ναι!» είπε; «¡Ay! —dijo»), la frase continúa
+    if (/^[—–-]?\s?\p{Ll}/u.test(p.slice(end + m[2].length))) continue;
     out.push(candidate.trim());
     start = end + m[2].length;
   }
@@ -82,14 +89,14 @@ export function splitParagraphs(text: string): string[] {
   return parts.map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
 }
 
-/** Texto → frases normalizadas (NFC + monotónico) conservando el original. */
-export function textToSentences(text: string, idPrefix: string, polytonic = isPolytonic(text)): Sentence[] {
+/** Texto → frases normalizadas (NFC y, en griego, monotónico) conservando el original. */
+export function textToSentences(text: string, idPrefix: string, polytonic = isPolytonic(text), lang: TargetLang = 'el'): Sentence[] {
   const out: Sentence[] = [];
   let n = 0;
   for (const para of splitParagraphs(text.normalize('NFC'))) {
     let first = true;
-    for (const s of splitSentences(para)) {
-      const mono = toMonotonic(s, polytonic);
+    for (const s of splitSentences(para, lang)) {
+      const mono = lang === 'el' ? toMonotonic(s, polytonic) : s;
       out.push({ id: `${idPrefix}.${n++}`, text: mono, original: s, ...(first ? { para: true } : {}) });
       first = false;
     }

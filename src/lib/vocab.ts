@@ -5,13 +5,6 @@ import { newCardRow } from './srs.ts';
 import { countForms, resolveLemmas } from './importer.ts';
 import type { DictSource } from './lookup.ts';
 
-export const STATE_LABEL: Record<WordState, string> = {
-  new: 'nueva',
-  learning: 'aprendiendo',
-  known: 'conocida',
-  ignored: 'ignorada',
-};
-
 export interface SaveLookupInput {
   lemma: string;
   form: string;
@@ -90,7 +83,7 @@ export async function chooseLemma(database: ElliDB, form: string, lemma: string)
 
 /** LEC-7: las palabras nuevas no consultadas del capítulo pasan a conocidas. Devuelve cuántas. */
 export async function markChapterRead(database: ElliDB, chapter: Chapter, src: DictSource): Promise<number> {
-  const forms = [...countForms(chapter.sentences).keys()];
+  const forms = [...countForms(chapter.sentences, src.lang).keys()];
   const choices = new Map((await database.formChoices.bulkGet(forms)).filter(Boolean).map((c) => [c!.form, c!.lemma]));
   const lemmaOf = await resolveLemmas(forms, src, choices);
   const keys = [...new Set(forms.map((f) => lemmaOf.get(f) || f))];

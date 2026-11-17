@@ -18,7 +18,7 @@
    "words": 1041,
    "chapters": 1,
    "top3k": 89,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/foros-doxas.json.gz",
    "bytes": 3599,
    "source": {
@@ -37,7 +37,7 @@
    "words": 9622,
    "chapters": 4,
    "top3k": 88.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/kardia-vasilopoulas.json.gz",
    "bytes": 25484,
    "source": {
@@ -57,7 +57,7 @@
    "words": 27566,
    "chapters": 17,
    "top3k": 86.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/gia-tin-patrida.json.gz",
    "bytes": 73805,
    "source": {
@@ -76,7 +76,7 @@
    "words": 2171,
    "chapters": 1,
    "top3k": 86.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/protoxroniatiko-paramythi.json.gz",
    "bytes": 6630,
    "source": {
@@ -96,7 +96,7 @@
    "words": 39186,
    "chapters": 21,
    "top3k": 86.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/chatzopoulos-fthinoporo.json.gz",
    "bytes": 93282,
    "source": {
@@ -116,7 +116,7 @@
    "words": 28981,
    "chapters": 81,
    "top3k": 85.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/psila-vouna.json.gz",
    "bytes": 86455,
    "source": {
@@ -136,7 +136,7 @@
    "words": 64611,
    "chapters": 28,
    "top3k": 85.7,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/magkas.json.gz",
    "bytes": 177352,
    "source": {
@@ -157,7 +157,7 @@
    "words": 45510,
    "chapters": 16,
    "top3k": 87.3,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/geijerstam-mikros-aderfos.json.gz",
    "bytes": 116296,
    "source": {
@@ -177,7 +177,7 @@
    "words": 38163,
    "chapters": 20,
    "top3k": 85.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/paramythi-xoris-onoma.json.gz",
    "bytes": 103256,
    "source": {
@@ -197,7 +197,7 @@
    "words": 90910,
    "chapters": 31,
    "top3k": 85.4,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/voulgaroktonou.json.gz",
    "bytes": 243927,
    "source": {
@@ -216,7 +216,7 @@
    "words": 5578,
    "chapters": 7,
    "top3k": 85.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/nirvanas-diigimata.json.gz",
    "bytes": 17942,
    "source": {
@@ -235,7 +235,7 @@
    "words": 35324,
    "chapters": 12,
    "top3k": 84.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/chatzopoulos-yperanthropos.json.gz",
    "bytes": 96787,
    "source": {
@@ -254,7 +254,7 @@
    "words": 3311,
    "chapters": 1,
    "top3k": 85.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/treis-vasilopoules.json.gz",
    "bytes": 9497,
    "source": {
@@ -274,7 +274,7 @@
    "words": 132657,
    "chapters": 37,
    "top3k": 84,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/mystika-valtou.json.gz",
    "bytes": 369414,
    "source": {
@@ -294,7 +294,7 @@
    "words": 49235,
    "chapters": 17,
    "top3k": 83.4,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/trelantonis.json.gz",
    "bytes": 129402,
    "source": {
@@ -313,7 +313,7 @@
    "words": 1957,
    "chapters": 1,
    "top3k": 84.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/anthizoun-dafnes.json.gz",
    "bytes": 6522,
    "source": {
@@ -332,7 +332,7 @@
    "words": 1239,
    "chapters": 1,
    "top3k": 83.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/ta-tria-kerakia.json.gz",
    "bytes": 4367,
    "source": {
@@ -351,7 +351,7 @@
    "words": 3280,
    "chapters": 1,
    "top3k": 83,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/mesologgitika-xristougenna.json.gz",
    "bytes": 10731,
    "source": {
@@ -372,7 +372,7 @@
    "words": 15151,
    "chapters": 13,
    "top3k": 81.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/goethe-ifigeneia.json.gz",
    "bytes": 44072,
    "source": {
@@ -391,7 +391,7 @@
    "words": 40649,
    "chapters": 15,
    "top3k": 80.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/nirvanas-synaxari.json.gz",
    "bytes": 113057,
    "source": {
@@ -411,7 +411,7 @@
    "words": 20945,
    "chapters": 13,
    "top3k": 81.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/theotokis-timi.json.gz",
    "bytes": 58568,
    "source": {
@@ -431,7 +431,7 @@
    "words": 61890,
    "chapters": 26,
    "top3k": 81.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/psycharis-taxidi.json.gz",
    "bytes": 169698,
    "source": {
@@ -450,7 +450,7 @@
    "words": 23262,
    "chapters": 19,
    "top3k": 81.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/nirvanas-voskopoula.json.gz",
    "bytes": 60893,
    "source": {
@@ -469,7 +469,7 @@
    "words": 47692,
    "chapters": 47,
    "top3k": 80.6,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/eftaliotis-fyllades.json.gz",
    "bytes": 137625,
    "source": {
@@ -489,7 +489,7 @@
    "words": 45804,
    "chapters": 20,
    "top3k": 80.1,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/karkavitsas-archaiologos.json.gz",
    "bytes": 134834,
    "source": {
@@ -508,7 +508,7 @@
    "words": 19109,
    "chapters": 11,
    "top3k": 81,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/eftaliotis-istories.json.gz",
    "bytes": 56326,
    "source": {
@@ -529,7 +529,7 @@
    "words": 17117,
    "chapters": 24,
    "top3k": 79.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/moliere-asthenis.json.gz",
    "bytes": 48953,
    "source": {
@@ -548,7 +548,7 @@
    "words": 30776,
    "chapters": 15,
    "top3k": 78.8,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/karkavitsas-palies-agapes.json.gz",
    "bytes": 91722,
    "source": {
@@ -567,7 +567,7 @@
    "words": 2345,
    "chapters": 22,
    "top3k": 78.3,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/cavafy-poiimata.json.gz",
    "bytes": 9270,
    "source": {
@@ -586,7 +586,7 @@
    "words": 27502,
    "chapters": 11,
    "top3k": 79.4,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/christovasilis-xeniteia.json.gz",
    "bytes": 74385,
    "source": {
@@ -607,7 +607,7 @@
    "words": 27361,
    "chapters": 10,
    "top3k": 81.3,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/longus-dafnis.json.gz",
    "bytes": 74732,
    "source": {
@@ -626,7 +626,7 @@
    "words": 6495,
    "chapters": 18,
    "top3k": 77,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/papantoniou-pezografimata.json.gz",
    "bytes": 23405,
    "source": {
@@ -645,7 +645,7 @@
    "words": 27133,
    "chapters": 11,
    "top3k": 77.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/kondylakis-proti-agapi.json.gz",
    "bytes": 78694,
    "source": {
@@ -664,7 +664,7 @@
    "words": 9832,
    "chapters": 4,
    "top3k": 78.3,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/palamas-poiimata.json.gz",
    "bytes": 29665,
    "source": {
@@ -683,7 +683,7 @@
    "words": 7549,
    "chapters": 4,
    "top3k": 77.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/chatzopoulos-aploi-tropoi.json.gz",
    "bytes": 22690,
    "source": {
@@ -704,7 +704,7 @@
    "words": 19871,
    "chapters": 9,
    "top3k": 76.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/shakespeare-tempest.json.gz",
    "bytes": 60538,
    "source": {
@@ -724,7 +724,7 @@
    "words": 58706,
    "chapters": 22,
    "top3k": 75.1,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/karkavitsas-plori.json.gz",
    "bytes": 183155,
    "source": {
@@ -744,7 +744,7 @@
    "words": 46023,
    "chapters": 19,
    "top3k": 75.6,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/karkavitsas-zitianos.json.gz",
    "bytes": 141302,
    "source": {
@@ -765,7 +765,7 @@
    "words": 111760,
    "chapters": 36,
    "top3k": 72.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/homer-iliada.json.gz",
    "bytes": 308258,
    "source": {
@@ -784,7 +784,7 @@
    "words": 24819,
    "chapters": 16,
    "top3k": 73.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/d-chatzopoulos-zografies.json.gz",
    "bytes": 75739,
    "source": {
@@ -805,7 +805,7 @@
    "words": 32557,
    "chapters": 19,
    "top3k": 72.2,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/shakespeare-othello.json.gz",
    "bytes": 97855,
    "source": {
@@ -826,7 +826,7 @@
    "words": 29898,
    "chapters": 27,
    "top3k": 71.9,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/shakespeare-romeo.json.gz",
    "bytes": 90532,
    "source": {
@@ -847,7 +847,7 @@
    "words": 103425,
    "chapters": 27,
    "top3k": 71.5,
-   "katharevousa": false,
+   "archaic": false,
    "file": "books/homer-odysseia.json.gz",
    "bytes": 286049,
    "source": {
@@ -868,7 +868,7 @@
    "words": 13609,
    "chapters": 5,
    "top3k": 74.4,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/andersen-paramythia.json.gz",
    "bytes": 36158,
    "source": {
@@ -889,7 +889,7 @@
    "words": 50704,
    "chapters": 34,
    "top3k": 71.4,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/shakespeare-hamlet.json.gz",
    "bytes": 153347,
    "source": {
@@ -909,7 +909,7 @@
    "words": 11066,
    "chapters": 7,
    "top3k": 71.5,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/kondylakis-daskalos.json.gz",
    "bytes": 37820,
    "source": {
@@ -930,7 +930,7 @@
    "words": 30675,
    "chapters": 37,
    "top3k": 69.7,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/shakespeare-macbeth.json.gz",
    "bytes": 96883,
    "source": {
@@ -951,7 +951,7 @@
    "words": 73987,
    "chapters": 31,
    "top3k": 69,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/tolstoy-karenina.json.gz",
    "bytes": 217815,
    "source": {
@@ -972,7 +972,7 @@
    "words": 32541,
    "chapters": 59,
    "top3k": 67,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/rostand-cyrano.json.gz",
    "bytes": 109024,
    "source": {
@@ -991,7 +991,7 @@
    "words": 75015,
    "chapters": 26,
    "top3k": 69.7,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/vizyinos-diigimata.json.gz",
    "bytes": 242039,
    "source": {
@@ -1012,7 +1012,7 @@
    "words": 34540,
    "chapters": 14,
    "top3k": 69.9,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/poe-istories.json.gz",
    "bytes": 108232,
    "source": {
@@ -1032,7 +1032,7 @@
    "words": 51011,
    "chapters": 24,
    "top3k": 66.4,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/papadiamantis-fonissa.json.gz",
    "bytes": 156000,
    "source": {
@@ -1052,7 +1052,7 @@
    "words": 33814,
    "chapters": 11,
    "top3k": 64.6,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/vikelas-loukis-laras.json.gz",
    "bytes": 104922,
    "source": {
@@ -1071,7 +1071,7 @@
    "words": 33700,
    "chapters": 17,
    "top3k": 65.2,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/papadiamantis-diigimata.json.gz",
    "bytes": 114747,
    "source": {
@@ -1091,7 +1091,7 @@
    "words": 77707,
    "chapters": 27,
    "top3k": 66.3,
-   "katharevousa": true,
+   "archaic": true,
    "file": "books/roidis-papissa.json.gz",
    "bytes": 234769,
    "source": {

@@ -1,6 +1,8 @@
-// IMP-5 / IMP-6 — Catálogo de libros de dominio público incluidos en el repo (public/catalog/).
+// IMP-5 / IMP-6 / IMP-7 — Catálogo de libros de dominio público incluidos en el repo
+// (public/catalog/<lang>/, uno por idioma de estudio).
 // Los libros no se precachean: se descargan al elegirlos y a partir de ahí viven en IndexedDB.
 import type { RawBook } from './epub.ts';
+import type { TargetLang } from './langs.ts';
 
 export type CatalogLevel = 'A2' | 'B1' | 'B2' | 'C1';
 
@@ -20,8 +22,8 @@ export interface CatalogEntry {
   chapters: number;
   /** % de palabras entre los 3000 lemas más frecuentes */
   top3k: number;
-  /** narrado en buena parte en katharévousa */
-  katharevousa: boolean;
+  /** narrado en buena parte en un registro antiguo: katharévousa en griego, español clásico en español */
+  archaic: boolean;
   file: string;
   bytes: number;
   source: { name: string; url: string };
@@ -33,33 +35,17 @@ export interface CatalogFile {
   books: CatalogEntry[];
 }
 
-export const LEVEL_LABEL: Record<CatalogLevel, string> = {
-  A2: 'A2 · Inicial',
-  B1: 'B1 · Intermedio',
-  B2: 'B2 · Intermedio alto',
-  C1: 'C1 · Avanzado',
-};
+const base = (lang: TargetLang) => new URL(`catalog/${lang}/`, document.baseURI);
 
-export const KIND_LABEL: Record<CatalogEntry['kind'], string> = {
-  novela: 'Novela',
-  cuentos: 'Cuentos',
-  infantil: 'Infantil',
-  poesía: 'Poesía',
-  teatro: 'Teatro',
-  épica: 'Épica',
-};
-
-const base = () => new URL('catalog/', document.baseURI);
-
-export async function fetchCatalog(): Promise<CatalogFile> {
-  const res = await fetch(new URL('catalog.json', base()), { cache: 'no-cache' });
+export async function fetchCatalog(lang: TargetLang): Promise<CatalogFile> {
+  const res = await fetch(new URL('catalog.json', base(lang)), { cache: 'no-cache' });
   if (!res.ok) throw new Error(`No se pudo cargar el catálogo (HTTP ${res.status})`);
   return res.json();
 }
 
 /** Descarga y descomprime un libro del catálogo (los .gz se sirven tal cual, sin Content-Encoding). */
-export async function fetchCatalogBook(entry: CatalogEntry): Promise<RawBook> {
-  const res = await fetch(new URL(entry.file, base()));
+export async function fetchCatalogBook(entry: CatalogEntry, lang: TargetLang): Promise<RawBook> {
+  const res = await fetch(new URL(entry.file, base(lang)));
   if (!res.ok) throw new Error(`No se pudo descargar «${entry.title}» (HTTP ${res.status})`);
   return parseBookBytes(new Uint8Array(await res.arrayBuffer()));
 }
@@ -73,9 +59,10 @@ export async function parseBookBytes(bytes: Uint8Array): Promise<RawBook> {
   return JSON.parse(text) as RawBook;
 }
 
-export function readingTime(words: number): string {
-  const min = Math.round(words / 120); // lectura atenta en L2, con consultas
+/** Tiempo de lectura atenta en L2, con consultas (~120 palabras/min): «25 min», «3,5 h» */
+export function readingTime(words: number, locale = 'es'): string {
+  const min = Math.round(words / 120);
   if (min < 60) return `${Math.max(5, Math.round(min / 5) * 5)} min`;
   const h = min / 60;
-  return h < 10 ? `${h.toFixed(1).replace('.', ',')} h` : `${Math.round(h)} h`;
+  return h < 10 ? `${h.toLocaleString(locale, { maximumFractionDigits: 1, minimumFractionDigits: 1 })} h` : `${Math.round(h)} h`;
 }

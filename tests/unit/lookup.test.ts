@@ -51,10 +51,11 @@ describe('DIC-2 búsqueda forma → lema + análisis (tests de la Fase 1)', () =
   });
   it('DIC-3: español si existe, si no inglés; DIC-5: lo personal prevalece', async () => {
     const [g] = await first('γράφω');
-    expect(bestTranslation(g)?.lang).toBe('es');
+    expect(bestTranslation(g, ['es', 'en'])?.lang).toBe('es');
+    expect(bestTranslation(g, ['en', 'es'])?.lang).toBe('en');
     const [s] = await first('σκονίζω');
-    expect(bestTranslation(s)?.lang).toBe('en');
-    expect(bestTranslation({ ...s, user: 'empolvar' })).toEqual({ text: 'empolvar', lang: 'user' });
+    expect(bestTranslation(s, ['es', 'en'])?.lang).toBe('en');
+    expect(bestTranslation({ ...s, user: 'empolvar' }, ['es', 'en'])).toEqual({ text: 'empolvar', lang: 'user' });
   });
   it('menos de 50 ms por búsqueda', async () => {
     const words = ['έγραψα', 'σπίτια', 'βουνά', 'ερχόμαστε', 'εγραψα', 'κουρασμένοι'];

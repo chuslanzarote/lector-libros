@@ -1,0 +1,67 @@
+{
+  "version": "2026.10.30",
+  "format": 2,
+  "lang": "es",
+  "builtFrom": [
+    {
+      "id": "wiktextract-el",
+      "name": "Wiktextract / kaikki.org — Greek",
+      "version": "2026-10-30",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/dictionary/Greek/"
+    },
+    {
+      "id": "freedict-ell-spa",
+      "name": "FreeDict griego→español",
+      "version": "2023.05.29",
+      "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
+      "homepage": "https://freedict.org/downloads/"
+    },
+    {
+      "id": "freq-el",
+      "name": "FrequencyWords (OpenSubtitles 2018), griego, 50k",
+      "version": "2018",
+      "license": "CC BY-SA 4.0",
+      "homepage": "https://github.com/hermitdave/FrequencyWords"
+    },
+    {
+      "id": "wiktextract-es",
+      "name": "Wiktextract / kaikki.org — Spanish",
+      "version": "2026-10-30",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/dictionary/Spanish/"
+    },
+    {
+      "id": "elwikt-es",
+      "name": "kaikki.org — Wiktionary griego, entradas en español",
+      "version": "2026-11-03",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/elwiktionary/Spanish/"
+    },
+    {
+      "id": "eswikt-es",
+      "name": "kaikki.org — Wiktionary español, entradas en español",
+      "version": "2026-11-02",
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/eswiktionary/Espa%C3%B1ol/"
+    },
+    {
+      "id": "freq-es",
+      "name": "FrequencyWords (OpenSubtitles 2018), español, 50k",
+      "version": "2018",
+      "license": "CC BY-SA 4.0",
+      "homepage": "https://github.com/hermitdave/FrequencyWords"
+    }
+  ],
+  "bytes": 7540603,
+  "rawBytes": 35998694,
+  "sha256": "77e6106e1945cc6ab4bb2f2e7a54d6a525b73f6e9cc4339f125f2d2d27dd894b",
+  "counts": {
+    "lemmas": 90700,
+    "forms": 674039,
+    "noAccent": 230151,
+    "labels": 1587,
+    "with_el": 16734,
+    "with_en": 90700
+  }
+}

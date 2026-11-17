@@ -1,17 +1,19 @@
-// IMP-5 / IMP-6 — Genera el catálogo de libros de dominio público con nivel estimado.
-//   npm run build:catalog              → public/catalog/catalog.json + public/catalog/books/<id>.json.gz
+// IMP-5 / IMP-6 / IMP-7 — Genera el catálogo de libros de dominio público con nivel estimado.
+//   npm run build:catalog [-- --lang=es] → public/catalog/<lang>/catalog.json + books/<id>.json.gz
+//   (lista: scripts/catalog/books.json para griego, books.es.json para español)
 //   npm run build:catalog -- --survey  → sólo mide y muestra la tabla (no escribe nada)
 //   npm run build:catalog -- --update  → vuelve a descargar las fuentes y actualiza lock.json
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { fromGutenberg, fromWikisource, NON_TEXT_CHAPTER, options, ROOT, saveLock, type WsSpec } from './fetch.ts';
-import { freqFile, lemmaRanks, Leveler, levelOf, CUTS, LEVELS, type Metrics } from './level.ts';
+import { freqFile, lemmaRanks, Leveler, levelOf, CUTS_BY_LANG, LEVELS, type Metrics } from './level.ts';
 import { loadDict } from '../build-dict/sample.ts';
 import { PD_DIED_BEFORE } from './pd.ts';
 import { splitChapters } from './chapters.ts';
 import type { RawBook } from '../../src/lib/epub.ts';
 import type { CatalogEntry, CatalogFile } from '../../src/lib/catalog.ts';
+import type { TargetLang } from '../../src/lib/langs.ts';
 
 
 interface Spec {
@@ -31,15 +33,21 @@ interface Spec {
   dropChapters?: string;
   /** «true»: candidato sólo para --survey */
   skip?: boolean;
+  /**
+   * Obra en lengua clásica (Siglo de Oro o anterior): la frecuencia del vocabulario no capta su
+   * sintaxis, así que se marca como registro antiguo y como C1 como mínimo (IMP-7)
+   */
+  classic?: boolean;
 }
 
 const args = process.argv.slice(2);
 const survey = args.includes('--survey');
 options.update = args.includes('--update');
 const only = args.find((a) => a.startsWith('--only='))?.slice(7).split(',');
+const lang = (args.find((a) => a.startsWith('--lang='))?.slice(7) ?? 'el') as TargetLang;
 
-const specs: Spec[] = JSON.parse(readFileSync(join(ROOT, 'scripts', 'catalog', 'books.json'), 'utf8'));
-const OUT = join(ROOT, 'public', 'catalog');
+const specs: Spec[] = JSON.parse(readFileSync(join(ROOT, 'scripts', 'catalog', lang === 'el' ? 'books.json' : `books.${lang}.json`), 'utf8'));
+const OUT = join(ROOT, 'public', 'catalog', lang);
 
 function checkLicense(s: Spec) {
   const bad = [
@@ -52,7 +60,9 @@ function checkLicense(s: Spec) {
 function sourceOf(s: Spec): CatalogEntry['source'] {
   if (s.pg) return { name: 'Project Gutenberg', url: `https://www.gutenberg.org/ebooks/${s.pg[0]}` };
   const page = s.ws?.page ?? s.ws?.pages?.[0] ?? '';
-  return { name: 'Βικιθήκη (Wikisource)', url: s.ws?.page ? `https://el.wikisource.org/wiki/${encodeURIComponent(page.replace(/ /g, '_'))}` : 'https://el.wikisource.org' };
+  const host = s.ws?.host ?? 'el.wikisource.org';
+  const name = host.startsWith('el.') ? 'Βικιθήκη (Wikisource)' : 'Wikisource';
+  return { name, url: page ? `https://${host}/wiki/${encodeURIComponent(page.replace(/ /g, '_'))}` : `https://${host}` };
 }
 
 async function fetchBook(s: Spec): Promise<RawBook> {
@@ -77,16 +87,16 @@ async function fetchBook(s: Spec): Promise<RawBook> {
       prev.title = c.title;
     } else merged.push({ ...c, paragraphs: [...c.paragraphs] });
   }
-  raw.chapters = splitChapters(merged);
+  raw.chapters = splitChapters(merged, 5000, 3000, lang);
   return raw;
 }
 
-if (!existsSync(freqFile(ROOT))) {
-  console.error('Falta .cache/el_50k.txt: ejecuta antes «npm run build:dict» (descarga la lista de frecuencias).');
+if (!existsSync(freqFile(ROOT, lang))) {
+  console.error(`Falta ${freqFile(ROOT, lang)}: ejecuta antes «npm run build:dict -- --lang=${lang}» (descarga la lista de frecuencias).`);
   process.exit(1);
 }
-const dict = loadDict();
-const leveler = new Leveler(dict, lemmaRanks(dict, freqFile(ROOT)));
+const dict = loadDict(lang);
+const leveler = new Leveler(dict, lemmaRanks(dict, freqFile(ROOT, lang)));
 
 const rows: { s: Spec; m: Metrics; raw: RawBook }[] = [];
 for (const s of specs) {
@@ -97,7 +107,7 @@ for (const s of specs) {
     const raw = await fetchBook(s);
     const m = await leveler.measure(raw);
     rows.push({ s, m, raw });
-    console.log(`${s.id.padEnd(28)} ${String(m.score).padStart(5)} ${levelOf(m.score)}  ${m.words} palabras, top3k ${m.top3k} %, desc. ${m.unknown} %, frase ${m.sentenceLen}, kath. ${m.katharevousa} %`);
+    console.log(`${s.id.padEnd(28)} ${String(m.score).padStart(5)} ${levelOf(m.score, lang)}  ${m.words} palabras, top3k ${m.top3k} %, desc. ${m.unknown} %, frase ${m.sentenceLen}, arc. ${m.archaic} %`);
   } catch (e) {
     console.error(`✗ ${s.id}: ${(e as Error).message}`);
     if (!survey) process.exitCode = 1;
@@ -108,9 +118,9 @@ for (const s of specs) {
 if (survey) {
   console.log('\nOrdenados por dificultad:');
   for (const { s, m } of [...rows].sort((a, b) => a.m.score - b.m.score)) {
-    console.log(`${String(m.score).padStart(5)}  ${levelOf(m.score)}  ${s.id.padEnd(28)} ${String(m.words).padStart(7)}  ${s.skip ? '(candidato)' : ''}`);
+    console.log(`${String(m.score).padStart(5)}  ${levelOf(m.score, lang)}  ${s.id.padEnd(28)} ${String(m.words).padStart(7)}  ${s.skip ? '(candidato)' : ''}`);
   }
-  console.log('Cortes actuales:', CUTS);
+  console.log('Cortes actuales:', CUTS_BY_LANG[lang]);
 } else if (process.exitCode !== 1) {
   mkdirSync(join(OUT, 'books'), { recursive: true });
   const wanted = new Set(rows.map((r) => `${r.s.id}.json.gz`));
@@ -129,12 +139,12 @@ if (survey) {
       original: s.original,
       kind: s.kind,
       year: s.year,
-      level: levelOf(m.score),
+      level: s.classic ? 'C1' : levelOf(m.score, lang),
       score: m.score,
       words: m.words,
       chapters: raw.chapters.length,
       top3k: m.top3k,
-      katharevousa: m.katharevousa >= 1.5,
+      archaic: !!s.classic || m.archaic >= 1.5,
       file: `books/${s.id}.json.gz`,
       bytes: gz.length,
       source: sourceOf(s),

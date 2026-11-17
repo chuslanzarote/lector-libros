@@ -1,7 +1,7 @@
 name: Regenerar diccionario (DIC-1)
 
 # Manual: descarga las fuentes fijadas en scripts/build-dict/sources.json, regenera
-# public/dict/dict.json.gz, pasa los tests y abre un PR con el resultado.
+# public/dict/<lang>/dict.json.gz (griego y español), pasa los tests y abre un PR con el resultado.
 on:
   workflow_dispatch:
     inputs:
@@ -43,7 +43,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add public/dict scripts/build-dict/sources.json
-          git commit -m "Regenera el diccionario ($(jq -r .version public/dict/manifest.json))"
+          git commit -m "Regenera el diccionario ($(jq -r .version public/dict/el/manifest.json))"
           git push origin "$BRANCH"
-          gh pr create --title "Diccionario $(jq -r .version public/dict/manifest.json)" \
-            --body "$(jq -r '.counts | to_entries | map("- \(.key): \(.value)") | join("\n")' public/dict/manifest.json)"
+          gh pr create --title "Diccionario $(jq -r .version public/dict/el/manifest.json)" \
+            --body "$(jq -r '.counts | to_entries | map("- \(.key): \(.value)") | join("\n")' public/dict/*/manifest.json)"

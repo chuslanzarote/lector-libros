@@ -1,4 +1,4 @@
-// IMP-3 / DIC-2 — Normalización de texto griego.
+// IMP-3 / DIC-2 — Normalización de texto (griego y, para las claves, también español).
 // Compartido por la app y por scripts/build-dict (Node ejecuta TypeScript directamente),
 // así las claves del diccionario y las de búsqueda se calculan con el mismo código.
 
@@ -122,9 +122,14 @@ export function formKey(token: string): string {
   return s.normalize('NFC');
 }
 
-/** Clave del índice `noAccent`: como formKey pero sin ningún diacrítico. */
+const TILDE = '̃';
+
+/**
+ * Clave del índice `noAccent`: como formKey pero sin acentos, espíritus ni diéresis.
+ * Conserva la tilde de la ñ (año ≠ ano); el griego no la usa.
+ */
 export function noAccentKey(token: string): string {
-  return formKey(token).normalize('NFD').replace(COMBINING, '').replace(/͂/g, '').normalize('NFC');
+  return formKey(token).normalize('NFD').replace(COMBINING, (m) => (m === TILDE ? m : '')).replace(/͂/g, '').normalize('NFC');
 }
 
 /** ¿Contiene la cadena al menos una letra griega? */

@@ -38,9 +38,8 @@ export function streak(activity: ActivityRow[], now = new Date()): number {
   return n;
 }
 
-export function coverageLabel(p: number): { text: string; level: 'easy' | 'ok' | 'hard' } {
+/** Nivel de comodidad de un libro según su cobertura (el texto lo pone la interfaz: `coverage.<level>`) */
+export function coverageLabel(p: number): { pct: number; level: 'easy' | 'ok' | 'hard' } {
   const pct = Math.round(p * 100);
-  if (p >= 0.95) return { text: `${pct} % · cómodo`, level: 'easy' };
-  if (p >= 0.85) return { text: `${pct} % · aprovechable`, level: 'ok' };
-  return { text: `${pct} % · exigente`, level: 'hard' };
+  return { pct, level: p >= 0.95 ? 'easy' : p >= 0.85 ? 'ok' : 'hard' };
 }

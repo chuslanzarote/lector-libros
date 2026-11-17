@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { describe, it, expect, beforeEach } from 'vitest';
 import { ElliDB } from '../../src/db.ts';
-import { exportBackup, importBackup, backupFileName } from '../../src/lib/backup.ts';
+import { exportBackup, importBackup, backupFileName, BackupLangError } from '../../src/lib/backup.ts';
 import { saveLookup, setState, markChapterRead } from '../../src/lib/vocab.ts';
 import { sourceFromJson, type DictJson } from '../../src/lib/lookup.ts';
 import { installDict, idbSource, getDictMeta } from '../../src/lib/dictStore.ts';
@@ -11,9 +11,15 @@ let n = 0;
 const fresh = () => new ElliDB(`test-${n++}`);
 
 const miniDict: DictJson = {
+  format: 2,
+  lang: 'el',
+  glosses: ['es', 'en'],
   version: 't',
-  tags: ['forma de diccionario', 'aoristo, 1.ª sg., voz activa'],
-  lemmas: { γράφω: { pos: 'verbo', es: ['escribir'] }, σπίτι: { pos: 'sustantivo', es: ['casa'] } },
+  labels: {
+    es: ['forma de diccionario', 'aoristo, 1.ª sg., voz activa', 'verbo', 'sustantivo'],
+    en: ['dictionary form', 'aorist, 1st sg., active', 'verb', 'noun'],
+  },
+  lemmas: { γράφω: { p: 2, es: ['escribir'] }, σπίτι: { p: 3, es: ['casa'] } },
   forms: { γράφω: [['γράφω', 0]], έγραψα: [['γράφω', 1]], σπίτι: [['σπίτι', 0]] },
   noAccent: { εγραψα: ['έγραψα'], γραφω: ['γράφω'] },
 };
@@ -27,6 +33,18 @@ describe('SYS-2 backup', () => {
 
   it('nombre de archivo con la fecha', () => {
     expect(backupFileName(new Date(2026, 10, 5))).toBe('elliniko-backup-2026-11-05.json');
+    expect(backupFileName(new Date(2026, 10, 5), 'es')).toBe('elliniko-es-backup-2026-11-05.json');
+  });
+
+  it('IDI-3: un backup de español no se importa en griego (los antiguos sin «lang» son de griego)', async () => {
+    await a.settings.put({ key: 'fontSize', value: 22, updatedAt: 3 });
+    const es = JSON.parse(JSON.stringify(await exportBackup(a, { includeBooks: false, lang: 'es' })));
+    expect(es.lang).toBe('es');
+    await expect(importBackup(b, es, 'el')).rejects.toBeInstanceOf(BackupLangError);
+    expect((await importBackup(b, es, 'es')).added).toBe(1);
+    const { lang: _drop, ...old } = es;
+    await expect(importBackup(fresh(), old, 'es')).rejects.toBeInstanceOf(BackupLangError);
+    expect((await importBackup(fresh(), old)).added).toBe(1);
   });
 
   it('exporta e importa sin perder nada (ida y vuelta por JSON)', async () => {
@@ -81,9 +99,16 @@ describe('diccionario en IndexedDB y vocabulario', () => {
     await installDict(d, miniDict, (p) => progress.push(p));
     expect(progress.at(-1)).toBe(1);
     const meta = await getDictMeta(d);
-    const src = idbSource(d, meta!);
+    const src = idbSource(d, meta!, 'es');
     expect((await src.form('έγραψα'))?.[0][0]).toBe('γράφω');
     expect(src.tag(1)).toBe('aoristo, 1.ª sg., voz activa');
+    expect(idbSource(d, meta!, 'en').tag(1)).toBe('aorist, 1st sg., active');
+    expect(meta!.lang).toBe('el');
+  });
+
+  it('rechaza diccionarios de formato antiguo', async () => {
+    const d = fresh();
+    await expect(installDict(d, { ...miniDict, format: 1 })).rejects.toThrow(/formato/i);
   });
 
   it('LEC-3: consultar pasa a «aprendiendo» y crea tarjeta; LEC-7 marca el resto como conocidas', async () => {

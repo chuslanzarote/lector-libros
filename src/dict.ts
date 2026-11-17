@@ -1,5 +1,6 @@
 // Acceso global al diccionario instalado y a la búsqueda con el diccionario personal (DIC-5).
 import { db } from './db.ts';
+import { dbNameFor, profile } from './profile.ts';
 import { getDictMeta, idbSource, type DictMeta } from './lib/dictStore.ts';
 import { lookup, type LookupResult } from './lib/lookup.ts';
 
@@ -10,7 +11,7 @@ export async function loadSource(): Promise<{ meta: DictMeta; src: Source } | nu
   const meta = await getDictMeta(db);
   if (!meta) return null;
   if (!current || current.meta.version !== meta.version || current.meta.loadedAt !== meta.loadedAt) {
-    current = { meta, src: idbSource(db, meta) };
+    current = { meta, src: idbSource(db, meta, profile.ui) };
   }
   return current;
 }
@@ -34,7 +35,7 @@ export async function lookupWithUser(token: string): Promise<LookupResult & { ch
   // Forma sin entrada en el diccionario pero con traducción propia
   if (!r.candidates.length) {
     const own = await db.userDict.get(r.key);
-    if (own) r.candidates.push({ lemma: r.key, analyses: [], es: [], en: [], user: own.translation, via: 'lemma' });
+    if (own) r.candidates.push({ lemma: r.key, analyses: [], gloss: {}, user: own.translation, via: 'lemma' });
   }
   if (choice) {
     const i = r.candidates.findIndex((c) => c.lemma === choice.lemma);
@@ -43,8 +44,9 @@ export async function lookupWithUser(token: string): Promise<LookupResult & { ch
   return { ...r, chosen: choice?.lemma };
 }
 
+/** Diccionario del idioma que se aprende: dict/<lang>/… */
 export function dictUrl(file: string): string {
-  return new URL(`dict/${file}`, document.baseURI).href;
+  return new URL(`dict/${profile.target}/${file}`, document.baseURI).href;
 }
 
 export interface DictManifest { version: string; bytes: number; sha256: string; counts: Record<string, number> }
@@ -70,6 +72,6 @@ export function installInWorker(onProgress: (phase: string, p: number) => void):
     };
     w.onerror = (e) => { w.terminate(); reject(new Error(e.message || 'Error en el worker')); };
     onProgress('download', 0);
-    w.postMessage({ url: dictUrl('dict.json.gz') });
+    w.postMessage({ url: dictUrl('dict.json.gz'), dbName: dbNameFor(profile.target) });
   });
 }

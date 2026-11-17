@@ -1,0 +1,47 @@
+// IDI-2 — Mensajes del panel de progreso (PRO-1).
+import { defineMessages } from './define.ts';
+
+export default defineMessages({
+  es: {
+    'progress.known': 'palabras conocidas',
+    'progress.learning': 'aprendiendo',
+    'progress.streak': 'días de racha',
+    'progress.due': 'tarjetas pendientes',
+    'progress.last30': 'Últimos 30 días',
+    'progress.activity': 'Actividad diaria',
+    'progress.today': 'Hoy: {lookups} consultas · {reviews} repasos',
+    'progress.coverage': 'Cobertura por libro',
+    'progress.noBooks': 'Importa un libro para ver su cobertura.',
+    'progress.withLearning': '{pct} % contando las que aprendes',
+    'progress.words': '{n} palabras',
+    'progress.initial': 'al importar: {pct} %',
+  },
+  en: {
+    'progress.known': 'known words',
+    'progress.learning': 'learning',
+    'progress.streak': 'day streak',
+    'progress.due': 'cards due',
+    'progress.last30': 'Last 30 days',
+    'progress.activity': 'Daily activity',
+    'progress.today': 'Today: {lookups} look-ups · {reviews} reviews',
+    'progress.coverage': 'Coverage by book',
+    'progress.noBooks': 'Import a book to see its coverage.',
+    'progress.withLearning': '{pct} % counting the ones you are learning',
+    'progress.words': '{n} words',
+    'progress.initial': 'when imported: {pct} %',
+  },
+  el: {
+    'progress.known': 'γνωστές λέξεις',
+    'progress.learning': 'μαθαίνω',
+    'progress.streak': 'μέρες στη σειρά',
+    'progress.due': 'κάρτες σε εκκρεμότητα',
+    'progress.last30': 'Τελευταίες 30 ημέρες',
+    'progress.activity': 'Ημερήσια δραστηριότητα',
+    'progress.today': 'Σήμερα: {lookups} αναζητήσεις · {reviews} επαναλήψεις',
+    'progress.coverage': 'Κάλυψη ανά βιβλίο',
+    'progress.noBooks': 'Εισήγαγε ένα βιβλίο για να δεις την κάλυψή του.',
+    'progress.withLearning': '{pct} % μαζί με όσες μαθαίνεις',
+    'progress.words': '{n} λέξεις',
+    'progress.initial': 'κατά την εισαγωγή: {pct} %',
+  },
+});

@@ -1,0 +1,1204 @@
+{
+ "version": 1,
+ "levels": [
+  "A2",
+  "B1",
+  "B2",
+  "C1"
+ ],
+ "books": [
+  {
+   "id": "si-de-las-ninas",
+   "title": "El sí de las niñas",
+   "author": "Leandro Fernández de Moratín",
+   "authorDied": 1828,
+   "kind": "teatro",
+   "year": 1806,
+   "level": "A2",
+   "score": 8.2,
+   "words": 19656,
+   "chapters": 25,
+   "top3k": 91.9,
+   "archaic": false,
+   "file": "books/si-de-las-ninas.json.gz",
+   "bytes": 40642,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/50027"
+   }
+  },
+  {
+   "id": "la-tia-tula",
+   "title": "La tía Tula",
+   "author": "Miguel de Unamuno",
+   "authorDied": 1936,
+   "kind": "novela",
+   "year": 1921,
+   "level": "A2",
+   "score": 9.3,
+   "words": 31127,
+   "chapters": 26,
+   "top3k": 91.6,
+   "archaic": false,
+   "file": "books/la-tia-tula.json.gz",
+   "bytes": 66631,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/44358"
+   }
+  },
+  {
+   "id": "cuentos-de-la-selva",
+   "title": "Cuentos de la selva",
+   "author": "Horacio Quiroga",
+   "authorDied": 1937,
+   "kind": "infantil",
+   "year": 1918,
+   "level": "A2",
+   "score": 9.4,
+   "words": 17614,
+   "chapters": 8,
+   "top3k": 91.6,
+   "archaic": false,
+   "file": "books/cuentos-de-la-selva.json.gz",
+   "bytes": 35566,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/La_tortuga_gigante"
+   }
+  },
+  {
+   "id": "abel-sanchez",
+   "title": "Abel Sánchez",
+   "author": "Miguel de Unamuno",
+   "authorDied": 1936,
+   "kind": "novela",
+   "year": 1917,
+   "level": "A2",
+   "score": 10,
+   "words": 29495,
+   "chapters": 34,
+   "top3k": 90.6,
+   "archaic": false,
+   "file": "books/abel-sanchez.json.gz",
+   "bytes": 63406,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/44512"
+   }
+  },
+  {
+   "id": "niebla",
+   "title": "Niebla",
+   "author": "Miguel de Unamuno",
+   "authorDied": 1936,
+   "kind": "novela",
+   "year": 1914,
+   "level": "A2",
+   "score": 10.3,
+   "words": 57235,
+   "chapters": 36,
+   "top3k": 90.5,
+   "archaic": false,
+   "file": "books/niebla.json.gz",
+   "bytes": 122442,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/49836"
+   }
+  },
+  {
+   "id": "san-manuel-bueno",
+   "title": "San Manuel Bueno, mártir",
+   "author": "Miguel de Unamuno",
+   "authorDied": 1936,
+   "kind": "novela",
+   "year": 1931,
+   "level": "A2",
+   "score": 11.7,
+   "words": 13883,
+   "chapters": 5,
+   "top3k": 90.5,
+   "archaic": false,
+   "file": "books/san-manuel-bueno.json.gz",
+   "bytes": 29705,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/San_Manuel_Bueno%2C_m%C3%A1rtir"
+   }
+  },
+  {
+   "id": "laval-cuentos-populares",
+   "title": "Cuentos populares en Chile",
+   "author": "Ramón A. Laval",
+   "authorDied": 1929,
+   "kind": "cuentos",
+   "year": 1923,
+   "level": "A2",
+   "score": 12.2,
+   "words": 90747,
+   "chapters": 39,
+   "top3k": 90.3,
+   "archaic": false,
+   "file": "books/laval-cuentos-populares.json.gz",
+   "bytes": 184295,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/63424"
+   }
+  },
+  {
+   "id": "marianela",
+   "title": "Marianela",
+   "author": "Benito Pérez Galdós",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1878,
+   "level": "A2",
+   "score": 12.5,
+   "words": 51005,
+   "chapters": 20,
+   "top3k": 89.1,
+   "archaic": false,
+   "file": "books/marianela.json.gz",
+   "bytes": 115786,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/17340"
+   }
+  },
+  {
+   "id": "alarcon-el-clavo",
+   "title": "El clavo",
+   "author": "Pedro Antonio de Alarcón",
+   "authorDied": 1891,
+   "kind": "novela",
+   "year": 1853,
+   "level": "A2",
+   "score": 12.8,
+   "words": 11437,
+   "chapters": 21,
+   "top3k": 88,
+   "archaic": false,
+   "file": "books/alarcon-el-clavo.json.gz",
+   "bytes": 28605,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/67248"
+   }
+  },
+  {
+   "id": "isaacs-maria",
+   "title": "María",
+   "author": "Jorge Isaacs",
+   "authorDied": 1895,
+   "kind": "novela",
+   "year": 1867,
+   "level": "A2",
+   "score": 13,
+   "words": 90174,
+   "chapters": 67,
+   "top3k": 89.1,
+   "archaic": false,
+   "file": "books/isaacs-maria.json.gz",
+   "bytes": 200598,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/Mar%C3%ADa_(Isaacs)"
+   }
+  },
+  {
+   "id": "edad-de-oro",
+   "title": "La Edad de Oro",
+   "author": "José Martí",
+   "authorDied": 1895,
+   "kind": "infantil",
+   "year": 1889,
+   "level": "A2",
+   "score": 13.2,
+   "words": 66799,
+   "chapters": 24,
+   "top3k": 91,
+   "archaic": false,
+   "file": "books/edad-de-oro.json.gz",
+   "bytes": 130944,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/19898"
+   }
+  },
+  {
+   "id": "payro-casamiento-laucha",
+   "title": "El casamiento de Laucha",
+   "author": "Roberto J. Payró",
+   "authorDied": 1928,
+   "kind": "novela",
+   "year": 1906,
+   "level": "A2",
+   "score": 13.3,
+   "words": 13010,
+   "chapters": 17,
+   "top3k": 88,
+   "archaic": false,
+   "file": "books/payro-casamiento-laucha.json.gz",
+   "bytes": 29639,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/62952"
+   }
+  },
+  {
+   "id": "novela-en-el-tranvia",
+   "title": "La novela en el tranvía",
+   "author": "Benito Pérez Galdós",
+   "authorDied": 1920,
+   "kind": "cuentos",
+   "year": 1871,
+   "level": "A2",
+   "score": 13.4,
+   "words": 7745,
+   "chapters": 7,
+   "top3k": 88.7,
+   "archaic": false,
+   "file": "books/novela-en-el-tranvia.json.gz",
+   "bytes": 19166,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/53355"
+   }
+  },
+  {
+   "id": "hermana-san-sulpicio",
+   "title": "La hermana San Sulpicio",
+   "author": "Armando Palacio Valdés",
+   "authorDied": 1938,
+   "kind": "novela",
+   "year": 1889,
+   "level": "B1",
+   "score": 13.5,
+   "words": 117281,
+   "chapters": 40,
+   "top3k": 88,
+   "archaic": false,
+   "file": "books/hermana-san-sulpicio.json.gz",
+   "bytes": 268110,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31013"
+   }
+  },
+  {
+   "id": "don-juan-tenorio",
+   "title": "Don Juan Tenorio",
+   "author": "José Zorrilla",
+   "authorDied": 1893,
+   "kind": "teatro",
+   "year": 1844,
+   "level": "B1",
+   "score": 13.5,
+   "words": 22413,
+   "chapters": 8,
+   "top3k": 86.8,
+   "archaic": false,
+   "file": "books/don-juan-tenorio.json.gz",
+   "bytes": 51690,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/Don_Juan_Tenorio_(1844)"
+   }
+  },
+  {
+   "id": "larra-figaro",
+   "title": "Fígaro (artículos selectos)",
+   "author": "Mariano José de Larra",
+   "authorDied": 1837,
+   "kind": "cuentos",
+   "level": "B1",
+   "score": 13.8,
+   "words": 89994,
+   "chapters": 39,
+   "top3k": 89.4,
+   "archaic": false,
+   "file": "books/larra-figaro.json.gz",
+   "bytes": 201244,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/31541"
+   }
+  },
+  {
+   "id": "calderon-vida-es-sueno",
+   "title": "La vida es sueño y otros dramas",
+   "author": "Pedro Calderón de la Barca",
+   "authorDied": 1681,
+   "kind": "teatro",
+   "level": "C1",
+   "score": 14.1,
+   "words": 64265,
+   "chapters": 94,
+   "top3k": 87,
+   "archaic": true,
+   "file": "books/calderon-vida-es-sueno.json.gz",
+   "bytes": 148303,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/54436"
+   }
+  },
+  {
+   "id": "quiroga-amor-locura-muerte",
+   "title": "Cuentos de amor de locura y de muerte",
+   "author": "Horacio Quiroga",
+   "authorDied": 1937,
+   "kind": "cuentos",
+   "year": 1917,
+   "level": "B1",
+   "score": 14.2,
+   "words": 49856,
+   "chapters": 23,
+   "top3k": 86.8,
+   "archaic": false,
+   "file": "books/quiroga-amor-locura-muerte.json.gz",
+   "bytes": 114779,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/13507"
+   }
+  },
+  {
+   "id": "unamuno-espejo-muerte",
+   "title": "El espejo de la muerte",
+   "author": "Miguel de Unamuno",
+   "authorDied": 1936,
+   "kind": "cuentos",
+   "year": 1913,
+   "level": "B1",
+   "score": 14.5,
+   "words": 44320,
+   "chapters": 31,
+   "top3k": 87.2,
+   "archaic": false,
+   "file": "books/unamuno-espejo-muerte.json.gz",
+   "bytes": 102080,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/77759"
+   }
+  },
+  {
+   "id": "galdos-tristana",
+   "title": "Tristana",
+   "author": "Benito Pérez Galdós",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1892,
+   "level": "B1",
+   "score": 14.6,
+   "words": 52673,
+   "chapters": 30,
+   "top3k": 87.4,
+   "archaic": false,
+   "file": "books/galdos-tristana.json.gz",
+   "bytes": 123428,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/66979"
+   }
+  },
+  {
+   "id": "la-gaviota",
+   "title": "La gaviota",
+   "author": "Fernán Caballero",
+   "authorDied": 1877,
+   "kind": "novela",
+   "year": 1849,
+   "level": "B1",
+   "score": 14.6,
+   "words": 92063,
+   "chapters": 35,
+   "top3k": 87.4,
+   "archaic": false,
+   "file": "books/la-gaviota.json.gz",
+   "bytes": 208457,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/23600"
+   }
+  },
+  {
+   "id": "galdos-misericordia",
+   "title": "Misericordia",
+   "author": "Benito Pérez Galdós",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1897,
+   "level": "B1",
+   "score": 14.8,
+   "words": 83856,
+   "chapters": 41,
+   "top3k": 87.6,
+   "archaic": false,
+   "file": "books/galdos-misericordia.json.gz",
+   "bytes": 192358,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/21831"
+   }
+  },
+  {
+   "id": "clarin-doctor-sutilis",
+   "title": "Doctor Sutilis",
+   "author": "Leopoldo Alas «Clarín»",
+   "authorDied": 1901,
+   "kind": "cuentos",
+   "year": 1916,
+   "level": "B1",
+   "score": 14.9,
+   "words": 72726,
+   "chapters": 39,
+   "top3k": 87.2,
+   "archaic": false,
+   "file": "books/clarin-doctor-sutilis.json.gz",
+   "bytes": 168088,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/64589"
+   }
+  },
+  {
+   "id": "blasco-la-condenada",
+   "title": "La condenada",
+   "author": "Vicente Blasco Ibáñez",
+   "authorDied": 1928,
+   "kind": "cuentos",
+   "year": 1900,
+   "level": "B1",
+   "score": 15.2,
+   "words": 35117,
+   "chapters": 14,
+   "top3k": 86.6,
+   "archaic": false,
+   "file": "books/blasco-la-condenada.json.gz",
+   "bytes": 82089,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/27736"
+   }
+  },
+  {
+   "id": "buscon",
+   "title": "Historia de la vida del Buscón",
+   "author": "Francisco de Quevedo",
+   "authorDied": 1645,
+   "kind": "novela",
+   "year": 1626,
+   "level": "C1",
+   "score": 15.2,
+   "words": 42946,
+   "chapters": 16,
+   "top3k": 89.2,
+   "archaic": true,
+   "file": "books/buscon.json.gz",
+   "bytes": 92078,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/32315"
+   }
+  },
+  {
+   "id": "orillas-del-sar",
+   "title": "En las orillas del Sar",
+   "author": "Rosalía de Castro",
+   "authorDied": 1885,
+   "kind": "poesía",
+   "year": 1884,
+   "level": "B1",
+   "score": 15.4,
+   "words": 24701,
+   "chapters": 58,
+   "top3k": 84.8,
+   "archaic": false,
+   "file": "books/orillas-del-sar.json.gz",
+   "bytes": 58994,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/70984"
+   }
+  },
+  {
+   "id": "clarin-el-senor",
+   "title": "El Señor y lo demás son cuentos",
+   "author": "Leopoldo Alas «Clarín»",
+   "authorDied": 1901,
+   "kind": "cuentos",
+   "year": 1893,
+   "level": "B1",
+   "score": 15.5,
+   "words": 51010,
+   "chapters": 26,
+   "top3k": 87.2,
+   "archaic": false,
+   "file": "books/clarin-el-senor.json.gz",
+   "bytes": 116281,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/62361"
+   }
+  },
+  {
+   "id": "sombrero-tres-picos",
+   "title": "El sombrero de tres picos",
+   "author": "Pedro Antonio de Alarcón",
+   "authorDied": 1891,
+   "kind": "novela",
+   "year": 1874,
+   "level": "B1",
+   "score": 15.5,
+   "words": 25700,
+   "chapters": 37,
+   "top3k": 86.2,
+   "archaic": false,
+   "file": "books/sombrero-tres-picos.json.gz",
+   "bytes": 58949,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/El_sombrero_de_tres_picos_(1874)"
+   }
+  },
+  {
+   "id": "la-regenta",
+   "title": "La Regenta",
+   "author": "Leopoldo Alas «Clarín»",
+   "authorDied": 1901,
+   "kind": "novela",
+   "year": 1885,
+   "level": "B1",
+   "score": 15.5,
+   "words": 308339,
+   "chapters": 106,
+   "top3k": 86.5,
+   "archaic": false,
+   "file": "books/la-regenta.json.gz",
+   "bytes": 696473,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/17073"
+   }
+  },
+  {
+   "id": "trafalgar",
+   "title": "Trafalgar",
+   "author": "Benito Pérez Galdós",
+   "authorDied": 1920,
+   "kind": "novela",
+   "year": 1873,
+   "level": "B2",
+   "score": 15.6,
+   "words": 51156,
+   "chapters": 19,
+   "top3k": 88,
+   "archaic": false,
+   "file": "books/trafalgar.json.gz",
+   "bytes": 115790,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/16961"
+   }
+  },
+  {
+   "id": "marti-amistad-funesta",
+   "title": "Amistad funesta",
+   "author": "José Martí",
+   "authorDied": 1895,
+   "kind": "novela",
+   "year": 1885,
+   "level": "B2",
+   "score": 15.6,
+   "words": 60809,
+   "chapters": 23,
+   "top3k": 88.2,
+   "archaic": false,
+   "file": "books/marti-amistad-funesta.json.gz",
+   "bytes": 133020,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/18166"
+   }
+  },
+  {
+   "id": "sonata-de-primavera",
+   "title": "Sonata de primavera",
+   "author": "Ramón del Valle-Inclán",
+   "authorDied": 1936,
+   "kind": "novela",
+   "year": 1904,
+   "level": "B2",
+   "score": 15.6,
+   "words": 18836,
+   "chapters": 8,
+   "top3k": 85.6,
+   "archaic": false,
+   "file": "books/sonata-de-primavera.json.gz",
+   "bytes": 43754,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/42440"
+   }
+  },
+  {
+   "id": "iriarte-fabulas",
+   "title": "Fábulas literarias",
+   "author": "Tomás de Iriarte",
+   "authorDied": 1791,
+   "kind": "poesía",
+   "year": 1782,
+   "level": "B2",
+   "score": 16,
+   "words": 14653,
+   "chapters": 30,
+   "top3k": 84.4,
+   "archaic": false,
+   "file": "books/iriarte-fabulas.json.gz",
+   "bytes": 38459,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/29497"
+   }
+  },
+  {
+   "id": "pepita-jimenez",
+   "title": "Pepita Jiménez",
+   "author": "Juan Valera",
+   "authorDied": 1905,
+   "kind": "novela",
+   "year": 1874,
+   "level": "B2",
+   "score": 16.3,
+   "words": 56657,
+   "chapters": 20,
+   "top3k": 87.2,
+   "archaic": false,
+   "file": "books/pepita-jimenez.json.gz",
+   "bytes": 123681,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/17223"
+   }
+  },
+  {
+   "id": "samaniego-fabulas",
+   "title": "Fábulas",
+   "author": "Félix María Samaniego",
+   "authorDied": 1801,
+   "kind": "infantil",
+   "year": 1781,
+   "level": "B2",
+   "score": 16.6,
+   "words": 33814,
+   "chapters": 55,
+   "top3k": 83.7,
+   "archaic": false,
+   "file": "books/samaniego-fabulas.json.gz",
+   "bytes": 84445,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/55206"
+   }
+  },
+  {
+   "id": "chaves-nogales-narraciones",
+   "title": "Narraciones maravillosas y biografías ejemplares",
+   "author": "Manuel Chaves Nogales",
+   "authorDied": 1944,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 16.7,
+   "words": 51132,
+   "chapters": 40,
+   "top3k": 85.5,
+   "archaic": false,
+   "file": "books/chaves-nogales-narraciones.json.gz",
+   "bytes": 120940,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/79074"
+   }
+  },
+  {
+   "id": "canas-y-barro",
+   "title": "Cañas y barro",
+   "author": "Vicente Blasco Ibáñez",
+   "authorDied": 1928,
+   "kind": "novela",
+   "year": 1902,
+   "level": "B2",
+   "score": 16.7,
+   "words": 75516,
+   "chapters": 30,
+   "top3k": 85.8,
+   "archaic": false,
+   "file": "books/canas-y-barro.json.gz",
+   "bytes": 165053,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/57781"
+   }
+  },
+  {
+   "id": "lazarillo",
+   "title": "Lazarillo de Tormes",
+   "author": "Anónimo",
+   "authorDied": 1554,
+   "kind": "novela",
+   "year": 1554,
+   "level": "C1",
+   "score": 16.8,
+   "words": 20096,
+   "chapters": 10,
+   "top3k": 90.1,
+   "archaic": true,
+   "file": "books/lazarillo.json.gz",
+   "bytes": 41799,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/320"
+   }
+  },
+  {
+   "id": "sotileza",
+   "title": "Sotileza",
+   "author": "José María de Pereda",
+   "authorDied": 1906,
+   "kind": "novela",
+   "year": 1885,
+   "level": "B2",
+   "score": 16.9,
+   "words": 115828,
+   "chapters": 33,
+   "top3k": 86.6,
+   "archaic": false,
+   "file": "books/sotileza.json.gz",
+   "bytes": 253823,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/49388"
+   }
+  },
+  {
+   "id": "laval-cuentos-nunca-acabar",
+   "title": "Cuentos chilenos de nunca acabar",
+   "author": "Ramón A. Laval",
+   "authorDied": 1929,
+   "kind": "infantil",
+   "year": 1910,
+   "level": "B2",
+   "score": 17.2,
+   "words": 11179,
+   "chapters": 4,
+   "top3k": 83.5,
+   "archaic": false,
+   "file": "books/laval-cuentos-nunca-acabar.json.gz",
+   "bytes": 20317,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/69164"
+   }
+  },
+  {
+   "id": "becquer-leyendas",
+   "title": "Leyendas, cartas y rimas (Obras escogidas)",
+   "author": "Gustavo Adolfo Bécquer",
+   "authorDied": 1870,
+   "kind": "cuentos",
+   "level": "B2",
+   "score": 17.5,
+   "words": 94049,
+   "chapters": 38,
+   "top3k": 86,
+   "archaic": false,
+   "file": "books/becquer-leyendas.json.gz",
+   "bytes": 207999,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/53552"
+   }
+  },
+  {
+   "id": "senorita-de-trevelez",
+   "title": "La señorita de Trevélez",
+   "author": "Carlos Arniches",
+   "authorDied": 1943,
+   "kind": "teatro",
+   "year": 1916,
+   "level": "B2",
+   "score": 17.5,
+   "words": 21976,
+   "chapters": 29,
+   "top3k": 82.8,
+   "archaic": false,
+   "file": "books/senorita-de-trevelez.json.gz",
+   "bytes": 51951,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/53947"
+   }
+  },
+  {
+   "id": "nino-de-la-bola",
+   "title": "El niño de la bola",
+   "author": "Pedro Antonio de Alarcón",
+   "authorDied": 1891,
+   "kind": "novela",
+   "year": 1880,
+   "level": "B2",
+   "score": 17.6,
+   "words": 74552,
+   "chapters": 30,
+   "top3k": 86.8,
+   "archaic": false,
+   "file": "books/nino-de-la-bola.json.gz",
+   "bytes": 173430,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/59154"
+   }
+  },
+  {
+   "id": "fuenteovejuna",
+   "title": "Fuenteovejuna",
+   "author": "Lope de Vega",
+   "authorDied": 1635,
+   "kind": "teatro",
+   "year": 1619,
+   "level": "C1",
+   "score": 17.7,
+   "words": 13314,
+   "chapters": 3,
+   "top3k": 83.1,
+   "archaic": true,
+   "file": "books/fuenteovejuna.json.gz",
+   "bytes": 31388,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/Fuenteovejuna"
+   }
+  },
+  {
+   "id": "martin-fierro",
+   "title": "El gaucho Martín Fierro",
+   "author": "José Hernández",
+   "authorDied": 1886,
+   "kind": "épica",
+   "year": 1872,
+   "level": "B2",
+   "score": 17.9,
+   "words": 12115,
+   "chapters": 5,
+   "top3k": 85.5,
+   "archaic": false,
+   "file": "books/martin-fierro.json.gz",
+   "bytes": 28165,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/14765"
+   }
+  },
+  {
+   "id": "la-barraca",
+   "title": "La barraca",
+   "author": "Vicente Blasco Ibáñez",
+   "authorDied": 1928,
+   "kind": "novela",
+   "year": 1898,
+   "level": "C1",
+   "score": 18,
+   "words": 55339,
+   "chapters": 23,
+   "top3k": 84.3,
+   "archaic": false,
+   "file": "books/la-barraca.json.gz",
+   "bytes": 127246,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/14944"
+   }
+  },
+  {
+   "id": "lugones-fuerzas-extranas",
+   "title": "Las fuerzas extrañas",
+   "author": "Leopoldo Lugones",
+   "authorDied": 1938,
+   "kind": "cuentos",
+   "year": 1906,
+   "level": "C1",
+   "score": 18.3,
+   "words": 45396,
+   "chapters": 30,
+   "top3k": 84.4,
+   "archaic": false,
+   "file": "books/lugones-fuerzas-extranas.json.gz",
+   "bytes": 108719,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/65689"
+   }
+  },
+  {
+   "id": "raton-perez",
+   "title": "Ratón Pérez",
+   "author": "Luis Coloma",
+   "authorDied": 1915,
+   "kind": "infantil",
+   "level": "C1",
+   "score": 18.5,
+   "words": 4282,
+   "chapters": 1,
+   "top3k": 86.3,
+   "archaic": false,
+   "file": "books/raton-perez.json.gz",
+   "bytes": 10905,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/36558"
+   }
+  },
+  {
+   "id": "pardo-bazan-cuentos-amor",
+   "title": "Cuentos de amor",
+   "author": "Emilia Pardo Bazán",
+   "authorDied": 1921,
+   "kind": "cuentos",
+   "year": 1898,
+   "level": "C1",
+   "score": 18.9,
+   "words": 64050,
+   "chapters": 23,
+   "top3k": 84.9,
+   "archaic": false,
+   "file": "books/pardo-bazan-cuentos-amor.json.gz",
+   "bytes": 155312,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/55514"
+   }
+  },
+  {
+   "id": "dario-azul",
+   "title": "Azul...",
+   "author": "Rubén Darío",
+   "authorDied": 1916,
+   "kind": "cuentos",
+   "year": 1888,
+   "level": "C1",
+   "score": 18.9,
+   "words": 31778,
+   "chapters": 25,
+   "top3k": 82.1,
+   "archaic": false,
+   "file": "books/dario-azul.json.gz",
+   "bytes": 74408,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/52894"
+   }
+  },
+  {
+   "id": "quijote",
+   "title": "Don Quijote de la Mancha",
+   "author": "Miguel de Cervantes",
+   "authorDied": 1616,
+   "kind": "novela",
+   "year": 1605,
+   "level": "C1",
+   "score": 19.1,
+   "words": 383424,
+   "chapters": 142,
+   "top3k": 88.3,
+   "archaic": true,
+   "file": "books/quijote.json.gz",
+   "bytes": 774147,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/2000"
+   }
+  },
+  {
+   "id": "venganza-don-mendo",
+   "title": "La venganza de Don Mendo",
+   "author": "Pedro Muñoz Seca",
+   "authorDied": 1936,
+   "kind": "teatro",
+   "year": 1918,
+   "level": "C1",
+   "score": 19.3,
+   "words": 17367,
+   "chapters": 13,
+   "top3k": 81.8,
+   "archaic": false,
+   "file": "books/venganza-don-mendo.json.gz",
+   "bytes": 42581,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/49013"
+   }
+  },
+  {
+   "id": "blasco-cuentos-valencianos",
+   "title": "Cuentos valencianos",
+   "author": "Vicente Blasco Ibáñez",
+   "authorDied": 1928,
+   "kind": "cuentos",
+   "year": 1896,
+   "level": "C1",
+   "score": 19.4,
+   "words": 41125,
+   "chapters": 22,
+   "top3k": 84.2,
+   "archaic": false,
+   "file": "books/blasco-cuentos-valencianos.json.gz",
+   "bytes": 94985,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/66514"
+   }
+  },
+  {
+   "id": "novelas-ejemplares",
+   "title": "Novelas ejemplares",
+   "author": "Miguel de Cervantes",
+   "authorDied": 1616,
+   "kind": "novela",
+   "year": 1613,
+   "level": "C1",
+   "score": 19.4,
+   "words": 188435,
+   "chapters": 71,
+   "top3k": 89.6,
+   "archaic": true,
+   "file": "books/novelas-ejemplares.json.gz",
+   "bytes": 378769,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/61202"
+   }
+  },
+  {
+   "id": "pazos-de-ulloa",
+   "title": "Los pazos de Ulloa",
+   "author": "Emilia Pardo Bazán",
+   "authorDied": 1921,
+   "kind": "novela",
+   "year": 1886,
+   "level": "C1",
+   "score": 19.8,
+   "words": 83819,
+   "chapters": 30,
+   "top3k": 82.8,
+   "archaic": false,
+   "file": "books/pazos-de-ulloa.json.gz",
+   "bytes": 202846,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/18005"
+   }
+  },
+  {
+   "id": "machado-poesias",
+   "title": "Poesías completas",
+   "author": "Antonio Machado",
+   "authorDied": 1939,
+   "kind": "poesía",
+   "year": 1917,
+   "level": "C1",
+   "score": 19.9,
+   "words": 30446,
+   "chapters": 43,
+   "top3k": 80.2,
+   "archaic": false,
+   "file": "books/machado-poesias.json.gz",
+   "bytes": 73245,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/68525"
+   }
+  },
+  {
+   "id": "luces-de-bohemia",
+   "title": "Luces de bohemia",
+   "author": "Ramón del Valle-Inclán",
+   "authorDied": 1936,
+   "kind": "teatro",
+   "year": 1924,
+   "level": "C1",
+   "score": 19.9,
+   "words": 19877,
+   "chapters": 17,
+   "top3k": 80.1,
+   "archaic": false,
+   "file": "books/luces-de-bohemia.json.gz",
+   "bytes": 47504,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/68745"
+   }
+  },
+  {
+   "id": "palma-tradiciones",
+   "title": "Tradiciones peruanas",
+   "author": "Ricardo Palma",
+   "authorDied": 1919,
+   "kind": "cuentos",
+   "level": "C1",
+   "score": 20.9,
+   "words": 47557,
+   "chapters": 62,
+   "top3k": 82.6,
+   "archaic": false,
+   "file": "books/palma-tradiciones.json.gz",
+   "bytes": 113379,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/21282"
+   }
+  },
+  {
+   "id": "pardo-bazan-cuentos-navidad",
+   "title": "Cuentos de Navidad y Reyes · Cuentos de la patria · Cuentos antiguos",
+   "author": "Emilia Pardo Bazán",
+   "authorDied": 1921,
+   "kind": "cuentos",
+   "level": "C1",
+   "score": 21.3,
+   "words": 55726,
+   "chapters": 34,
+   "top3k": 82.2,
+   "archaic": false,
+   "file": "books/pardo-bazan-cuentos-navidad.json.gz",
+   "bytes": 138484,
+   "source": {
+    "name": "Project Gutenberg",
+    "url": "https://www.gutenberg.org/ebooks/55812"
+   }
+  },
+  {
+   "id": "celestina",
+   "title": "La Celestina",
+   "author": "Fernando de Rojas",
+   "authorDied": 1541,
+   "kind": "teatro",
+   "year": 1499,
+   "level": "C1",
+   "score": 21.5,
+   "words": 68411,
+   "chapters": 28,
+   "top3k": 81.3,
+   "archaic": true,
+   "file": "books/celestina.json.gz",
+   "bytes": 151076,
+   "source": {
+    "name": "Wikisource",
+    "url": "https://es.wikisource.org/wiki/La_Celestina_(1913)"
+   }
+  }
+ ]
+}

@@ -285,3 +285,16 @@ label.field > span { display: block; font-size: 14px; color: var(--ink-2); margi
 .cat-book .title { font-family: var(--font-text); font-size: 18px; font-weight: 600; }
 .cat-book .author { color: var(--ink-2); font-size: 14px; }
 .cat-book .btn { flex-shrink: 0; }
+
+/* IDI-1 — pantalla de inicio */
+.welcome { max-width: 560px; margin: 0 auto; padding: 48px 16px 32px; text-align: center; }
+.welcome .logo { font-family: var(--font-text); font-size: 34px; color: var(--accent); margin-bottom: 8px; }
+.welcome h1 { font-size: 24px; margin: 8px 0; }
+.welcome h2 { font-size: 16px; margin: 28px 0 10px; }
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; text-align: left; }
+.choice { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; }
+.choice .name { font-family: var(--font-text); font-size: 22px; }
+.choice .desc { font-size: 13px; color: var(--ink-2); }
+.choice.on { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.seg button:disabled { opacity: .35; cursor: not-allowed; }
+.lang-chip { font-size: 12px; letter-spacing: .04em; color: var(--ink-2); margin-right: auto; }

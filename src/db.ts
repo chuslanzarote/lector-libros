@@ -3,6 +3,8 @@
 import Dexie, { type EntityTable } from 'dexie';
 import type { FormRow, LemmaRecord } from './lib/lookup.ts';
 import type { Sentence } from './lib/text.ts';
+import type { Lang } from './lib/langs.ts';
+import { dbNameFor, profile } from './profile.ts';
 
 export type WordState = 'new' | 'learning' | 'known' | 'ignored';
 
@@ -45,7 +47,7 @@ export interface Lexeme {
   state: WordState;
   /** traducción elegida */
   translation?: string;
-  translationLang?: 'es' | 'en' | 'user';
+  translationLang?: Lang | 'user';
   notes?: string;
   /** frase de origen */
   sourceSentence?: string;
@@ -98,7 +100,8 @@ export class ElliDB extends Dexie {
   settings!: EntityTable<SettingRow, 'key'>;
   activity!: EntityTable<ActivityRow, 'day'>;
 
-  constructor(name = 'elliniko') {
+  /** IDI-3: una base de datos por idioma de estudio («elliniko» es la de griego) */
+  constructor(name = dbNameFor(profile.target)) {
     super(name);
     this.version(1).stores({
       dictForms: 'k',

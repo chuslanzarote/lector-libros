@@ -1,20 +1,29 @@
 {
-  "_comment": "Fuentes fijadas para un build reproducible (DIC-1). Si una fuente cambia, el checksum falla; vuelve a ejecutar con --accept-new para aceptar la versión nueva y actualizar este archivo.",
+  "_comment": "Fuentes fijadas para un build reproducible (DIC-1, DIC-7). «langs»: diccionarios que la usan. Si una fuente cambia, el checksum falla; vuelve a ejecutar con --accept-new para aceptar la versión nueva y actualizar este archivo.",
   "sources": [
     {
       "id": "wiktextract-el",
       "name": "Wiktextract / kaikki.org — Greek",
+      "langs": [
+        "el",
+        "es"
+      ],
       "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
       "homepage": "https://kaikki.org/dictionary/Greek/",
       "url": "https://kaikki.org/dictionary/Greek/kaikki.org-dictionary-Greek.jsonl",
       "file": "kaikki.org-dictionary-Greek.jsonl",
       "version": "2026-10-30",
       "algo": "sha256",
-      "checksum": "6a6a930ef6fd2a011ccebda89c82ca73bb62456cd026cea583358c216aa173d7"
+      "checksum": "6a6a930ef6fd2a011ccebda89c82ca73bb62456cd026cea583358c216aa173d7",
+      "note": "En el diccionario español sólo sirve para el pivote por el inglés (lemas griegos con el mismo primer significado)."
     },
     {
       "id": "freedict-ell-spa",
       "name": "FreeDict griego→español",
+      "langs": [
+        "el",
+        "es"
+      ],
       "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
       "homepage": "https://freedict.org/downloads/",
       "url": "https://download.freedict.org/dictionaries/ell-spa/2023.05.29/freedict-ell-spa-2023.05.29.src.tar.xz",
@@ -27,6 +36,9 @@
     {
       "id": "freedict-ell-eng",
       "name": "FreeDict griego→inglés",
+      "langs": [
+        "el"
+      ],
       "license": "CC BY-SA 3.0 (derivado de Wiktionary)",
       "homepage": "https://freedict.org/downloads/",
       "url": "https://download.freedict.org/dictionaries/ell-eng/2025.11.23/freedict-ell-eng-2025.11.23.src.tar.xz",
@@ -39,6 +51,10 @@
     {
       "id": "freq-el",
       "name": "FrequencyWords (OpenSubtitles 2018), griego, 50k",
+      "langs": [
+        "el",
+        "es"
+      ],
       "license": "CC BY-SA 4.0",
       "homepage": "https://github.com/hermitdave/FrequencyWords",
       "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/el/el_50k.txt",
@@ -47,7 +63,64 @@
       "version": "2018",
       "algo": "sha256",
       "checksum": "7ec8f6de52c38f36a04add5d1613b116aed576e10c5e3b40d0001e8572de978c",
-      "note": "Sólo se usa para ordenar lemas ambiguos y descartar los raros; no viaja en la app."
+      "note": "Sólo se usa para ordenar lemas ambiguos y descartar los raros (y, en el diccionario español, para ordenar las traducciones al griego); no viaja en la app."
+    },
+    {
+      "id": "wiktextract-es",
+      "name": "Wiktextract / kaikki.org — Spanish",
+      "langs": [
+        "es"
+      ],
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/dictionary/Spanish/",
+      "url": "https://kaikki.org/dictionary/Spanish/kaikki.org-dictionary-Spanish.jsonl",
+      "file": "es/kaikki.org-dictionary-Spanish.jsonl",
+      "version": "2026-10-30",
+      "algo": "sha256",
+      "checksum": "336903d1290968d77bd361c620d7d799ad7a7a9bc6ad353ec35954f2e15fbe6f"
+    },
+    {
+      "id": "elwikt-es",
+      "name": "kaikki.org — Wiktionary griego, entradas en español",
+      "langs": [
+        "es"
+      ],
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/elwiktionary/Spanish/",
+      "url": "https://kaikki.org/elwiktionary/Spanish/kaikki.org-dictionary-Spanish.jsonl",
+      "file": "es/el-wikt-Spanish.jsonl",
+      "version": "2026-11-03",
+      "algo": "sha256",
+      "checksum": "2f3a60dad69df13f62243984991513317d81add5cb14801025155db86f9325ab"
+    },
+    {
+      "id": "eswikt-es",
+      "name": "kaikki.org — Wiktionary español, entradas en español",
+      "langs": [
+        "es"
+      ],
+      "license": "CC BY-SA 4.0 y GFDL (contenido de Wiktionary)",
+      "homepage": "https://kaikki.org/eswiktionary/Espa%C3%B1ol/",
+      "url": "https://kaikki.org/eswiktionary/Espa%C3%B1ol/kaikki.org-dictionary-Espa%C3%B1ol.jsonl",
+      "file": "es/es-wikt-Espanol.jsonl",
+      "version": "2026-11-02",
+      "algo": "sha256",
+      "checksum": "70aba7dba203a8dd4114a7d74e930f8d5b3739d39eedbb12633f57d62e8b7b6e"
+    },
+    {
+      "id": "freq-es",
+      "name": "FrequencyWords (OpenSubtitles 2018), español, 50k",
+      "langs": [
+        "es"
+      ],
+      "license": "CC BY-SA 4.0",
+      "homepage": "https://github.com/hermitdave/FrequencyWords",
+      "url": "https://raw.githubusercontent.com/hermitdave/FrequencyWords/525f9b560de45753a5ea01069454e72e9aa541c6/content/2018/es/es_50k.txt",
+      "file": "es/es_50k.txt",
+      "version": "2018",
+      "algo": "sha256",
+      "checksum": "dcff3ad4316192f4dc4ff7d26e637c6ff314ef1ca0f3f720c5649018a71056c0",
+      "note": "Sólo en build: ordenar lemas ambiguos y podar los raros."
     }
   ]
 }

@@ -4,7 +4,7 @@ Nov 15, 2026 · @Jesús Lanzarote Rodríguez-Quiñones Galindo
 
 ## Resumen y objetivos
 
-**Ellinikó** (nombre provisional) es un lector personal y gratuito de libros en griego moderno. Tocas una palabra y ves su forma de diccionario, su análisis gramatical y su traducción al español, o al inglés si no hay entrada en español. Es una **PWA estática en GitHub Pages**, sin servidor, sin IA y sin claves: el diccionario se construye una vez a partir de fuentes abiertas, viaja dentro de la app y funciona offline.
+**Ellinikó** (nombre provisional) es un lector personal y gratuito de libros en griego moderno y, desde la v2, también en español (IDI-1). Tocas una palabra y ves su forma de diccionario, su análisis gramatical y su traducción al español, o al inglés si no hay entrada en español. Es una **PWA estática en GitHub Pages**, sin servidor, sin IA y sin claves: el diccionario se construye una vez a partir de fuentes abiertas, viaja dentro de la app y funciona offline.
 
 **Objetivos**
 
@@ -12,6 +12,7 @@ Nov 15, 2026 · @Jesús Lanzarote Rodríguez-Quiñones Galindo
 - Reconocer cualquier forma flexionada («έγραψα» → «γράφω», aoristo, 1.ª sg.), no solo la forma de diccionario.
 - Convertir cada consulta en vocabulario repasable.
 - Coste cero y nada que mantener: sin servidor, con formatos abiertos (EPUB, JSON, CSV).
+- Funcionar en las dos direcciones: un hispanohablante que aprende griego y un hablante de griego (o de inglés) que aprende español (ver «Idiomas»).
 
 **No-objetivos**
 
@@ -64,6 +65,32 @@ Prioridad: **M** = MVP, **S** = v1, **C** = más adelante.
 | IMP-4 | Libro de ejemplo integrado (*Τα ψηλά βουνά*, cap. 1–3) para probar la app sin importar nada | S |
 | IMP-5 | Catálogo de libros de dominio público incluidos en el repo (Wikisource y Gutenberg), descargables bajo demanda desde la app | S |
 | IMP-6 | Nivel estimado (A2, B1, B2, C1) de cada libro del catálogo, calculado sin IA a partir del vocabulario; filtro por nivel | S |
+| IDI-1 | Pantalla de inicio: eliges el idioma que aprendes (griego o español) y el tuyo (español, griego o inglés; nunca el mismo). Se puede cambiar desde Ajustes | S |
+| IDI-2 | Interfaz completa en el idioma del usuario (español, inglés, griego), incluidas las etiquetas gramaticales del diccionario | S |
+| IDI-3 | Datos separados por idioma de estudio: libros, vocabulario, repaso y ajustes de griego y de español no se mezclan; el backup lleva el idioma | S |
+| IDI-4 | Audio TTS, traductor externo y enlace a Wiktionary según el par de idiomas (`es-ES`, `el-GR`; `sl`/`tl` del traductor) | S |
+| DIC-7 | Diccionario español: formas conjugadas y flexionadas → lema, traducción al griego y, si no hay, al inglés (marcado «EN»). Respaldo de búsqueda para pronombres enclíticos (dámelo, diciéndole) y ortografía antigua (fué, á) | S |
+| DIC-8 | Traducciones en el orden del idioma del usuario: personal → su idioma → inglés → resto | S |
+| IMP-7 | Catálogo de libros en español de dominio público por niveles (A2–C1), con el mismo método que IMP-5/IMP-6 | S |
+
+## Idiomas (IDI-1…IDI-4, v2)
+
+Un **perfil** es la pareja *idioma que aprendes* (`el` o `es`) + *tu idioma* (`es`, `el` o `en`, distinto del primero). Se elige en la pantalla de inicio la primera vez, se guarda en `localStorage` (`elliniko.profile`) y se cambia desde Ajustes; al cambiarlo la app se recarga.
+
+| | Aprendes griego | Aprendes español |
+| --- | --- | --- |
+| Interfaz | español o inglés | griego o inglés |
+| Diccionario | `dict/el/dict.json.gz`: griego → español, inglés | `dict/es/dict.json.gz`: español → griego, inglés |
+| Traducciones (DIC-8) | tuya → tu idioma → inglés → resto | tuya → tu idioma → inglés → resto |
+| Base de datos (IDI-3) | IndexedDB `elliniko` (la de siempre: no se migra nada) | IndexedDB `elliniko-es` |
+| Catálogo | `catalog/el/` | `catalog/es/` (IMP-7) |
+| Texto | NFC + monotónico (IMP-3), «;» cierra pregunta | NFC; «;» no cierra frase; ¿ ¡ |
+| Audio / traductor | `el-GR`; `sl=el&tl=<tu idioma>` | `es-ES`; `sl=es&tl=<tu idioma>` |
+
+- Cada idioma de estudio tiene su propia base de datos, así que libros, vocabulario, tarjetas, ajustes y backup no se mezclan. El backup indica el idioma (`lang`) y no se puede importar en el otro; los backups antiguos sin `lang` son de griego.
+- La interfaz usa un catálogo de mensajes por idioma (`src/i18n/`). El español es la referencia; un test comprueba que inglés y griego tienen las mismas claves.
+- Las etiquetas gramaticales y la categoría gramatical vienen ya traducidas en el diccionario (`labels`, una lista por idioma de interfaz), así que la app no conoce la gramática de cada idioma.
+- Los diccionarios no se precachean en el service worker (se descargaría el de los dos idiomas); al primer arranque de cada idioma se descargan y se guardan en IndexedDB, que es lo que funciona sin conexión.
 
 ## Arquitectura y stack
 
@@ -107,24 +134,49 @@ El diccionario resulta de fundir tres fuentes abiertas, todas derivadas de Wikti
 6. Escribir `public/dict/dict.json.gz` y un `manifest` con versión y fecha. Objetivo de tamaño: menos de 20 MB comprimido; si se supera, se descartan las formas de lemas raros. (Build de 2026-11-15: 4,8 MB, 49.678 lemas, 281.657 formas; mismo SHA-256 en dos ejecuciones.)
 7. Incluir en la app una pantalla de **Créditos** con la atribución que exige CC BY-SA.
 
-**Formato de salida (resumido).** Cada fila de `forms` es `[lema, idEtiqueta, idEtiqueta…]`: una forma puede tener varios análisis para el mismo lema (p. ej. «το»: neutro sg. nom./ac. y masc. sg. ac.). El id `0` está reservado a «forma de diccionario». Las filas de una forma van ordenadas por probabilidad del lema (frecuencia). `pos` puede llevar el género del sustantivo («sustantivo neutro»). Las claves de `forms` y `noAccent` se calculan con `src/lib/normalize.ts`, que comparten app y script.
+**Formato de salida (resumido, formato 2).** Hay un archivo por idioma de estudio: `public/dict/<lang>/dict.json.gz` con su `manifest.json`. `lang` es el idioma de las entradas y `glosses` los idiomas de las traducciones. `labels` traduce cada id de etiqueta a cada idioma de interfaz posible (para griego, `es` y `en`; para español, `el` y `en`). El id `0` está reservado a «forma de diccionario». Cada fila de `forms` es `[lema, idEtiqueta, idEtiqueta…]`: una forma puede tener varios análisis para el mismo lema (p. ej. «το»: neutro sg. nom./ac. y masc. sg. ac.). Las filas de una forma van ordenadas por probabilidad del lema (frecuencia). `p` es el id de etiqueta de la categoría gramatical, que puede llevar el género («sustantivo neutro»). Cada lema lleva una lista de acepciones por idioma de `glosses`. Las claves de `forms` y `noAccent` se calculan con `src/lib/normalize.ts`, que comparten app y script (`noAccent` quita tildes, diéresis y acentos griegos, pero conserva la ñ).
 
 ```json
 {
+  "format": 2,
+  "lang": "el",
+  "glosses": ["es", "en"],
   "version": "2026.11.15",
-  "tags": ["forma de diccionario", "aoristo, 1.ª sg., voz activa", "neutro sg., nom./ac.", "masc. sg., ac."],
+  "labels": {
+    "es": ["forma de diccionario", "verbo", "aoristo, 1.ª sg., voz activa", "neutro sg., nom./ac.", "masc. sg., ac."],
+    "en": ["dictionary form", "verb", "aorist, 1st sg., active", "neuter sg., nom./acc.", "masc. sg., acc."]
+  },
   "lemmas": {
-    "γράφω": {"pos": "verbo", "es": ["escribir"], "en": ["to write"]}
+    "γράφω": {"p": 1, "es": ["escribir"], "en": ["to write"]}
   },
   "forms": {
-    "έγραψα": [["γράφω", 1]],
-    "το": [["ο", 2, 3], ["το", 0]]
+    "έγραψα": [["γράφω", 2]],
+    "το": [["ο", 3, 4], ["το", 0]]
   },
   "noAccent": {
     "εγραψα": ["έγραψα"]
   }
 }
 ```
+
+### Diccionario español (DIC-7)
+
+`npm run build:dict -- --lang=es` usa fuentes fijadas en el mismo `sources.json`:
+
+| Fuente | Qué aporta |
+| --- | --- |
+| [Wiktextract / kaikki.org, español (Wiktionary inglés)](https://kaikki.org/dictionary/Spanish/) | Formas conjugadas y flexionadas con etiquetas, categoría y glosas en inglés |
+| [kaikki.org, Wiktionary griego, entradas en español](https://kaikki.org/elwiktionary/Spanish/) | Definiciones en griego de los lemas españoles |
+| [kaikki.org, Wiktionary español, entradas en español](https://kaikki.org/eswiktionary/Espa%C3%B1ol/) | Tablas de traducción al griego (`translations`, `lang_code: el`) |
+| FreeDict griego→español (ya usado), invertido | Más pares español → griego |
+| Wiktextract griego (ya usado), como pivote | Sólo si no hay nada directo: lema griego frecuente, de la misma categoría, cuyo primer significado en inglés coincide exactamente («dar: to give» ↔ «δίνω: to give»); como mucho dos |
+| [FrequencyWords, español 50k](https://github.com/hermitdave/FrequencyWords) | Ordenar lemas ambiguos y podar los raros (sólo en build) |
+
+Las formas con pronombres pegados que trae Wiktextract (unas 940.000: dámelo, hablándole…) no se guardan; las resuelve la búsqueda (ver abajo). Las formas cuyo «lema» es otra forma («fué» → fue) se enlazan con los lemas de esta (ser, ir). Los afijos (-ar, -año) no entran. (Build de 2026-11-17: 7,2 MB, 90.700 lemas, 674.039 formas; 16.720 lemas con griego.)
+
+Limitación asumida: no existe un diccionario abierto español→griego grande, así que el griego se reúne de fuentes pequeñas y muchas palabras saldrán en inglés, como pasa con el español en el diccionario griego.
+
+**Búsqueda en español.** Igual que en griego, con estos respaldos propios: pronombres enclíticos (dámelo → da + me + lo; vámonos → vamos + nos; sentaos → sentad + os) y ortografía antigua por la vía sin tildes (fué → fue, á → a).
 
 **Búsqueda al tocar una palabra:**
 
@@ -143,6 +195,7 @@ Todo se guarda en IndexedDB (Dexie). El diccionario base es de solo lectura y se
 | Almacén | Campos principales |
 | --- | --- |
 | `dictForms`, `dictNoAccent`, `dictLemmas`, `meta` | diccionario base cargado desde `dict.json.gz` (uno por índice), y su versión en `meta` |
+| (todas) | Hay una base de datos por idioma de estudio (IDI-3): `elliniko` para griego y `elliniko-es` para español, con los mismos almacenes |
 | `books` | id, título, autor, fecha de importación, posición de lectura, vocabulario del libro (forma → lema, apariciones) para la cobertura |
 | `chapters` | id, bookId, índice, título, frases `[{id, text, original, para}]` (`para`: abre párrafo) |
 | `lexemes` | lema, estado (`new`, `learning`, `known`, `ignored`), traducción elegida, notas, `updatedAt` |
@@ -152,7 +205,7 @@ Todo se guarda en IndexedDB (Dexie). El diccionario base es de solo lectura y se
 | `settings` | URL del traductor externo, tema, tamaño de letra |
 | `activity` | un registro por día con consultas y repasos (racha, PRO-1) |
 
-**Backup.** «Exportar» genera `elliniko-backup-AAAA-MM-DD.json` con todo menos el diccionario base y, opcionalmente, sin los libros. «Importar» fusiona registro a registro y gana el `updatedAt` más reciente. Para pasar del móvil a la tablet basta con dejar el archivo en iCloud o Drive.
+**Backup.** «Exportar» genera `elliniko-backup-AAAA-MM-DD.json` (`elliniko-es-backup-…` para español) con todo menos el diccionario base y, opcionalmente, sin los libros. Lleva `lang`; importarlo en el otro idioma da error (IDI-3). «Importar» fusiona registro a registro y gana el `updatedAt` más reciente. Para pasar del móvil a la tablet basta con dejar el archivo en iCloud o Drive.
 
 ## Fuentes de textos
 
@@ -175,18 +228,19 @@ Se usan textos libres de derechos en la UE (autor fallecido hace más de 70 año
 
 ### Catálogo incluido (IMP-5, IMP-6)
 
-`npm run build:catalog` genera `public/catalog/catalog.json` y un `books/<id>.json.gz` por libro (un `RawBook` como el de `epub.ts`: título, autor y capítulos con párrafos, en la ortografía original; la app lo pasa a monotónico al importarlo).
+`npm run build:catalog [-- --lang=es]` genera `public/catalog/<lang>/catalog.json` y un `books/<id>.json.gz` por libro (un `RawBook` como el de `epub.ts`: título, autor y capítulos con párrafos, en la ortografía original; la app lo pasa a monotónico al importarlo).
 
-- **Selección:** la lista curada está en `scripts/catalog/books.json`. Sólo entran obras con autor **y** traductor fallecidos hace más de 80 años, lo más estricto entre la UE (vida + 70) y España (vida + 80 para autores fallecidos antes de 1987). El script lo comprueba y falla si no se cumple.
+- **Selección:** la lista curada está en `scripts/catalog/books.json` (griego) y `scripts/catalog/books.es.json` (español, IMP-7; Gutenberg y es.wikisource). Sólo entran obras con autor **y** traductor fallecidos hace más de 80 años, lo más estricto entre la UE (vida + 70) y España (vida + 80 para autores fallecidos antes de 1987). El script lo comprueba y falla si no se cumple.
 - **Fuentes fijadas:** el revid de cada página de Wikisource y el sha256 de cada EPUB de Gutenberg quedan en `scripts/catalog/lock.json`. `--update` acepta versiones nuevas. De los EPUB de Gutenberg se quitan la cabecera y la licencia.
 - **Nivel:** sin IA, con tres medidas:
   - el porcentaje de palabras del texto fuera de los 3000 lemas más frecuentes (FrequencyWords agrupado por lema; los nombres propios no cuentan);
   - la longitud media de frase;
-  - el peso de marcadores de katharévousa (εις, ήτο, ουχί…).
+  - el peso de marcadores del registro antiguo: katharévousa en griego (εις, ήτο, ουχί…), español clásico en español (agora, vuesa, dixo, -ades/-edes…).
 
-  Con ellas se calcula una puntuación, y unos cortes fijos en `scripts/catalog/level.ts` la convierten en A2, B1, B2 o C1. Los cortes no son cuantiles, para que el nivel de un libro no cambie al añadir otros. Es una estimación orientativa.
+  Con ellas se calcula una puntuación, y unos cortes fijos por idioma en `scripts/catalog/level.ts` la convierten en A2, B1, B2 o C1. Los cortes no son cuantiles, para que el nivel de un libro no cambie al añadir otros. Es una estimación orientativa.
+- **Español (IMP-7):** 60 libros (A2 13, B1 14, B2 14, C1 19; 7,9 MB). Como marcador del registro antiguo cuenta, además de arcaísmos (agora, vuesa, dél, desta…), el pronombre pegado a un verbo conjugado («díjole», «hízolo»), propio del español clásico. Aun así, la frecuencia del vocabulario no capta la lengua del Siglo de Oro, así que las obras anteriores a 1700 llevan `"classic": true` en `books.es.json` y quedan como C1 y «español clásico». Los cortes del español son otros (13,5 / 15,6 / 18), porque su escala sale más compacta. Si gutenberg.org está en mantenimiento, el script usa su mirror oficial `gutenberg.pglaf.org`.
 - **App:** la pantalla «Catálogo» (`#/catalogo`) filtra por nivel. «Añadir» descarga el libro y lo importa como cualquier otro, guardando `book.catalogId`. Los libros no se precachean, así que la instalación sigue ligera, pero una vez añadidos funcionan offline.
-- **Limitación conocida:** en dominio público casi no hay lecturas graduadas modernas. El nivel A2 se apoya en literatura infantil y cuentos, y lo traducido de clásicos extranjeros suele estar en katharévousa o en verso.
+- **Limitación conocida:** en dominio público casi no hay lecturas graduadas modernas (tampoco en español: el A2 lo forman cuentos infantiles y novelas de prosa sencilla como *Niebla* o *Marianela*). El nivel A2 se apoya en literatura infantil y cuentos, y lo traducido de clásicos extranjeros suele estar en katharévousa o en verso.
 
 La app debe mostrar en la biblioteca la **cobertura** de cada libro: un libro es cómodo a partir de \~95 % de palabras conocidas y aprovechable desde \~85 % con ayuda de la app.
 

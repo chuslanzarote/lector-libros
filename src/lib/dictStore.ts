@@ -1,8 +1,17 @@
 // SYS-1 / DIC-2 — Diccionario en IndexedDB: carga inicial y DictSource para lookup().
 import type { ElliDB } from '../db.ts';
-import type { DictJson, DictSource, FormRow, LemmaRecord } from './lookup.ts';
+import { DICT_FORMAT, labelsFor, type DictJson, type DictSource, type FormRow, type LemmaRecord } from './lookup.ts';
+import type { Lang, TargetLang } from './langs.ts';
 
-export interface DictMeta { version: string; tags: string[]; loadedAt: number; counts: Record<string, number> }
+export interface DictMeta {
+  version: string;
+  format: number;
+  lang: TargetLang;
+  glosses: Lang[];
+  labels: DictJson['labels'];
+  loadedAt: number;
+  counts: Record<string, number>;
+}
 
 /** Descomprime si viene en gzip (GitHub Pages lo sirve tal cual; algunos servidores ya lo descomprimen). */
 export async function readDictResponse(res: Response): Promise<DictJson> {
@@ -19,6 +28,7 @@ export async function readDictResponse(res: Response): Promise<DictJson> {
 
 /** Vuelca el diccionario a IndexedDB por lotes, informando del progreso (0–1). */
 export async function installDict(database: ElliDB, dict: DictJson, onProgress?: (p: number) => void) {
+  if (dict.format !== DICT_FORMAT) throw new Error(`Formato de diccionario ${dict.format ?? 1} no compatible (se esperaba ${DICT_FORMAT})`);
   const CHUNK = 5000;
   const forms = Object.entries(dict.forms);
   const na = Object.entries(dict.noAccent);
@@ -49,7 +59,10 @@ export async function installDict(database: ElliDB, dict: DictJson, onProgress?:
   // meta al final: sólo existe si el volcado terminó entero
   const meta: DictMeta = {
     version: dict.version,
-    tags: dict.tags,
+    format: dict.format,
+    lang: dict.lang,
+    glosses: dict.glosses,
+    labels: dict.labels,
     loadedAt: Date.now(),
     counts: { forms: forms.length, noAccent: na.length, lemmas: lemmas.length },
   };
@@ -57,15 +70,19 @@ export async function installDict(database: ElliDB, dict: DictJson, onProgress?:
   return meta;
 }
 
+/** Diccionario instalado, si es del formato actual (uno antiguo se reinstala). */
 export async function getDictMeta(database: ElliDB): Promise<DictMeta | undefined> {
-  return (await database.meta.get('dict'))?.value as DictMeta | undefined;
+  const m = (await database.meta.get('dict'))?.value as DictMeta | undefined;
+  return m && m.format === DICT_FORMAT ? m : undefined;
 }
 
 /** DictSource sobre IndexedDB, con una caché pequeña en memoria. */
-export function idbSource(database: ElliDB, meta: DictMeta): DictSource & { prefetch(keys: string[]): Promise<Map<string, FormRow[]>> } {
+export function idbSource(database: ElliDB, meta: DictMeta, ui: Lang): DictSource & { prefetch(keys: string[]): Promise<Map<string, FormRow[]>> } {
+  const labels = labelsFor(meta, ui);
   const formCache = new Map<string, FormRow[] | undefined>();
   const lemmaCache = new Map<string, LemmaRecord | undefined>();
   return {
+    lang: meta.lang,
     async form(k) {
       if (formCache.has(k)) return formCache.get(k);
       const r = (await database.dictForms.get(k))?.r;
@@ -86,7 +103,7 @@ export function idbSource(database: ElliDB, meta: DictMeta): DictSource & { pref
       lemmaCache.set(l, rec);
       return rec;
     },
-    tag: (id) => meta.tags[id] ?? '',
+    tag: (id) => labels[id] ?? '',
     /** Carga de golpe las formas de un capítulo para colorear sin esperar */
     async prefetch(keys) {
       const missing = keys.filter((k) => !formCache.has(k));

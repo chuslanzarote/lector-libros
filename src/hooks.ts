@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'preact/hooks';
 import { liveQuery } from 'dexie';
 import { db } from './db.ts';
-import { TRANSLATORS } from './lib/platform.ts';
+import { translators } from './lib/platform.ts';
+import { profile } from './profile.ts';
 
 /** Consulta reactiva de Dexie: se actualiza sola cuando cambian las tablas implicadas. */
 export function useLive<T>(fn: () => Promise<T> | T, deps: unknown[] = []): T | undefined {
@@ -48,7 +49,7 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'auto',
   fontSize: 20,
   lineHeight: 1.65,
-  translatorUrl: TRANSLATORS.google,
+  translatorUrl: translators(profile).google,
   showOriginal: false,
   colorNew: true,
   autoSpeak: false,

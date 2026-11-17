@@ -6,8 +6,11 @@ import { previewIntervals, reviewCard, type Grade } from '../lib/srs.ts';
 import { setState } from '../lib/vocab.ts';
 import { speak, ttsAvailable } from '../lib/platform.ts';
 import { IconSpeaker } from '../components/icons.tsx';
+import { LANG_BADGE } from '../lib/langs.ts';
+import { profile } from '../profile.ts';
+import { fmtDate, t, tt, uiLang, type MsgKey } from '../i18n/index.ts';
 
-const GRADES: [Grade, string][] = [[1, 'Otra vez'], [2, 'Difícil'], [3, 'Bien'], [4, 'Fácil']];
+const GRADES: [Grade, MsgKey][] = [[1, 'review.again'], [2, 'review.hard'], [3, 'review.good'], [4, 'review.easy']];
 const SESSION_MAX = 50;
 
 function highlight(sentence: string, form?: string) {
@@ -38,7 +41,7 @@ export function Review() {
     setIntervals(null);
     if (!card) return;
     db.lexemes.get(card.lemma).then(setLex);
-    previewIntervals(card).then(setIntervals);
+    previewIntervals(card, new Date(), uiLang()).then(setIntervals);
   }, [card?.id, card?.updatedAt]);
 
   useEffect(() => {
@@ -72,47 +75,47 @@ export function Review() {
   return (
     <>
       <header class="topbar">
-        <h1>Repaso</h1>
-        {queue && <span class="muted small">{done} hechas · {queue.length} pendientes</span>}
+        <h1>{t('tab.review')}</h1>
+        {queue && <span class="muted small">{t('review.counter', { done, left: queue.length })}</span>}
       </header>
       <main>
-        {queue === null && <p class="muted">Cargando…</p>}
+        {queue === null && <p class="muted">{t('loading')}</p>}
         {queue && !card && (
           <div class="empty">
-            <div class="big">Μπράβο!</div>
-            <p>{done ? `Has repasado ${done} tarjetas.` : 'No tienes tarjetas pendientes.'}</p>
+            <div class="big">{tt('review.bravo')}</div>
+            <p>{done ? t('review.reviewed', { n: done }) : t('review.none')}</p>
             <p class="muted small">
-              {total ? `${total} tarjetas en total.` : 'Las palabras que consultes al leer se convierten en tarjetas.'}
-              {next && next.dueAt > Date.now() && ` La próxima vence ${new Date(next.dueAt).toLocaleString('es', { weekday: 'short', hour: '2-digit', minute: '2-digit' })}.`}
+              {total ? t('review.total', { n: total }) : t('review.howTo')}
+              {next && next.dueAt > Date.now() && t('review.nextDue', { when: fmtDate(next.dueAt, { weekday: 'short', hour: '2-digit', minute: '2-digit' }) })}
             </p>
           </div>
         )}
         {card && (
           <div class="card review-card">
             {card.sentence || lex?.sourceSentence ? (
-              <p class="ctx" lang="el">{highlight(card.sentence ?? lex!.sourceSentence!, lex?.sourceForm)}</p>
+              <p class="ctx" lang={profile.target}>{highlight(card.sentence ?? lex!.sourceSentence!, lex?.sourceForm)}</p>
             ) : null}
-            <div class="lemma" lang="el">{card.lemma}</div>
+            <div class="lemma" lang={profile.target}>{card.lemma}</div>
             {ttsAvailable() && (
-              <button class="btn small ghost" onClick={() => speak(card.sentence ?? card.lemma)}><IconSpeaker width={16} /> Escuchar</button>
+              <button class="btn small ghost" onClick={() => speak(card.sentence ?? card.lemma, profile.target)}><IconSpeaker width={16} /> {t('review.listen')}</button>
             )}
             {shown ? (
               <>
-                <div class="answer">{lex?.translation ?? <span class="muted">sin traducción</span>}{lex?.translationLang === 'en' && <> <span class="lang">EN</span></>}</div>
+                <div class="answer">{lex?.translation ?? <span class="muted">{t('review.noTranslation')}</span>}{lex?.translationLang && lex.translationLang !== 'user' && lex.translationLang !== profile.ui && <> <span class="lang">{LANG_BADGE[lex.translationLang]}</span></>}</div>
                 {lex?.notes && <div class="small muted"><i>{lex.notes}</i></div>}
                 <div class="grades">
                   {GRADES.map(([g, label]) => (
                     <button key={g} class={`btn ${g === 3 ? 'primary' : ''}`} onClick={() => grade(g)}>
-                      {label}
+                      {t(label)}
                       <small style={g === 3 ? { color: 'inherit', opacity: 0.8 } : undefined}>{intervals?.[g] ?? ''}</small>
                     </button>
                   ))}
                 </div>
-                <button class="btn small ghost" style={{ marginTop: 12 }} onClick={markKnown}>Ya la sé: marcar como conocida</button>
+                <button class="btn small ghost" style={{ marginTop: 12 }} onClick={markKnown}>{t('review.knowIt')}</button>
               </>
             ) : (
               <div style={{ marginTop: 20 }}>
-                <button class="btn primary" onClick={() => setShown(true)}>Mostrar traducción</button>
+                <button class="btn primary" onClick={() => setShown(true)}>{t('review.show')}</button>
               </div>
             )}
           </div>

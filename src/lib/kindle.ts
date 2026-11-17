@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import { tokenize } from './text.ts';
 import { formKey } from './normalize.ts';
 import type { Sentence } from './text.ts';
+import type { Lang, TargetLang } from './langs.ts';
 
 export interface Gloss { lemma: string; translation: string }
 
@@ -15,11 +16,17 @@ export interface KindleInput {
   sentences: Sentence[];
   /** clave de forma → glosa; sólo las palabras que deben glosarse */
   glossFor: (formKey: string) => Gloss | undefined;
+  /** idioma del libro y de las glosas (IDI-4); por defecto, griego con glosas en español */
+  lang?: TargetLang;
+  glossLang?: Lang;
+  /** título del glosario en el idioma del usuario */
+  glossaryTitle?: string;
 }
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 export function chapterXhtml(input: KindleInput): { xhtml: string; glossary: Gloss[] } {
+  const lang = input.lang ?? 'el';
   const seen = new Set<string>();
   const glossary: Gloss[] = [];
   const paras: string[][] = [];
@@ -39,11 +46,11 @@ export function chapterXhtml(input: KindleInput): { xhtml: string; glossary: Glo
   }
   const body = paras.map((p) => `<p>${p.join(' ')}</p>`).join('\n');
   const gl = glossary.length
-    ? `<h2>Glosario</h2>\n<dl>\n${glossary.map((g) => `<dt lang="el">${esc(g.lemma)}</dt><dd lang="es">${esc(g.translation)}</dd>`).join('\n')}\n</dl>`
+    ? `<h2>${esc(input.glossaryTitle ?? 'Glosario')}</h2>\n<dl>\n${glossary.map((g) => `<dt lang="${lang}">${esc(g.lemma)}</dt><dd lang="${input.glossLang ?? 'es'}">${esc(g.translation)}</dd>`).join('\n')}\n</dl>`
     : '';
   const xhtml = `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="el" lang="el">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${lang}" lang="${lang}">
 <head><meta charset="utf-8"/><title>${esc(input.chapterTitle)}</title><link rel="stylesheet" type="text/css" href="style.css"/></head>
 <body>
 <h1>${esc(input.chapterTitle)}</h1>
@@ -57,6 +64,7 @@ ${gl}
 /** Bytes del EPUB (el llamador lo envuelve en Blob con tipo application/epub+zip). */
 export async function buildKindleEpub(input: KindleInput): Promise<Uint8Array> {
   const { xhtml } = chapterXhtml(input);
+  const lang = input.lang ?? 'el';
   const id = `urn:uuid:${globalThis.crypto?.randomUUID?.() ?? Date.now()}`;
   const title = `${input.bookTitle} — ${input.chapterTitle}`;
   const modified = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
@@ -73,11 +81,11 @@ export async function buildKindleEpub(input: KindleInput): Promise<Uint8Array> {
   zip.file(
     'OEBPS/content.opf',
     `<?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="bookid" xml:lang="el">
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="bookid" xml:lang="${lang}">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
     <dc:identifier id="bookid">${esc(id)}</dc:identifier>
     <dc:title>${esc(title)}</dc:title>
-    <dc:language>el</dc:language>
+    <dc:language>${lang}</dc:language>
     ${input.author ? `<dc:creator>${esc(input.author)}</dc:creator>` : ''}
     <meta property="dcterms:modified">${modified}</meta>
   </metadata>
@@ -93,7 +101,7 @@ export async function buildKindleEpub(input: KindleInput): Promise<Uint8Array> {
     'OEBPS/nav.xhtml',
     `<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="el" lang="el">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="${lang}" lang="${lang}">
 <head><meta charset="utf-8"/><title>${esc(title)}</title></head>
 <body><nav epub:type="toc" id="toc"><ol><li><a href="chapter.xhtml">${esc(input.chapterTitle)}</a></li></ol></nav></body>
 </html>`,

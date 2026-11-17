@@ -1,19 +1,30 @@
-// DIC-2 / DIC-3 — Búsqueda forma → lema(s) + análisis + acepciones.
+// DIC-2 / DIC-3 / DIC-7 / DIC-8 — Búsqueda forma → lema(s) + análisis + acepciones.
 import { formKey, noAccentKey } from './normalize.ts';
+import type { Lang, TargetLang } from './langs.ts';
 
+/** Entrada de un lema: categoría (id de etiqueta) y acepciones por idioma. */
 export interface LemmaRecord {
-  pos?: string;
+  p?: number;
   es?: string[];
   en?: string[];
+  el?: string[];
 }
 
 /** Fila del índice `forms`: [lema, idEtiqueta, idEtiqueta...] */
 export type FormRow = [string, ...number[]];
 
-/** Formato de public/dict/dict.json.gz (ver docs/PRD.md, «El diccionario»). */
+export const DICT_FORMAT = 2;
+
+/** Formato de public/dict/<lang>/dict.json.gz (ver docs/PRD.md, «El diccionario»). */
 export interface DictJson {
+  format: number;
+  /** idioma de las entradas */
+  lang: TargetLang;
+  /** idiomas de las acepciones */
+  glosses: Lang[];
   version: string;
-  tags: string[];
+  /** etiquetas (análisis y categorías) traducidas a cada idioma de interfaz; id 0 = forma de diccionario */
+  labels: Partial<Record<Lang, string[]>>;
   lemmas: Record<string, LemmaRecord>;
   forms: Record<string, FormRow[]>;
   noAccent: Record<string, string[]>;
@@ -21,22 +32,28 @@ export interface DictJson {
 
 /** Acceso al diccionario; síncrono en tests y en build, asíncrono (IndexedDB) en la app. */
 export interface DictSource {
+  lang: TargetLang;
   form(key: string): Promise<FormRow[] | undefined> | FormRow[] | undefined;
   noAccent(key: string): Promise<string[] | undefined> | string[] | undefined;
   lemma(lemma: string): Promise<LemmaRecord | undefined> | LemmaRecord | undefined;
+  /** etiqueta en el idioma de la interfaz */
   tag(id: number): string;
 }
+
+export type Gloss = Partial<Record<Lang, string[]>>;
 
 export interface Candidate {
   lemma: string;
   analyses: string[];
   pos?: string;
-  es: string[];
-  en: string[];
+  /** acepciones por idioma */
+  gloss: Gloss;
   /** traducción propia del usuario (DIC-5), si la hay */
   user?: string;
-  /** cómo se encontró: forma exacta, sin acentos o elisión */
-  via: 'exact' | 'noAccent' | 'elision' | 'variant' | 'lemma';
+  /** cómo se encontró */
+  via: 'exact' | 'noAccent' | 'elision' | 'variant' | 'clitic' | 'lemma';
+  /** pronombres enclíticos separados (DIC-7: «dámelo» → me, lo) */
+  clitics?: string[];
 }
 
 export interface LookupResult {
@@ -44,15 +61,23 @@ export interface LookupResult {
   candidates: Candidate[];
 }
 
-export function sourceFromJson(d: DictJson): DictSource {
+/** Idioma de interfaz con etiquetas en el diccionario: el pedido o, si no está, el primero. */
+export function labelsFor(d: Pick<DictJson, 'labels'>, ui: Lang): string[] {
+  return d.labels[ui] ?? Object.values(d.labels)[0] ?? [];
+}
+
+export function sourceFromJson(d: DictJson, ui: Lang = d.lang === 'el' ? 'es' : 'el'): DictSource {
+  const labels = labelsFor(d, ui);
   return {
+    lang: d.lang,
     form: (k) => d.forms[k],
     noAccent: (k) => d.noAccent[k],
     lemma: (l) => d.lemmas[l],
-    tag: (id) => d.tags[id] ?? '',
+    tag: (id) => labels[id] ?? '',
   };
 }
 
+// ---------------------------------------------------------------- griego
 // Elisiones frecuentes cuando el diccionario no trae la forma con apóstrofo
 const ELISIONS: Record<string, string[]> = {
   'σ’': ['σε'], 'μ’': ['με'], 'τ’': ['το', 'τα'], 'θ’': ['θα'], 'ν’': ['να'],
@@ -89,20 +114,67 @@ export function orthographicVariants(key: string): string[] {
   return [...new Set(out)].filter((v) => v !== key);
 }
 
-async function rowsFor(key: string, src: DictSource): Promise<{ rows: FormRow[]; via: Candidate['via'] }> {
+// ---------------------------------------------------------------- español
+const CLITICS = ['nos', 'os', 'me', 'te', 'se', 'lo', 'la', 'le', 'los', 'las', 'les'];
+const CLITIC_RE = new RegExp(`(${CLITICS.join('|')})$`);
+
+/**
+ * DIC-7: separa hasta dos pronombres enclíticos de verbos españoles.
+ * «dámelo» → dáme + lo → dá + me → (sin tilde) da; «vámonos» → vamos; «sentaos» → sentad.
+ * Devuelve las bases candidatas (sin y con tilde) con los pronombres separados.
+ */
+export function encliticSplits(key: string): { base: string; clitics: string[] }[] {
+  const out: { base: string; clitics: string[] }[] = [];
+  const walk = (stem: string, clitics: string[]) => {
+    if (clitics.length >= 2) return;
+    const m = stem.match(CLITIC_RE);
+    if (!m) return;
+    const base = stem.slice(0, -m[1].length);
+    if (base.length < 2 || !/[aeiouáéíóúr]$/.test(base)) return; // sólo tras vocal o -r (infinitivo)
+    const cl = [m[1], ...clitics];
+    const bases = [base];
+    if (m[1] === 'nos' && /[aeiouáéíóú]$/.test(base)) bases.push(base + 's'); // vámonos → vamos
+    if (m[1] === 'os' && /[aei]$/.test(base)) bases.push(base + 'd'); // sentaos → sentad
+    for (const b of bases) out.push({ base: b, clitics: cl });
+    walk(base, cl);
+  };
+  walk(key, []);
+  return out;
+}
+
+// ---------------------------------------------------------------- búsqueda
+interface Rows { rows: FormRow[]; via: Candidate['via']; clitics?: string[] }
+
+async function exactOrNoAccent(key: string, src: DictSource): Promise<Rows | null> {
   const exact = await src.form(key);
   if (exact?.length) return { rows: exact, via: 'exact' };
-
   const na = noAccentKey(key);
   const alt = (await src.noAccent(na)) ?? [];
   const rows: FormRow[] = [];
   // la propia clave sin acentos también puede ser una forma
-  for (const k of [na, ...alt]) {
+  for (const k of [...new Set([na, ...alt])]) {
+    if (k === key) continue;
     const r = await src.form(k);
     if (r) rows.push(...r);
   }
-  if (rows.length) return { rows, via: 'noAccent' };
+  return rows.length ? { rows, via: 'noAccent' } : null;
+}
 
+async function rowsFor(key: string, src: DictSource): Promise<Rows> {
+  const direct = await exactOrNoAccent(key, src);
+  if (direct) return direct;
+
+  if (src.lang === 'es') {
+    for (const { base, clitics } of encliticSplits(key)) {
+      const r = await exactOrNoAccent(base, src);
+      // sólo cuentan las bases que son formas de un verbo (lema en -ar/-er/-ir, o -se)
+      const verbs = r?.rows.filter(([l]) => /(?:ar|er|ir|ír)(?:se)?$/.test(l));
+      if (verbs?.length) return { rows: verbs, via: 'clitic', clitics };
+    }
+    return { rows: [], via: 'exact' };
+  }
+
+  const rows: FormRow[] = [];
   if (key.endsWith('’')) {
     const opts = ELISIONS[key] ?? [key.slice(0, -1), key.slice(0, -1) + 'ο', key.slice(0, -1) + 'α', key.slice(0, -1) + 'ε'];
     for (const o of opts) {
@@ -122,10 +194,16 @@ async function rowsFor(key: string, src: DictSource): Promise<{ rows: FormRow[];
   return { rows: [], via: 'exact' };
 }
 
+function glossOf(rec: LemmaRecord): Gloss {
+  const g: Gloss = {};
+  for (const l of ['es', 'en', 'el'] as Lang[]) if (rec[l]?.length) g[l] = rec[l];
+  return g;
+}
+
 /** Busca un token del texto. Devuelve los lemas posibles ordenados por probabilidad. */
-export async function lookup(token: string, src: DictSource, userDict?: (lemma: string) => string | undefined): Promise<LookupResult> {
+export async function lookup(token: string, src: DictSource): Promise<LookupResult> {
   const key = formKey(token);
-  const { rows, via } = await rowsFor(key, src);
+  const { rows, via, clitics } = await rowsFor(key, src);
 
   // Fusionar filas del mismo lema (pueden venir de varias claves sin acentos)
   const merged = new Map<string, Set<number>>();
@@ -141,26 +219,31 @@ export async function lookup(token: string, src: DictSource, userDict?: (lemma: 
     if (direct) merged.set(token.normalize('NFC'), new Set([0]));
   }
 
+  // Una palabra en minúscula no es un nombre propio: fuera «Casas» para «casas» si hay lemas comunes
+  const lower = (s: string) => s === s.toLowerCase();
+  if (lower(token) && [...merged.keys()].some(lower)) for (const l of [...merged.keys()]) if (!lower(l)) merged.delete(l);
+
   const candidates: Candidate[] = [];
   for (const [lemma, tags] of merged) {
     const rec = (await src.lemma(lemma)) ?? {};
     candidates.push({
       lemma,
-      analyses: [...tags].map((t) => src.tag(t)).filter(Boolean),
-      pos: rec.pos,
-      es: rec.es ?? [],
-      en: rec.en ?? [],
-      user: userDict?.(lemma),
+      analyses: [...tags].filter((t) => !(clitics && t === 0)).map((t) => src.tag(t)).filter(Boolean),
+      pos: rec.p !== undefined ? src.tag(rec.p) || undefined : undefined,
+      gloss: glossOf(rec),
       via: merged.size && rows.length ? via : 'lemma',
+      ...(clitics ? { clitics } : {}),
     });
   }
   return { key, candidates };
 }
 
-/** Prioridad de traducciones (DIC-3, DIC-5): personal → español → inglés (marcado EN). */
-export function bestTranslation(c: Pick<Candidate, 'user' | 'es' | 'en'>): { text: string; lang: 'user' | 'es' | 'en' } | undefined {
+/** DIC-3 / DIC-5 / DIC-8: personal → idiomas en el orden pedido (el primero, el del usuario). */
+export function bestTranslation(c: Pick<Candidate, 'user' | 'gloss'>, order: Lang[]): { text: string; lang: Lang | 'user' } | undefined {
   if (c.user) return { text: c.user, lang: 'user' };
-  if (c.es.length) return { text: c.es[0], lang: 'es' };
-  if (c.en.length) return { text: c.en[0], lang: 'en' };
+  for (const l of order) {
+    const g = c.gloss[l];
+    if (g?.length) return { text: g[0], lang: l };
+  }
   return undefined;
 }

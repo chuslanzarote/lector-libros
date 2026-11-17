@@ -5,12 +5,15 @@ import { db, type Chapter, type WordState } from '../db.ts';
 import { go, toast, useLive, useSettings } from '../hooks.ts';
 import { source } from '../dict.ts';
 import { tokenize, type Sentence } from '../lib/text.ts';
-import { formKey, isGreek } from '../lib/normalize.ts';
+import { formKey } from '../lib/normalize.ts';
 import { countForms, resolveLemmas } from '../lib/importer.ts';
 import { markChapterRead, saveLookup, setUserTranslation } from '../lib/vocab.ts';
 import { openExternal, shareOrDownload, translatorUrl } from '../lib/platform.ts';
 import { buildKindleEpub, type Gloss } from '../lib/kindle.ts';
 import { bestTranslation } from '../lib/lookup.ts';
+import { glossOrder, isTargetWord, type Lang } from '../lib/langs.ts';
+import { profile } from '../profile.ts';
+import { t, tt } from '../i18n/index.ts';
 import { WordCard } from '../components/WordCard.tsx';
 import { useLexemeStates } from './Library.tsx';
 import { IconBack, IconBracket, IconCheck, IconKindle, IconMinus, IconMoon, IconMore, IconPlus, IconToc } from '../components/icons.tsx';
@@ -55,7 +58,7 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
   useEffect(() => {
     if (!chapter || !choicesRows) return;
     let alive = true;
-    const keys = [...countForms(chapter.sentences).keys()];
+    const keys = [...countForms(chapter.sentences, profile.target).keys()];
     const choices = new Map(choicesRows.map((c) => [c.form, c.lemma]));
     resolveLemmas(keys, source(), choices).then((m) => alive && setLemmaOf(m));
     return () => { alive = false; };
@@ -149,41 +152,54 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
     const s = chapter.sentences.find((x) => x.id === selected[0].sid)!;
     const toks = tokenize(s.text);
     const first = selected[0].ti, last = selected[selected.length - 1].ti;
-    return toks.slice(first, last + 1).map((t) => t.t).join('').trim();
+    return toks.slice(first, last + 1).map((tk) => tk.t).join('').trim();
   }, [selected, chapter?.id]);
 
   // ------------------------------------------------------------ acciones del menú
   const doMarkRead = async (andNext: boolean) => {
     if (!chapter) return;
     const n = await markChapterRead(db, chapter, source());
-    toast(n ? `${n} palabras nuevas pasan a conocidas` : 'Capítulo marcado como leído');
+    toast(n ? t('reader.markedKnown', { n }) : t('reader.markedRead'));
     if (andNext && book && chapter.index < book.chapterCount - 1) goChapter(chapter.index + 1);
   };
 
   const exportKindle = async () => {
     if (!chapter || !book) return;
     setMenu(false);
-    toast('Preparando EPUB…');
-    const keys = [...countForms(chapter.sentences).keys()];
+    toast(t('reader.preparingEpub'));
+    const keys = [...countForms(chapter.sentences, profile.target).keys()];
     const lemmas = [...new Set(keys.map((k) => lemmaOf.get(k) || k))];
     const [lexs, recs, user] = await Promise.all([db.lexemes.bulkGet(lemmas), db.dictLemmas.bulkGet(lemmas), db.userDict.bulkGet(lemmas)]);
+    const order = glossOrder(profile);
     const glossByLemma = new Map<string, Gloss>();
+    // Idioma de las glosas: el más frecuente (las traducciones propias cuentan como del usuario)
+    const langCount = new Map<Lang, number>();
     lemmas.forEach((l, i) => {
       const st = lexs[i]?.state ?? 'new';
       if (st !== 'new' && st !== 'learning') return;
-      const tr = lexs[i]?.translation ?? bestTranslation({ user: user[i]?.translation, es: recs[i]?.es ?? [], en: recs[i]?.en ?? [] })?.text;
-      if (tr) glossByLemma.set(l, { lemma: l, translation: shortGloss(tr) });
+      const lx = lexs[i];
+      const best = lx?.translation
+        ? { text: lx.translation, lang: lx.translationLang ?? 'user' }
+        : bestTranslation({ user: user[i]?.translation, gloss: { es: recs[i]?.es, en: recs[i]?.en, el: recs[i]?.el } }, order);
+      if (!best) return;
+      glossByLemma.set(l, { lemma: l, translation: shortGloss(best.text) });
+      const gl: Lang = best.lang === 'user' ? profile.ui : best.lang;
+      langCount.set(gl, (langCount.get(gl) ?? 0) + 1);
     });
+    const glossLang = [...langCount].sort((a, b) => b[1] - a[1])[0]?.[0] ?? order[0] ?? profile.ui;
     const bytes = await buildKindleEpub({
       bookTitle: book.title,
       author: book.author,
       chapterTitle: chapter.title,
       sentences: chapter.sentences,
       glossFor: (k) => glossByLemma.get(lemmaOf.get(k) || k),
+      lang: profile.target,
+      glossLang,
+      glossaryTitle: t('reader.glossary'),
     });
     const name = `${book.title} - ${chapter.index + 1}`.replace(/[\\/:*?"<>|]+/g, '').slice(0, 80) + '.epub';
     await shareOrDownload(new Blob([bytes as BlobPart], { type: 'application/epub+zip' }), name, chapter.title);
-    toast('EPUB listo: envíalo con Send-to-Kindle (app o amazon.com/sendtokindle)', 5000);
+    toast(t('reader.epubReady'), 5000);
   };
 
   const goChapter = (i: number) => {
@@ -195,53 +211,53 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
     window.scrollTo(0, 0);
   };
 
-  if (book === undefined || chapters === undefined) return <main class="muted">Cargando…</main>;
-  if (!book) return <main><p>Libro no encontrado.</p><a href="#/">Volver</a></main>;
+  if (book === undefined || chapters === undefined) return <main class="muted">{t('loading')}</main>;
+  if (!book) return <main><p>{t('reader.notFound')}</p><a href="#/">{t('btn.back')}</a></main>;
 
   const fs = settings.fontSize;
   return (
     <>
       <div class="reader-progress" style={{ width: `${scrollPct * 100}%` }} />
       <header class="topbar">
-        <button class="icon-btn" aria-label="Biblioteca" onClick={() => go('/')}><IconBack /></button>
+        <button class="icon-btn" aria-label={t('reader.library')} onClick={() => go('/')}><IconBack /></button>
         <h1 class="small" title={book.title}>{chapter?.title ?? book.title}</h1>
-        <button class="icon-btn" aria-label="Capítulos" onClick={() => setToc(true)}><IconToc /></button>
-        <button class={`icon-btn ${exprMode ? 'on' : ''}`} aria-label="Seleccionar expresión" aria-pressed={exprMode} onClick={() => { setExprMode(!exprMode); setSelected([]); }}><IconBracket /></button>
-        <button class="icon-btn" aria-label="Más opciones" onClick={() => setMenu(!menu)}><IconMore /></button>
+        <button class="icon-btn" aria-label={t('reader.chapters')} onClick={() => setToc(true)}><IconToc /></button>
+        <button class={`icon-btn ${exprMode ? 'on' : ''}`} aria-label={t('reader.selectExpr')} aria-pressed={exprMode} onClick={() => { setExprMode(!exprMode); setSelected([]); }}><IconBracket /></button>
+        <button class="icon-btn" aria-label={t('reader.more')} onClick={() => setMenu(!menu)}><IconMore /></button>
         {menu && (
           <div class="menu" onClick={(e) => e.stopPropagation()}>
             <div class="row" style={{ padding: '6px 8px' }}>
-              <span class="small spacer">Tamaño</span>
-              <button class="icon-btn" aria-label="Letra más pequeña" onClick={() => setSetting('fontSize', Math.max(14, fs - 1))}><IconMinus /></button>
+              <span class="small spacer">{t('reader.size')}</span>
+              <button class="icon-btn" aria-label={t('reader.smaller')} onClick={() => setSetting('fontSize', Math.max(14, fs - 1))}><IconMinus /></button>
               <span class="small" style={{ width: 28, textAlign: 'center' }}>{fs}</span>
-              <button class="icon-btn" aria-label="Letra más grande" onClick={() => setSetting('fontSize', Math.min(34, fs + 1))}><IconPlus /></button>
+              <button class="icon-btn" aria-label={t('reader.bigger')} onClick={() => setSetting('fontSize', Math.min(34, fs + 1))}><IconPlus /></button>
             </div>
             <button onClick={() => setSetting('theme', document.documentElement.dataset.theme === 'dark' || (!document.documentElement.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) ? 'light' : 'dark')}>
-              <IconMoon width={18} /> Modo claro / oscuro
+              <IconMoon width={18} /> {t('reader.theme')}
             </button>
             <button onClick={() => setSetting('showOriginal', !settings.showOriginal)}>
-              <span style={{ width: 18 }}>{settings.showOriginal ? '✓' : ''}</span> Mostrar texto original
+              <span style={{ width: 18 }}>{settings.showOriginal ? '✓' : ''}</span> {t('reader.showOriginal')}
             </button>
             <button onClick={() => setSetting('colorNew', !settings.colorNew)}>
-              <span style={{ width: 18 }}>{settings.colorNew ? '✓' : ''}</span> Resaltar palabras nuevas
+              <span style={{ width: 18 }}>{settings.colorNew ? '✓' : ''}</span> {t('reader.colorNew')}
             </button>
             <hr />
-            <button onClick={() => { setMenu(false); doMarkRead(false); }}><IconCheck width={18} /> Marcar capítulo leído</button>
-            <button onClick={exportKindle}><IconKindle width={18} /> Enviar capítulo a Kindle (EPUB)</button>
+            <button onClick={() => { setMenu(false); doMarkRead(false); }}><IconCheck width={18} /> {t('reader.markRead')}</button>
+            <button onClick={exportKindle}><IconKindle width={18} /> {t('reader.kindle')}</button>
           </div>
         )}
       </header>
       <main onClick={() => menu && setMenu(false)}>
         <div class="legend" style={{ marginBottom: 12 }}>
-          <span><i class="w new">λέξη</i> nueva</span>
-          <span><i class="w learning">λέξη</i> aprendiendo</span>
-          <span class="muted">Toca una palabra · mantén pulsada una frase para traducirla</span>
+          <span><i class="w new" lang={profile.target}>{tt('reader.sample')}</i> {t('state.new')}</span>
+          <span><i class="w learning" lang={profile.target}>{tt('reader.sample')}</i> {t('state.learning')}</span>
+          <span class="muted">{t('reader.hint')}</span>
         </div>
         {chapter && (
           <div
             ref={textRef}
             class={`reader ${settings.colorNew ? '' : 'plain'}`}
-            lang="el"
+            lang={profile.target}
             style={{ '--reader-size': `${fs}px`, '--reader-line': String(settings.lineHeight) }}
             onPointerDown={onPointerDown as any}
             onPointerUp={() => cancelPress()}
@@ -260,14 +276,14 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
               showOriginal={settings.showOriginal}
             />
             <div class="ch-nav">
-              <button class="btn" disabled={chapter.index === 0} onClick={() => goChapter(chapter.index - 1)}>← Anterior</button>
+              <button class="btn" disabled={chapter.index === 0} onClick={() => goChapter(chapter.index - 1)}>{t('reader.prev')}</button>
               {chapter.index < book.chapterCount - 1 ? (
                 <>
-                  <button class="btn" onClick={() => doMarkRead(true)}><IconCheck width={18} /> Leído y siguiente</button>
-                  <button class="btn primary" onClick={() => goChapter(chapter.index + 1)}>Siguiente →</button>
+                  <button class="btn" onClick={() => doMarkRead(true)}><IconCheck width={18} /> {t('reader.readNext')}</button>
+                  <button class="btn primary" onClick={() => goChapter(chapter.index + 1)}>{t('reader.next')}</button>
                 </>
               ) : (
-                <button class="btn primary" onClick={() => doMarkRead(false)}><IconCheck width={18} /> Marcar leído</button>
+                <button class="btn primary" onClick={() => doMarkRead(false)}><IconCheck width={18} /> {t('reader.markReadShort')}</button>
               )}
             </div>
           </div>
@@ -276,9 +292,9 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
 
       {exprMode && (
         <div class="selbar">
-          <span class="expr" lang="el">{exprText || <span class="muted small">Toca las palabras de la expresión</span>}</span>
-          <button class="btn small" onClick={() => { setExprMode(false); setSelected([]); }}>Cancelar</button>
-          <button class="btn small primary" disabled={selected.length < 1} onClick={() => setExprDialog(true)}>Guardar</button>
+          <span class="expr" lang={profile.target}>{exprText || <span class="muted small">{t('reader.tapExprWords')}</span>}</span>
+          <button class="btn small" onClick={() => { setExprMode(false); setSelected([]); }}>{t('btn.cancel')}</button>
+          <button class="btn small primary" disabled={selected.length < 1} onClick={() => setExprDialog(true)}>{t('btn.save')}</button>
         </div>
       )}
 
@@ -301,19 +317,19 @@ export function Reader({ bookId, chapterParam }: { bookId: string; chapterParam?
           translator={settings.translatorUrl}
           onClose={(saved) => {
             setExprDialog(false);
-            if (saved) { setExprMode(false); setSelected([]); toast('Expresión guardada'); }
+            if (saved) { setExprMode(false); setSelected([]); toast(t('reader.exprSaved')); }
           }}
         />
       )}
 
       {toc && chapters && (
         <div class="dialog-backdrop" onClick={(e) => e.target === e.currentTarget && setToc(false)}>
-          <div class="dialog" role="dialog" aria-label="Capítulos">
-            <h2>Capítulos</h2>
+          <div class="dialog" role="dialog" aria-label={t('reader.chapters')}>
+            <h2>{t('reader.chapters')}</h2>
             {chapters.map((c) => (
               <button key={c.id} class={`btn ghost`} style={{ width: '100%', justifyContent: 'flex-start', fontWeight: c.index === chIdx ? 700 : 400 }} onClick={() => goChapter(c.index)}>
                 <span class="muted" style={{ width: 28 }}>{c.index + 1}</span>
-                <span lang="el" style={{ flex: 1, textAlign: 'left' }}>{c.title}</span>
+                <span lang={profile.target} style={{ flex: 1, textAlign: 'left' }}>{c.title}</span>
                 {c.readAt && <IconCheck width={16} />}
               </button>
             ))}
@@ -360,12 +376,12 @@ const ChapterText = memo(
             {p.map((s) => (
               <Fragment key={s.id}>
                 <span class="s" data-sid={s.id}>
-                  {tokenize(s.text).map((t, ti) => {
-                    if (!t.w) return t.t;
+                  {tokenize(s.text).map((tk, ti) => {
+                    if (!tk.w) return tk.t;
                     const id = `${s.id}:${ti}`;
-                    if (!isGreek(t.t)) return <span class="w nogreek">{t.t}</span>;
-                    const cls = `w ${stateOf(formKey(t.t))}${active === id ? ' active' : ''}${sel.has(id) ? ' sel' : ''}`;
-                    return <span class={cls} data-ti={ti}>{t.t}</span>;
+                    if (!isTargetWord(tk.t, profile.target)) return <span class="w nogreek">{tk.t}</span>;
+                    const cls = `w ${stateOf(formKey(tk.t))}${active === id ? ' active' : ''}${sel.has(id) ? ' sel' : ''}`;
+                    return <span class={cls} data-ti={ti}>{tk.t}</span>;
                   })}
                 </span>{' '}
                 {showOriginal && s.original !== s.text && <span class="original">{s.original}</span>}
@@ -391,16 +407,16 @@ function ExpressionDialog({ text, sentence, bookId, translator, onClose }: { tex
   };
   return (
     <div class="dialog-backdrop" onClick={(e) => e.target === e.currentTarget && onClose(false)}>
-      <div class="dialog" role="dialog" aria-label="Guardar expresión">
-        <h2>Guardar expresión</h2>
-        <label class="field"><span>Expresión</span><input type="text" lang="el" value={expr} onInput={(e) => setExpr(e.currentTarget.value)} /></label>
-        <label class="field"><span>Tu traducción</span><input type="text" value={tr} onInput={(e) => setTr(e.currentTarget.value)} onKeyDown={(e) => e.key === 'Enter' && save()} autoFocus /></label>
-        <p class="small muted" lang="el">{sentence.text}</p>
+      <div class="dialog" role="dialog" aria-label={t('reader.saveExpr')}>
+        <h2>{t('reader.saveExpr')}</h2>
+        <label class="field"><span>{t('reader.expr')}</span><input type="text" lang={profile.target} value={expr} onInput={(e) => setExpr(e.currentTarget.value)} /></label>
+        <label class="field"><span>{t('reader.yourTranslation')}</span><input type="text" value={tr} onInput={(e) => setTr(e.currentTarget.value)} onKeyDown={(e) => e.key === 'Enter' && save()} autoFocus /></label>
+        <p class="small muted" lang={profile.target}>{sentence.text}</p>
         <div class="row">
-          <button class="btn ghost" onClick={() => openExternal(translatorUrl(translator, expr))}>Consultar en traductor</button>
+          <button class="btn ghost" onClick={() => openExternal(translatorUrl(translator, expr))}>{t('reader.lookUp')}</button>
           <span class="spacer" />
-          <button class="btn ghost" onClick={() => onClose(false)}>Cancelar</button>
-          <button class="btn primary" disabled={!tr.trim()} onClick={save}>Guardar</button>
+          <button class="btn ghost" onClick={() => onClose(false)}>{t('btn.cancel')}</button>
+          <button class="btn primary" disabled={!tr.trim()} onClick={save}>{t('btn.save')}</button>
         </div>
       </div>
     </div>

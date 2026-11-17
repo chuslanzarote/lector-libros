@@ -10,7 +10,14 @@ import { Progress } from './screens/Progress.tsx';
 import { SettingsScreen } from './screens/Settings.tsx';
 import { Credits } from './screens/Credits.tsx';
 import { Catalog } from './screens/Catalog.tsx';
+import { Welcome } from './screens/Welcome.tsx';
+import { profile } from './profile.ts';
+import { TARGET_INFO } from './lib/langs.ts';
+import { t, type MsgKey } from './i18n/index.ts';
 import { IconBook, IconChart, IconList, IconRepeat, IconSettings } from './components/icons.tsx';
+
+/** Tamaño aproximado de cada diccionario comprimido, para el aviso de descarga */
+const DICT_MB = { el: 5, es: 7 } as const;
 
 type DictState =
   | { s: 'checking' }
@@ -51,6 +58,7 @@ export function App() {
     })();
   }, []);
 
+  if (route.name === 'idiomas') return <Welcome current={profile} />;
   if (dict.s !== 'ready') return <DictSplash state={dict} retry={install} />;
 
   let screen;
@@ -76,21 +84,21 @@ export function App() {
 
 function TabBar({ current }: { current: string }) {
   const due = useLive(() => db.cards.where('dueAt').belowOrEqual(Date.now()).count(), []);
-  const tabs = [
-    { href: '#/', name: '', label: 'Biblioteca', Icon: IconBook },
-    { href: '#/vocabulario', name: 'vocabulario', label: 'Vocabulario', Icon: IconList },
-    { href: '#/repaso', name: 'repaso', label: 'Repaso', Icon: IconRepeat, badge: due },
-    { href: '#/progreso', name: 'progreso', label: 'Progreso', Icon: IconChart },
-    { href: '#/ajustes', name: 'ajustes', label: 'Ajustes', Icon: IconSettings },
+  const tabs: { href: string; name: string; label: MsgKey; Icon: typeof IconBook; badge?: number }[] = [
+    { href: '#/', name: '', label: 'tab.library', Icon: IconBook },
+    { href: '#/vocabulario', name: 'vocabulario', label: 'tab.vocab', Icon: IconList },
+    { href: '#/repaso', name: 'repaso', label: 'tab.review', Icon: IconRepeat, badge: due },
+    { href: '#/progreso', name: 'progreso', label: 'tab.progress', Icon: IconChart },
+    { href: '#/ajustes', name: 'ajustes', label: 'tab.settings', Icon: IconSettings },
   ];
   return (
-    <nav class="tabbar" aria-label="Secciones">
-      {tabs.map((t) => (
-        <a key={t.name} href={t.href} class={current === t.name || (t.name === 'ajustes' && current === 'creditos') || (t.name === '' && current === 'catalogo') ? 'on' : ''}>
-          <t.Icon />
+    <nav class="tabbar" aria-label={t('tab.sections')}>
+      {tabs.map((tab) => (
+        <a key={tab.name} href={tab.href} class={current === tab.name || (tab.name === 'ajustes' && current === 'creditos') || (tab.name === '' && current === 'catalogo') ? 'on' : ''}>
+          <tab.Icon />
           <span>
-            {t.label}
-            {t.badge ? <span class="badge">{t.badge}</span> : null}
+            {t(tab.label)}
+            {tab.badge ? <span class="badge">{tab.badge}</span> : null}
           </span>
         </a>
       ))}
@@ -102,18 +110,18 @@ function DictSplash({ state, retry }: { state: DictState; retry: () => void }) {
   const pct = state.s === 'installing' ? Math.round(state.p * 100) : 0;
   const phase =
     state.s === 'installing'
-      ? state.phase === 'download' ? 'Descargando el diccionario (5 MB)…'
-      : state.phase === 'parse' ? 'Descomprimiendo…'
-      : `Instalando para uso sin conexión… ${pct} %`
-      : 'Abriendo…';
+      ? state.phase === 'download' ? t('splash.download', { mb: DICT_MB[profile.target] })
+      : state.phase === 'parse' ? t('splash.parse')
+      : t('splash.install', { pct })
+      : t('splash.opening');
   return (
     <div class="splash">
-      <div class="logo">Ελληνικό</div>
+      <div class="logo">{TARGET_INFO[profile.target].brand}</div>
       {state.s === 'error' ? (
         <>
-          <p>No se pudo instalar el diccionario: {state.message}</p>
-          <p class="muted small">Hace falta conexión sólo la primera vez.</p>
-          <button class="btn primary" onClick={retry}>Reintentar</button>
+          <p>{t('splash.error', { msg: state.message })}</p>
+          <p class="muted small">{t('splash.needsNet')}</p>
+          <button class="btn primary" onClick={retry}>{t('splash.retry')}</button>
         </>
       ) : (
         <>
@@ -123,7 +131,7 @@ function DictSplash({ state, retry }: { state: DictState; retry: () => void }) {
               <i style={{ width: `${state.phase === 'install' ? pct : 4}%` }} />
             </div>
           )}
-          {state.s === 'installing' && <p class="muted tiny">Sólo la primera vez. Después funciona sin conexión.</p>}
+          {state.s === 'installing' && <p class="muted tiny">{t('splash.firstTime')}</p>}
         </>
       )}
     </div>

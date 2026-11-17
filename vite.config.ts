@@ -11,9 +11,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['icons/*.png', 'icons/*.svg'],
       manifest: {
-        name: 'Ellinikó — lector de griego',
+        name: 'Ellinikó — lector de griego y español',
         short_name: 'Ellinikó',
-        description: 'Lector de griego moderno con traducción al tocar. Offline.',
+        description: 'Lector de griego moderno y de español con traducción al tocar. Offline.',
         lang: 'es',
         start_url: './',
         scope: './',
@@ -27,11 +27,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // El diccionario (5 MB) se guarda en IndexedDB al primer arranque; además lo
-        // precacheamos para poder reinstalarlo sin red tras borrar datos.
         globPatterns: ['**/*.{js,css,html,png,svg,webmanifest,json,gz}'],
-        // Los libros del catálogo (IMP-5) se descargan al añadirlos y pasan a IndexedDB
-        globIgnores: ['**/catalog/books/**'],
+        // Los diccionarios (5 y 7 MB, IDI) se descargan sólo para el idioma elegido y se guardan en
+        // IndexedDB, que es lo que funciona sin conexión; precachearlos bajaría los dos a todo el mundo.
+        // Los libros del catálogo (IMP-5) se descargan al añadirlos y también pasan a IndexedDB.
+        globIgnores: ['**/catalog/*/books/**', '**/dict/*/dict.json.gz'],
         maximumFileSizeToCacheInBytes: 25 * 1024 * 1024,
         navigateFallback: 'index.html',
       },
