@@ -122,6 +122,8 @@ h1, h2, h3 { text-wrap: balance; }
 /* Firma (MAR-1): símbolo + «eglosa» en minúscula */
 .wordmark { display: inline-flex; align-items: center; gap: .22em; margin: 0; font-family: var(--font-text); font-weight: 600; letter-spacing: -.02em; line-height: 1; color: var(--ink); white-space: nowrap; }
 .logo-mark { flex: none; display: block; }
+/* ε en boli con el fosforito centrado sobre la letra (medido en Source Serif 4 600) */
+.wordmark .eps { display: inline-block; color: #2A47A6; background: linear-gradient(transparent 31%, var(--marker) 31%, var(--marker) 94%, transparent 94%); padding: 0 .07em 0 .045em; }
 main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 16px 16px 96px; }
 .tabbar {
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 10;

@@ -104,7 +104,7 @@ La app se llama **eglosa** (en minúscula). El símbolo es un bocadillo redondo 
 - **Tipografía (MAR-2):** Source Serif 4 para el texto del libro, títulos y el nombre; Fira Sans para la interfaz. Se sirven desde la propia app (paquetes `@fontsource`), sin Google Fonts en tiempo de ejecución; el service worker precachea solo latín, latín extendido y griego.
 - **Iconos:** `public/icons/` — `icon.svg` (favicon, el símbolo), `icon-192.png`, `icon-512.png`, `icon-512-maskable.png` y `apple-touch-icon.png` (el bocadillo sobre fosforito).
 - **Lo que no cambia:** las bases de datos (`elliniko`, `elliniko-es`), la clave del perfil (`elliniko.profile`) y el campo `app: 'elliniko'` del backup conservan su nombre para no perder datos ni romper backups.
-- **Web:** en una futura web pública el nombre puede escribirse «εglosa» (ε en boli con fosforito centrado); el título, el dominio y las búsquedas siguen siendo «eglosa».
+- **Firma:** junto al bocadillo, el nombre se escribe «εglosa»: la ε en boli con el fosforito centrado sobre ella (app y web). Se anuncia como «eglosa» (`aria-label`); el título, el dominio y las búsquedas siguen siendo «eglosa».
 
 ## Arquitectura y stack
 

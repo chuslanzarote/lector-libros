@@ -11,12 +11,12 @@ export function LogoMark({ size = 28 }: { size?: number }) {
   );
 }
 
-/** Firma: símbolo + «eglosa». El nombre va siempre en minúscula. */
+/** Firma: símbolo + «εglosa» (ε en boli sobre fosforito). Se lee y se anuncia como «eglosa». */
 export function Wordmark({ size = 22, as: Tag = 'span' }: { size?: number; as?: 'span' | 'h1' }) {
   return (
-    <Tag class="wordmark" style={{ fontSize: `${size}px` }}>
+    <Tag class="wordmark" style={{ fontSize: `${size}px` }} aria-label="eglosa">
       <LogoMark size={Math.round(size * 1.2)} />
-      <span>eglosa</span>
+      <span aria-hidden="true"><span class="eps">ε</span>glosa</span>
     </Tag>
   );
 }
