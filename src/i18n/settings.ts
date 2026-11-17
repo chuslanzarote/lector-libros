@@ -38,7 +38,7 @@ export default defineMessages({
     'settings.reinstallConfirm': '¿Reinstalar el diccionario? Tus datos no se tocan.',
     'settings.reinstall': 'Reinstalar diccionario',
     'settings.about': 'Acerca de',
-    'settings.aboutText': 'Ellinikó es un lector personal y gratuito. Sin cuentas, sin servidor, sin IA: todo vive en este dispositivo.',
+    'settings.aboutText': 'eglosa es un lector personal y gratuito. Sin cuentas, sin servidor, sin IA: todo vive en este dispositivo.',
     'settings.credits': 'Créditos y licencias',
   },
   en: {
@@ -77,7 +77,7 @@ export default defineMessages({
     'settings.reinstallConfirm': 'Reinstall the dictionary? Your data is not affected.',
     'settings.reinstall': 'Reinstall dictionary',
     'settings.about': 'About',
-    'settings.aboutText': 'Ellinikó is a free, personal reader. No accounts, no server, no AI: everything lives on this device.',
+    'settings.aboutText': 'eglosa is a free, personal reader. No accounts, no server, no AI: everything lives on this device.',
     'settings.credits': 'Credits and licences',
   },
   el: {
@@ -116,7 +116,7 @@ export default defineMessages({
     'settings.reinstallConfirm': 'Επανεγκατάσταση του λεξικού; Τα δεδομένα σου δεν αλλάζουν.',
     'settings.reinstall': 'Επανεγκατάσταση λεξικού',
     'settings.about': 'Σχετικά',
-    'settings.aboutText': 'Το Ellinikó είναι ένας προσωπικός και δωρεάν αναγνώστης. Χωρίς λογαριασμούς, χωρίς διακομιστή, χωρίς ΤΝ: όλα μένουν σε αυτή τη συσκευή.',
+    'settings.aboutText': 'Το eglosa είναι ένας προσωπικός και δωρεάν αναγνώστης. Χωρίς λογαριασμούς, χωρίς διακομιστή, χωρίς ΤΝ: όλα μένουν σε αυτή τη συσκευή.',
     'settings.credits': 'Συντελεστές και άδειες',
   },
 });

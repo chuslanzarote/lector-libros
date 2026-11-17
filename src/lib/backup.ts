@@ -41,7 +41,7 @@ export interface MergeReport { added: number; updated: number; kept: number; per
 /** Fusiona un backup: para cada registro gana el `updatedAt` más reciente. Nunca borra nada. */
 export async function importBackup(database: ElliDB, data: unknown, lang: TargetLang = 'el'): Promise<MergeReport> {
   const b = data as Backup;
-  if (!b || b.app !== 'elliniko' || typeof b.tables !== 'object') throw new Error('El archivo no es un backup de Ellinikó');
+  if (!b || b.app !== 'elliniko' || typeof b.tables !== 'object') throw new Error('El archivo no es un backup de eglosa');
   if (b.format > BACKUP_FORMAT) throw new Error('Backup de una versión más nueva de la app; actualiza primero');
   if ((b.lang ?? 'el') !== lang) throw new BackupLangError(b.lang ?? 'el');
   const report: MergeReport = { added: 0, updated: 0, kept: 0, perTable: {} };

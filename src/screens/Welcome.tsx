@@ -1,4 +1,5 @@
 // IDI-1 — Pantalla de inicio: idioma que aprendes + tu idioma. También sirve para cambiarlos (#/idiomas).
+import { Wordmark } from '../components/Logo.tsx';
 import { useState } from 'preact/hooks';
 import { setUiLang, t } from '../i18n/index.ts';
 import { ENDONYM, TARGETS, uiLangsFor, type Lang, type Profile, type TargetLang } from '../lib/langs.ts';
@@ -42,7 +43,7 @@ export function Welcome({ current }: { current?: Profile }) {
 
   return (
     <div class="welcome">
-      <div class="logo" aria-hidden="true">Ελληνικό · Español</div>
+      <div class="logo"><Wordmark size={40} /></div>
       <h1>{t('welcome.title')}</h1>
       <p class="muted">{t('welcome.subtitle')}</p>
 

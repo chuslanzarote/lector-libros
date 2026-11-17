@@ -1,4 +1,5 @@
 // Biblioteca: libros con cobertura (PRO-1/PRO-2) e importación (IMP-1, IMP-2).
+import { Wordmark } from '../components/Logo.tsx';
 import { useState } from 'preact/hooks';
 import { Fragment } from 'preact';
 import { db, type Book, type WordState } from '../db.ts';
@@ -13,7 +14,6 @@ import { IconTrash, IconUpload, IconEdit, IconBook } from '../components/icons.t
 import type { RawBook } from '../lib/epub.ts';
 import { profile } from '../profile.ts';
 import { t, tt } from '../i18n/index.ts';
-import { TARGET_INFO } from '../lib/langs.ts';
 
 /** Dónde encontrar textos libres en el idioma que se aprende */
 const FREE_TEXTS: Record<'el' | 'es', [string, string][]> = {
@@ -97,11 +97,11 @@ export function Library({ update, onUpdate }: { update?: string; onUpdate: () =>
   return (
     <>
       <header class="topbar">
-        <h1 class="brand" lang={profile.target}>{TARGET_INFO[profile.target].brand}</h1>
+        <Wordmark as="h1" size={22} />
         <a class="btn small ghost lang-chip" href="#/idiomas" title={t('library.languages')} aria-label={t('library.languages')}>{profile.target.toUpperCase()} → {profile.ui.toUpperCase()}</a>
-        <a class="btn small" href="#/catalogo"><IconBook width={18} /> {t('library.catalog')}</a>
+        <a class="btn small" href="#/catalogo" aria-label={t('library.catalog')}><IconBook width={18} /> <span class="wide-only">{t('library.catalog')}</span></a>
         <button class="btn small" onClick={() => setPaste(true)} disabled={!!busy} aria-label={t('library.pasteAria')}><IconEdit width={18} /> <span class="wide-only">{t('library.paste')}</span></button>
-        <button class="btn small primary" onClick={importFile} disabled={!!busy}><IconUpload width={18} /> {t('library.import')}</button>
+        <button class="btn small primary" onClick={importFile} disabled={!!busy} aria-label={t('library.import')}><IconUpload width={18} /> <span class="wide-only">{t('library.import')}</span></button>
       </header>
       <main>
         {update && (

@@ -26,12 +26,11 @@ export interface TargetInfo {
   /** nombre del idioma en su propio idioma */
   endonym: string;
   /** marca de la cabecera */
-  brand: string;
 }
 
 export const TARGET_INFO: Record<TargetLang, TargetInfo> = {
-  el: { dbName: 'elliniko', tts: 'el-GR', wiktionary: 'Greek', glosses: ['es', 'en'], endonym: 'Ελληνικά', brand: 'Ελληνικό' },
-  es: { dbName: 'elliniko-es', tts: 'es-ES', wiktionary: 'Spanish', glosses: ['el', 'en'], endonym: 'Español', brand: 'Español' },
+  el: { dbName: 'elliniko', tts: 'el-GR', wiktionary: 'Greek', glosses: ['es', 'en'], endonym: 'Ελληνικά' },
+  es: { dbName: 'elliniko-es', tts: 'es-ES', wiktionary: 'Spanish', glosses: ['el', 'en'], endonym: 'Español' },
 };
 
 /** Nombre de cada idioma en su propio idioma */

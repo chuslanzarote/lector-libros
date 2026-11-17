@@ -21,7 +21,7 @@ export function SettingsScreen({ dictVersion, onReinstall }: { dictVersion: stri
   const doExport = async () => {
     const data = await exportBackup(db, { includeBooks: withBooks, lang: profile.target });
     const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-    await shareOrDownload(blob, backupFileName(new Date(), profile.target), t('settings.shareTitle', { app: 'Ellinikó' }));
+    await shareOrDownload(blob, backupFileName(new Date(), profile.target), t('settings.shareTitle', { app: 'eglosa' }));
     toast(t('settings.exported'), 4500);
   };
 

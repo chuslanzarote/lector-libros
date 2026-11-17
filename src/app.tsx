@@ -1,3 +1,4 @@
+import { Wordmark } from './components/Logo.tsx';
 import { useEffect, useState } from 'preact/hooks';
 import { db } from './db.ts';
 import { useLive, useRoute, useSettings, useToast } from './hooks.ts';
@@ -12,7 +13,6 @@ import { Credits } from './screens/Credits.tsx';
 import { Catalog } from './screens/Catalog.tsx';
 import { Welcome } from './screens/Welcome.tsx';
 import { profile } from './profile.ts';
-import { TARGET_INFO } from './lib/langs.ts';
 import { t, type MsgKey } from './i18n/index.ts';
 import { IconBook, IconChart, IconList, IconRepeat, IconSettings } from './components/icons.tsx';
 
@@ -116,7 +116,7 @@ function DictSplash({ state, retry }: { state: DictState; retry: () => void }) {
       : t('splash.opening');
   return (
     <div class="splash">
-      <div class="logo">{TARGET_INFO[profile.target].brand}</div>
+      <Wordmark size={40} />
       {state.s === 'error' ? (
         <>
           <p>{t('splash.error', { msg: state.message })}</p>

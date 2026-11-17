@@ -18,7 +18,7 @@ test('flujo completo del lector', async ({ page, context }) => {
   await page.getByRole('button', { name: 'Empezar' }).click();
 
   // SYS-1: el diccionario se instala la primera vez
-  await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('heading', { name: 'eglosa' })).toBeVisible({ timeout: 90_000 });
 
   // IMP: libro de ejemplo
   await page.getByRole('button', { name: /Probar con/ }).click();
@@ -83,7 +83,7 @@ test('catálogo por niveles (IMP-5, IMP-6)', async ({ page }) => {
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript(setProfile, { target: 'el', ui: 'es' });
   await page.goto('./');
-  await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('heading', { name: 'eglosa' })).toBeVisible({ timeout: 90_000 });
 
   await page.getByRole('link', { name: /catálogo por niveles/ }).click();
   await expect(page.getByRole('heading', { name: 'Catálogo' })).toBeVisible();
@@ -114,7 +114,7 @@ test('aprender español con la interfaz en griego (IDI-1…IDI-4, DIC-7)', async
   await expect(page.getByRole('button', { name: 'Ξεκίνα' })).toBeVisible(); // la pantalla cambia de idioma al vuelo
   await page.getByRole('button', { name: 'Ξεκίνα' }).click();
 
-  await expect(page.getByRole('heading', { name: 'Español' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('heading', { name: 'eglosa' })).toBeVisible({ timeout: 90_000 });
   await expect(page.getByRole('link', { name: /Βιβλιοθήκη/ })).toBeVisible();
 
   // IMP-2: pegar un texto en español
@@ -140,7 +140,7 @@ test('aprender español con la interfaz en griego (IDI-1…IDI-4, DIC-7)', async
   await page.evaluate(() => localStorage.setItem('elliniko.profile', JSON.stringify({ target: 'el', ui: 'es' })));
   await page.goto('./#/');
   await page.reload();
-  await expect(page.getByRole('heading', { name: 'Ελληνικό' })).toBeVisible({ timeout: 90_000 });
+  await expect(page.getByRole('heading', { name: 'eglosa' })).toBeVisible({ timeout: 90_000 });
   await expect(page.locator('.book')).toHaveCount(0);
   expect(errors).toEqual([]);
 });

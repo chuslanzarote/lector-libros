@@ -105,9 +105,9 @@ export function Review() {
                 {lex?.notes && <div class="small muted"><i>{lex.notes}</i></div>}
                 <div class="grades">
                   {GRADES.map(([g, label]) => (
-                    <button key={g} class={`btn ${g === 3 ? 'primary' : ''}`} onClick={() => grade(g)}>
-                      {t(label)}
-                      <small style={g === 3 ? { color: 'inherit', opacity: 0.8 } : undefined}>{intervals?.[g] ?? ''}</small>
+                    <button key={g} class={`btn grade-${g}`} onClick={() => grade(g)}>
+                      <b>{t(label)}</b>
+                      <small>{intervals?.[g] ?? ''}</small>
                     </button>
                   ))}
                 </div>

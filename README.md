@@ -1,4 +1,4 @@
-# Ellinikó — lector de griego con traducción al tocar
+# eglosa — lector de griego y español con traducción al tocar
 
 PWA estática para leer libros en griego moderno. Tocas una palabra y ves su lema, su análisis gramatical («aoristo, 1.ª sg.») y su traducción al español (o al inglés, marcada «EN»). Sin servidor, sin cuentas, sin IA: el diccionario viaja dentro de la app y funciona sin conexión.
 

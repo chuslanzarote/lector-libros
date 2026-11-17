@@ -1,10 +1,10 @@
-# PRD — Lector de griego con traducción al tocar
+# PRD — Eglosa, lector con traducción al tocar
 
 Nov 15, 2026 · @Jesús Lanzarote Rodríguez-Quiñones Galindo
 
 ## Resumen y objetivos
 
-**Ellinikó** (nombre provisional) es un lector personal y gratuito de libros en griego moderno y, desde la v2, también en español (IDI-1). Tocas una palabra y ves su forma de diccionario, su análisis gramatical y su traducción al español, o al inglés si no hay entrada en español. Es una **PWA estática en GitHub Pages**, sin servidor, sin IA y sin claves: el diccionario se construye una vez a partir de fuentes abiertas, viaja dentro de la app y funciona offline.
+**Eglosa** (antes Ellinikó; ver «Identidad», MAR-1) es un lector personal y gratuito de libros en griego moderno y, desde la v2, también en español (IDI-1). Tocas una palabra y ves su forma de diccionario, su análisis gramatical y su traducción al español, o al inglés si no hay entrada en español. Es una **PWA estática en GitHub Pages**, sin servidor, sin IA y sin claves: el diccionario se construye una vez a partir de fuentes abiertas, viaja dentro de la app y funciona offline.
 
 **Objetivos**
 
@@ -72,6 +72,8 @@ Prioridad: **M** = MVP, **S** = v1, **C** = más adelante.
 | DIC-7 | Diccionario español: formas conjugadas y flexionadas → lema, traducción al griego y, si no hay, al inglés (marcado «EN»). Respaldo de búsqueda para pronombres enclíticos (dámelo, diciéndole) y ortografía antigua (fué, á) | S |
 | DIC-8 | Traducciones en el orden del idioma del usuario: personal → su idioma → inglés → resto | S |
 | IMP-7 | Catálogo de libros en español de dominio público por niveles (A2–C1), con el mismo método que IMP-5/IMP-6 | S |
+| MAR-1 | Identidad Eglosa: nombre, logo del bocadillo que habla, favicon e iconos de la PWA, colores y componentes del sistema de diseño, con tema claro (Papel) y oscuro (Noche) | S |
+| MAR-2 | Tipografías de la marca (Source Serif 4 para leer, Fira Sans para la interfaz) incluidas en la app, con griego, para que funcionen offline | S |
 
 ## Idiomas (IDI-1…IDI-4, v2)
 
@@ -91,6 +93,18 @@ Un **perfil** es la pareja *idioma que aprendes* (`el` o `es`) + *tu idioma* (`e
 - La interfaz usa un catálogo de mensajes por idioma (`src/i18n/`). El español es la referencia; un test comprueba que inglés y griego tienen las mismas claves.
 - Las etiquetas gramaticales y la categoría gramatical vienen ya traducidas en el diccionario (`labels`, una lista por idioma de interfaz), así que la app no conoce la gramática de cada idioma.
 - Los diccionarios no se precachean en el service worker (se descargaría el de los dos idiomas); al primer arranque de cada idioma se descargan y se guardan en IndexedDB, que es lo que funciona sin conexión.
+
+## Identidad (MAR-1, MAR-2)
+
+La app se llama **eglosa** (en minúscula). El símbolo es un bocadillo redondo que habla: bocadillo en azul bolígrafo, boca en tinta y lengua en fosforito. Todo sale de dos gestos de quien lee un libro de verdad: **subrayar con fosforito** lo que aprende y **anotar a boli** lo que significa.
+
+- **Fuente de verdad:** el sistema de diseño «Eglosa» (Design System en claude.ai: tokens, guía de marca, logos y componentes). `src/styles.css` replica sus tokens con nombres de la app.
+- **Colores:** papel (fondo), grafito (texto), lápiz (secundario), boli (glosas, enlaces, progreso, lo elegido), fosforito (solo palabras en aprendizaje), corrector y ámbar (errores, avisos, notas del repaso). Todos los textos cumplen 4,5:1 en los dos temas.
+- **Estados de palabra (LEC-2):** nueva = tinte boli suave; aprendiendo = trazo de fosforito; elegida = subrayado boli; conocida e ignorada = sin marca.
+- **Tipografía (MAR-2):** Source Serif 4 para el texto del libro, títulos y el nombre; Fira Sans para la interfaz. Se sirven desde la propia app (paquetes `@fontsource`), sin Google Fonts en tiempo de ejecución; el service worker precachea solo latín, latín extendido y griego.
+- **Iconos:** `public/icons/` — `icon.svg` (favicon, el símbolo), `icon-192.png`, `icon-512.png`, `icon-512-maskable.png` y `apple-touch-icon.png` (el bocadillo sobre fosforito).
+- **Lo que no cambia:** las bases de datos (`elliniko`, `elliniko-es`), la clave del perfil (`elliniko.profile`) y el campo `app: 'elliniko'` del backup conservan su nombre para no perder datos ni romper backups.
+- **Web:** en una futura web pública el nombre puede escribirse «εglosa» (ε en boli con fosforito centrado); el título, el dominio y las búsquedas siguen siendo «eglosa».
 
 ## Arquitectura y stack
 
